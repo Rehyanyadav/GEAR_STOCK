@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><title>GearStock</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@600&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;background-color:#f9f9f9;-webkit-tap-highlight-color:transparent;}body{overscroll-behavior-y:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "inverse-surface": "#2f3131", "primary-fixed": "#ffdbd1", "inverse-on-surface": "#f0f1f1", "on-tertiary-fixed": "#311300", "primary-container": "#d63c05", "on-secondary-fixed": "#1b1c1c", "on-primary-container": "#fffbff", "surface-container-high": "#e8e8e8", "surface-bright": "#f9f9f9", "surface-container": "#eeeeee", "primary": "#ac2d00", "on-primary-fixed-variant": "#872100", "on-primary": "#ffffff", "secondary-fixed-dim": "#c8c6c5", "surface-container-lowest": "#ffffff", "surface-container-low": "#f3f3f3", "on-tertiary-fixed-variant": "#723600", "secondary-fixed": "#e5e2e1", "primary-fixed-dim": "#ffb5a0", "on-tertiary": "#ffffff", "surface": "#f9f9f9", "inverse-primary": "#ffb5a0", "on-secondary-fixed-variant": "#474746", "secondary": "#5f5e5e", "on-tertiary-container": "#fffbff", "on-surface-variant": "#5b4039", "tertiary": "#924700", "surface-tint": "#b02e00", "surface-container-highest": "#e2e2e2", "on-surface": "#1a1c1c", "background": "#f9f9f9", "surface-variant": "#e2e2e2", "error-container": "#ffdad6", "on-secondary": "#ffffff", "secondary-container": "#e2dfde", "on-background": "#1a1c1c", "tertiary-fixed": "#ffdcc6", "on-error-container": "#93000a", "outline": "#8f7067", "on-secondary-container": "#636262", "tertiary-container": "#b75b00", "tertiary-fixed-dim": "#ffb786", "on-error": "#ffffff", "error": "#ba1a1a", "on-primary-fixed": "#3b0900", "surface-dim": "#dadada", "outline-variant": "#e4beb4" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "space-xl": "2rem", "gutter": "1rem", "margin": "1rem", "space-md": "1rem", "margin-tablet": "1.5rem", "space-xs": "0.25rem", "space-sm": "0.5rem", "space-lg": "1.5rem" }, fontFamily: { "headline-md": ["Inter"], "label-sku": ["JetBrains Mono"], "display-lg": ["Inter"], "body-lg": ["Inter"], "body-md": ["Inter"], "body-sm": ["Inter"], "label-md": ["Inter"], "headline-lg": ["Inter"], "label-sm": ["Inter"], "numeric-metric": ["Inter"], "headline-sm": ["Inter"] }, fontSize: { "headline-md": ["22px", { lineHeight: "28px", fontWeight: "600" }], "label-sku": ["12px", { lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "600" }], "display-lg": ["40px", { lineHeight: "48px", letterSpacing: "-0.02em", fontWeight: "700" }], "body-lg": ["16px", { lineHeight: "24px", fontWeight: "400" }], "body-md": ["14px", { lineHeight: "20px", fontWeight: "400" }], "body-sm": ["12px", { lineHeight: "16px", fontWeight: "400" }], "label-md": ["12px", { lineHeight: "16px", letterSpacing: "0.02em", fontWeight: "600" }], "headline-lg": ["28px", { lineHeight: "36px", letterSpacing: "-0.01em", fontWeight: "700" }], "label-sm": ["11px", { lineHeight: "14px", letterSpacing: "0.03em", fontWeight: "500" }], "numeric-metric": ["24px", { lineHeight: "28px", letterSpacing: "-0.02em", fontWeight: "700" }], "headline-sm": ["18px", { lineHeight: "24px", fontWeight: "600" }] } } } };</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface text-on-surface antialiased flex flex-col min-h-screen selection:bg-primary-fixed selection:text-on-primary-fixed"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-margin flex items-center justify-between"><div class="flex items-center gap-space-sm"><img alt="GearStock Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1Vrcm0cu_bJyLsSm0QnP4_RD5PRvvTEevVqKyo6xSp8dZhJtob08BNm7dbw3eetkxKqzmi0b0g6-1KcSY65x91SZJZ5m4XtR_Ie5ozmr1H3LZgSXJahAvsAWRbelJboQRNfZ1RxBKYHi1YghbDEmrioYsDkRoJF3N3VVd6qbHZG9Mix_VL2R_SPE_NkAHs8lijciYr_u1AFuWybYWDLLU6LN48-6Aebx8mY5bhi2rcDG-Qgh8t-NHjoC4wu"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm tracking-tight text-on-surface leading-none">GearStock</span><span class="font-label-sm text-label-sm text-on-surface-variant leading-tight">Inventory Catalog</span></div></div><div class="flex items-center gap-space-xs"><button aria-label="Quick Search &amp; Status" class="w-11 h-11 flex items-center justify-center rounded-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">search</span></button><button aria-label="Profile" class="w-11 h-11 flex items-center justify-center rounded-full" type="button"><img alt="Profile" class="w-8 h-8 rounded-full object-cover shadow-[0_1px_4px_rgba(0,0,0,0.12)]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBl3qS0qxohVjnwB0X_NKiHqv6-a6pnRnnPR4qYkBqQfb_tDoNJp_NqVYRjZIBQK7o49vsQHKrT9CRSpn68Xu-Rb4nY_pKnmYENWAMZxV9gvFjzme9qsLkJMg6xR7jWM3CqGORo_gdty0G-7iFshZRJmk9W02ZFd5cp9Scebzax19rkqNKY9bMsKY0L5HtRR-Qtdr4eHew7qxWzvMqZ5q72bDoFC3XMp1LnB1v6hW4UQhHPgXoMfvoq6Q"/></button></div></div></header><main class="flex-1 flex flex-col relative w-full pt-16 pb-28 px-margin bg-surface"><div class="flex flex-col w-full pb-6 space-y-4">
+<!-- Pinned Sticky Search and Filter Header -->
+<div class="sticky top-0 z-30 bg-surface/95 backdrop-blur-md pt-2 pb-1 space-y-3">
+<!-- Integrated Search Input Box -->
+<div class="relative flex items-center w-full">
+<div class="absolute left-3.5 flex items-center pointer-events-none text-secondary">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="w-full h-12 pl-10 pr-12 bg-surface-container rounded-full font-body-md text-body-md text-on-surface placeholder:text-secondary focus:outline-none focus:bg-surface-container-lowest focus:shadow-md transition-all" id="catalogSearch" placeholder="Search parts, brand, SKU..." type="search"/>
+<button aria-label="Scan item barcode" class="absolute right-1.5 w-9 h-9 rounded-full bg-surface-container-high hover:bg-primary-fixed hover:text-on-primary-fixed flex items-center justify-center text-on-surface-variant transition-colors" id="scannerTrigger" type="button">
+<span class="material-symbols-outlined text-[19px]">barcode_scanner</span>
+</button>
+</div>
+<!-- Horizontal Category Pill Chips -->
+<div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-0.5 -mx-margin px-margin">
+<button class="category-chip shrink-0 px-4 py-2 rounded-full font-label-md text-label-md bg-primary text-on-primary shadow-sm transition-transform active:scale-95" data-category="all" type="button">
+        All (1,428)
+      </button>
+<button class="category-chip shrink-0 px-4 py-2 rounded-full font-label-md text-label-md bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-transform active:scale-95" data-category="brakes" type="button">
+        Brakes (142)
+      </button>
+<button class="category-chip shrink-0 px-4 py-2 rounded-full font-label-md text-label-md bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-transform active:scale-95" data-category="chains" type="button">
+        Chains (88)
+      </button>
+<button class="category-chip shrink-0 px-4 py-2 rounded-full font-label-md text-label-md bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-transform active:scale-95" data-category="tyres" type="button">
+        Tyres (215)
+      </button>
+<button class="category-chip shrink-0 px-4 py-2 rounded-full font-label-md text-label-md bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-transform active:scale-95" data-category="gears" type="button">
+        Gears (194)
+      </button>
+<button class="category-chip shrink-0 px-4 py-2 rounded-full font-label-md text-label-md bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-transform active:scale-95" data-category="pedals" type="button">
+        Pedals (96)
+      </button>
+<button class="category-chip shrink-0 px-4 py-2 rounded-full font-label-md text-label-md bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-transform active:scale-95" data-category="accessories" type="button">
+        Accessories (320)
+      </button>
+</div>
+</div>
+<!-- Filter & Sort Control Strip -->
+<div class="flex items-center justify-between px-1 text-on-surface-variant">
+<div class="flex items-center gap-1.5">
+<span class="font-label-sm text-label-sm font-semibold tracking-wide uppercase text-secondary">Showing</span>
+<span class="font-label-md text-label-md font-semibold text-on-surface bg-surface-container px-2 py-0.5 rounded-md">142 items</span>
+<span class="font-body-sm text-body-sm text-secondary">in Brakes</span>
+</div>
+<button class="flex items-center gap-1 bg-surface-container-low hover:bg-surface-container-high px-2.5 py-1.5 rounded-lg transition-colors active:scale-95" id="sortToggle" type="button">
+<span class="font-label-sm text-label-sm text-on-surface font-semibold">Stock: Low to High</span>
+<span class="material-symbols-outlined text-[16px] text-secondary">expand_more</span>
+</button>
+</div>
+<!-- Product Catalog List -->
+<div class="flex flex-col space-y-3" id="productList">
+<!-- Card 1: Shimano Brake Pads (Low Stock Alert) -->
+<article class="bg-surface-container-lowest rounded-xl p-3.5 shadow-sm hover:shadow-md transition-shadow relative flex flex-col gap-3" data-item="shimano-b05s">
+<div class="flex items-start gap-3">
+<!-- Thumbnail -->
+<div class="w-16 h-16 rounded-lg bg-surface-container-low overflow-hidden shrink-0 flex items-center justify-center p-1 relative">
+<img class="w-full h-full object-cover rounded-md" data-alt="Close up photography of Shimano resin disc brake pads with copper backing plate resting on a dark anodized metal workbench in an authentic bicycle workshop, sharp industrial details, high contrast lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdqRUvsNf2UVDRT0gKp2g3epHrnCBOU91dyojnVIt6ZgDr3IKeQHD0xpCY1tRzUdPZzzaJMCpJR59bN6-UzJaJMtIftIIfOHKgrXagDQ8uSkHaw3LeeTgKRAsPxVRf9gIgppB1rleyJTLZzeA4_4qH9GRXEnp8ZPHzlGkea9gLzWCZ84pxy8m44GydPGs1VlWqkji-9BPeK22e63hXh8w1W-Cjuzr6Stf4UFWL-w4HApeYD5r5aS9iNg"/>
+<span class="absolute bottom-1 right-1 px-1 rounded bg-inverse-surface/80 text-[9px] font-label-sku text-inverse-on-surface">PAD</span>
+</div>
+<!-- Meta & Title -->
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between gap-1">
+<span class="font-label-sm text-label-sm text-primary font-semibold uppercase tracking-wider">Shimano</span>
+<span class="font-label-sku text-label-sku text-secondary bg-surface-container px-1.5 py-0.5 rounded">BRK-SH-005</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface truncate mt-0.5">Shimano B05S Resin Disc Brake Pads</h3>
+<p class="font-body-sm text-body-sm text-secondary mt-0.5">2-Piston Caliper • Organic Compound</p>
+</div>
+</div>
+<!-- Pricing, Stock Badge, & Workshop Fast Action -->
+<div class="flex items-center justify-between pt-2 border-t-0 bg-surface-container-low/50 -mx-3.5 -mb-3.5 px-3.5 py-2.5 rounded-b-xl">
+<div class="flex flex-col">
+<div class="flex items-baseline gap-1.5">
+<span class="font-numeric-metric text-numeric-metric text-on-surface tracking-tight">₹750</span>
+<span class="font-body-sm text-body-sm text-secondary line-through">Cost: ₹480</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<!-- Critical Low Badge -->
+<div class="flex items-center gap-1 bg-error-container text-on-error-container px-2.5 py-1 rounded-full font-label-sm text-label-sm font-bold shadow-xs">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+<span>2 left (Low Stock)</span>
+</div>
+<!-- Quick Adjustment Counter Stepper -->
+<div class="flex items-center bg-surface-container rounded-full p-0.5">
+<button aria-label="Decrease stock" class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface active:bg-surface-container-high transition-transform active:scale-90">-</button>
+<span class="font-label-sku text-label-sku font-bold px-2">2</span>
+<button aria-label="Increase stock" class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center transition-transform active:scale-90">+</button>
+</div>
+</div>
+</div>
+</article>
+<!-- Card 2: KMC Chain (In Stock) -->
+<article class="bg-surface-container-lowest rounded-xl p-3.5 shadow-sm hover:shadow-md transition-shadow relative flex flex-col gap-3" data-item="kmc-x10">
+<div class="flex items-start gap-3">
+<!-- Thumbnail -->
+<div class="w-16 h-16 rounded-lg bg-surface-container-low overflow-hidden shrink-0 flex items-center justify-center p-1 relative">
+<img class="w-full h-full object-cover rounded-md" data-alt="Polished silver KMC 10-speed bicycle chain neatly coiled on a clean tool-bench with precision bike shop calipers nearby, bright daylight studio lighting with metallic sheen" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1oNzZR4_zyoAgKo8a_mgzMVElkKv0E6sWZQ3xBzlfHPGiQnGmuJDxOSdgWeGfSgoPu5pCH7a9buLXs7NrCHNvPBeioqL-LM61qzsya57fLykzDC8fcFmT7n7IF2XLF03xNb0NS7SZf_w4VRlEdDEycdeC-Ak4Z9lgQQYFeLFakXayCXTqjQ9CKWB6RF4EHKtdwub8CvChp8Ej4zgeJNeWcXdE8kDy2uupC1nRXce3paeI-VOHFvD0BQ"/>
+<span class="absolute bottom-1 right-1 px-1 rounded bg-inverse-surface/80 text-[9px] font-label-sku text-inverse-on-surface">116L</span>
+</div>
+<!-- Meta & Title -->
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between gap-1">
+<span class="font-label-sm text-label-sm text-primary font-semibold uppercase tracking-wider">KMC</span>
+<span class="font-label-sku text-label-sku text-secondary bg-surface-container px-1.5 py-0.5 rounded">CHN-KM-100</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface truncate mt-0.5">KMC X10 10-Speed Bicycle Chain</h3>
+<p class="font-body-sm text-body-sm text-secondary mt-0.5">Includes MissingLink • Nickel Plated</p>
+</div>
+</div>
+<!-- Pricing & Stock Badge -->
+<div class="flex items-center justify-between pt-2 bg-surface-container-low/50 -mx-3.5 -mb-3.5 px-3.5 py-2.5 rounded-b-xl">
+<div class="flex flex-col">
+<div class="flex items-baseline gap-1.5">
+<span class="font-numeric-metric text-numeric-metric text-on-surface tracking-tight">₹1,850</span>
+<span class="font-body-sm text-body-sm text-secondary">Cost: ₹1,200</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<!-- In Stock Healthy Badge -->
+<div class="flex items-center gap-1 bg-surface-container-highest text-on-surface px-2.5 py-1 rounded-full font-label-sm text-label-sm font-bold">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+<span>28 in stock</span>
+</div>
+<!-- Quick Adjustment Counter Stepper -->
+<div class="flex items-center bg-surface-container rounded-full p-0.5">
+<button aria-label="Decrease stock" class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface active:bg-surface-container-high transition-transform active:scale-90">-</button>
+<span class="font-label-sku text-label-sku font-bold px-2">28</span>
+<button aria-label="Increase stock" class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center transition-transform active:scale-90">+</button>
+</div>
+</div>
+</div>
+</article>
+<!-- Card 3: Schwalbe MTB Tyre (Reorder Soon) -->
+<article class="bg-surface-container-lowest rounded-xl p-3.5 shadow-sm hover:shadow-md transition-shadow relative flex flex-col gap-3" data-item="schwalbe-smart-sam">
+<div class="flex items-start gap-3">
+<!-- Thumbnail -->
+<div class="w-16 h-16 rounded-lg bg-surface-container-low overflow-hidden shrink-0 flex items-center justify-center p-1 relative">
+<img class="w-full h-full object-cover rounded-md" data-alt="Schwalbe knobby black rubber mountain bike tire tread close up on clean industrial showroom floor, aggressive off-road tread pattern visible, subtle studio warm keylight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRE96p66ROpQWhS7j2QgvIvnUl716xkW_LPSit1JRiELSeamx8EoSP_7PP1qFz0BrNU2a8wA4SpXvlIBKqDGC7p1Vtt6oNgWKmRJdAG7AZiQL6ETpDsahzt2-phL4Z6DcGeDDKM4m6IjIamRjWJ1eV53NB8rvvY6mi_Dm1fU2va4He7aymGlBPBuKHClnOUaata9ca9N3i4FSTO9R94aTjjW74wHjmCPoxCLsFEq2toAucs5Ji8EBNWQ"/>
+<span class="absolute bottom-1 right-1 px-1 rounded bg-inverse-surface/80 text-[9px] font-label-sku text-inverse-on-surface">27.5"</span>
+</div>
+<!-- Meta & Title -->
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between gap-1">
+<span class="font-label-sm text-label-sm text-primary font-semibold uppercase tracking-wider">Schwalbe</span>
+<span class="font-label-sku text-label-sku text-secondary bg-surface-container px-1.5 py-0.5 rounded">TYR-SC-275</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface truncate mt-0.5">Schwalbe Smart Sam 27.5x2.10 MTB Tyre</h3>
+<p class="font-body-sm text-body-sm text-secondary mt-0.5">Wire Bead • Addix Performance Compound</p>
+</div>
+</div>
+<!-- Pricing & Stock Badge -->
+<div class="flex items-center justify-between pt-2 bg-surface-container-low/50 -mx-3.5 -mb-3.5 px-3.5 py-2.5 rounded-b-xl">
+<div class="flex flex-col">
+<div class="flex items-baseline gap-1.5">
+<span class="font-numeric-metric text-numeric-metric text-on-surface tracking-tight">₹2,400</span>
+<span class="font-body-sm text-body-sm text-secondary">Cost: ₹1,650</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<!-- Reorder Amber Badge -->
+<div class="flex items-center gap-1 bg-tertiary-fixed text-on-tertiary-fixed font-bold px-2.5 py-1 rounded-full font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">history</span>
+<span>5 left (Reorder soon)</span>
+</div>
+<!-- Quick Adjustment Counter Stepper -->
+<div class="flex items-center bg-surface-container rounded-full p-0.5">
+<button aria-label="Decrease stock" class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface active:bg-surface-container-high transition-transform active:scale-90">-</button>
+<span class="font-label-sku text-label-sku font-bold px-2">5</span>
+<button aria-label="Increase stock" class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center transition-transform active:scale-90">+</button>
+</div>
+</div>
+</div>
+</article>
+<!-- Card 4: SRAM SX Eagle Rear Derailleur (Out of Stock) -->
+<article class="bg-surface-container-lowest/80 rounded-xl p-3.5 shadow-sm hover:shadow-md transition-shadow relative flex flex-col gap-3 opacity-90" data-item="sram-sx-derailleur">
+<div class="flex items-start gap-3">
+<!-- Thumbnail -->
+<div class="w-16 h-16 rounded-lg bg-surface-container-high overflow-hidden shrink-0 flex items-center justify-center p-1 relative">
+<img class="w-full h-full object-cover rounded-md grayscale-[20%]" data-alt="Matte black SRAM rear derailleur mechanical gear cage assembly positioned against a light textured workshop stone backdrop, sharp engineered bike hardware product photography" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkXJgbaZKGc4r7BI8tmtW2MLv3YobencNqXDod79fGk_DRCYDrX12ET-FFB-rqVPODfGStCJa6v1XPFRAbQzrGFjES9xAgFEk01W6f-Rm3eJM3LoPPta5aBcDgE6JcGZxfo6QlqdXNNsrjZ69taE5JkDwAsCc2SoxnaZveZSuovniGRwOxClfEwibcrey_REdmQEwSRhwlaZblCQa5RIfjQArYJC7QZegb1amjVIOYmYzLxC0fzBnhIA"/>
+<span class="absolute bottom-1 right-1 px-1 rounded bg-inverse-surface/80 text-[9px] font-label-sku text-inverse-on-surface">12S</span>
+</div>
+<!-- Meta & Title -->
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between gap-1">
+<span class="font-label-sm text-label-sm text-primary font-semibold uppercase tracking-wider">SRAM</span>
+<span class="font-label-sku text-label-sku text-secondary bg-surface-container px-1.5 py-0.5 rounded">GER-SR-121</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface truncate mt-0.5">SRAM SX Eagle 12-Speed Rear Derailleur</h3>
+<p class="font-body-sm text-body-sm text-secondary mt-0.5">X-Horizon Cage • Max 50T Cog</p>
+</div>
+</div>
+<!-- Pricing & Stock Badge -->
+<div class="flex items-center justify-between pt-2 bg-surface-container-low/50 -mx-3.5 -mb-3.5 px-3.5 py-2.5 rounded-b-xl">
+<div class="flex flex-col">
+<div class="flex items-baseline gap-1.5">
+<span class="font-numeric-metric text-numeric-metric text-on-surface tracking-tight">₹6,200</span>
+<span class="font-body-sm text-body-sm text-secondary">Cost: ₹4,500</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<!-- Out of Stock Alert -->
+<div class="flex items-center gap-1 bg-error-container text-on-error-container px-2.5 py-1 rounded-full font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-[14px]">block</span>
+<span>Out of stock (0 left)</span>
+</div>
+<!-- Restock Quick Action -->
+<button class="h-8 px-2.5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm font-semibold active:scale-95 transition-transform">
+            PO Request
+          </button>
+</div>
+</div>
+</article>
+<!-- Card 5: Wellgo Alloy Pedals (In Stock) -->
+<article class="bg-surface-container-lowest rounded-xl p-3.5 shadow-sm hover:shadow-md transition-shadow relative flex flex-col gap-3" data-item="wellgo-pedals">
+<div class="flex items-start gap-3">
+<!-- Thumbnail -->
+<div class="w-16 h-16 rounded-lg bg-surface-container-low overflow-hidden shrink-0 flex items-center justify-center p-1 relative">
+<img class="w-full h-full object-cover rounded-md" data-alt="Pair of rugged black anodized CNC machined alloy platform flat bike pedals with stainless steel grip pins, arranged on a natural workbench surface, bright precision product shot" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMlAm5d9MPl3hfDZs2d9sJOOMelpF9IFf52m_ruLGfSrFuKKfN518EDggTdHze6MByx0QmWvIekbovBusr7DdEQTO093a4K_RZAwO_210PoUH_8FflA6vYOYVEocXtb2qtXDJ3f--98ORXfLDVMK_QHnE1Y-F9OTDxZ--XvjkDysA3rhbc1Se0sl5D8RALkj7lKjzcBUIk9XiS_d2FICle_AslLy9txs8AOlTH2sxGszHrCvarMcc-QA"/>
+<span class="absolute bottom-1 right-1 px-1 rounded bg-inverse-surface/80 text-[9px] font-label-sku text-inverse-on-surface">9/16"</span>
+</div>
+<!-- Meta & Title -->
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between gap-1">
+<span class="font-label-sm text-label-sm text-primary font-semibold uppercase tracking-wider">Wellgo</span>
+<span class="font-label-sku text-label-sku text-secondary bg-surface-container px-1.5 py-0.5 rounded">PED-WL-082</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface truncate mt-0.5">Wellgo Alloy Platform Pedals (Sealed Bearing)</h3>
+<p class="font-body-sm text-body-sm text-secondary mt-0.5">Cr-Mo Spindle • Replaceable Pins</p>
+</div>
+</div>
+<!-- Pricing & Stock Badge -->
+<div class="flex items-center justify-between pt-2 bg-surface-container-low/50 -mx-3.5 -mb-3.5 px-3.5 py-2.5 rounded-b-xl">
+<div class="flex flex-col">
+<div class="flex items-baseline gap-1.5">
+<span class="font-numeric-metric text-numeric-metric text-on-surface tracking-tight">₹1,450</span>
+<span class="font-body-sm text-body-sm text-secondary">Cost: ₹950</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<!-- In Stock Healthy Badge -->
+<div class="flex items-center gap-1 bg-surface-container-highest text-on-surface px-2.5 py-1 rounded-full font-label-sm text-label-sm font-bold">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+<span>19 in stock</span>
+</div>
+<!-- Quick Adjustment Counter Stepper -->
+<div class="flex items-center bg-surface-container rounded-full p-0.5">
+<button aria-label="Decrease stock" class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface active:bg-surface-container-high transition-transform active:scale-90">-</button>
+<span class="font-label-sku text-label-sku font-bold px-2">19</span>
+<button aria-label="Increase stock" class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center transition-transform active:scale-90">+</button>
+</div>
+</div>
+</div>
+</article>
+</div>
+<!-- Ambient Workshop Inventory Summary Widget -->
+<div class="bg-surface-container-low rounded-xl p-4 flex items-center justify-between mt-2">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center text-on-primary-fixed">
+<span class="material-symbols-outlined text-[20px]">sync_alt</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface">Auto-Sync Enabled</span>
+<span class="font-body-sm text-body-sm text-secondary">Updated 2m ago with Tally ERP</span>
+</div>
+</div>
+<span class="font-label-sm text-label-sm font-bold text-primary bg-primary-fixed-dim/30 px-2 py-1 rounded-md">Live</span>
+</div>
+<!-- Floating "+ Add Product" Action Trigger (Placed in thumb-accessible reach above shell dock) -->
+<div class="fixed bottom-20 right-4 z-40">
+<button aria-label="Add New Product" class="h-14 px-5 rounded-full bg-primary hover:bg-primary-container text-on-primary shadow-[0_6px_16px_rgba(172,45,0,0.35)] flex items-center gap-2 active:scale-95 transition-all" id="addProductFAB" type="button">
+<span class="material-symbols-outlined text-[24px]">add</span>
+<span class="font-headline-sm text-headline-sm text-on-primary font-semibold tracking-tight">Add Product</span>
+</button>
+</div>
+</div>
+<script>
+  // Filter chips active state toggling
+  document.querySelectorAll('.category-chip').forEach(button => {
+    button.addEventListener('click', () => {
+      document.querySelectorAll('.category-chip').forEach(chip => {
+        chip.classList.remove('bg-primary', 'text-on-primary', 'shadow-sm');
+        chip.classList.add('bg-surface-container', 'text-on-surface-variant');
+      });
+      button.classList.remove('bg-surface-container', 'text-on-surface-variant');
+      button.classList.add('bg-primary', 'text-on-primary', 'shadow-sm');
+    });
+  });
+
+  // Simple live search filter
+  const searchInput = document.getElementById('catalogSearch');
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      const query = e.target.value.toLowerCase().trim();
+      const cards = document.querySelectorAll('#productList article');
+      cards.forEach(card => {
+        const text = card.textContent.toLowerCase();
+        if (text.includes(query)) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  }
+
+  // Stepper increment micro-delight
+  document.querySelectorAll('#productList article').forEach(card => {
+    const decBtn = card.querySelector('button[aria-label="Decrease stock"]');
+    const incBtn = card.querySelector('button[aria-label="Increase stock"]');
+    const countDisplay = card.querySelector('span.font-label-sku.font-bold');
+
+    if (decBtn && incBtn && countDisplay) {
+      let count = parseInt(countDisplay.textContent.trim(), 10) || 0;
+
+      incBtn.addEventListener('click', (ev) => {
+        ev.stopPropagation();
+        count++;
+        countDisplay.textContent = count;
+        countDisplay.classList.add('scale-125', 'text-primary');
+        setTimeout(() => countDisplay.classList.remove('scale-125', 'text-primary'), 180);
+      });
+
+      decBtn.addEventListener('click', (ev) => {
+        ev.stopPropagation();
+        if (count > 0) {
+          count--;
+          countDisplay.textContent = count;
+          countDisplay.classList.add('scale-125', 'text-error');
+          setTimeout(() => countDisplay.classList.remove('scale-125', 'text-error'), 180);
+        }
+      });
+    }
+  });
+</script></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_-2px_12px_rgba(0,0,0,0.06)]" data-active-classes="text-primary font-semibold"><div class="relative flex items-center justify-between h-16 px-space-xs max-w-lg mx-auto"><a class="flex-1 h-full flex flex-col items-center justify-center gap-0.5 text-on-surface-variant hover:text-on-surface transition-colors" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[24px]">dashboard</span><span class="font-label-sm text-label-sm">Home</span></a><a aria-current="page" class="flex-1 h-full flex flex-col items-center justify-center gap-0.5 transition-colors text-primary font-semibold" data-path="inventory-catalog" href="#"><span class="material-symbols-outlined text-[24px]">inventory_2</span><span class="font-label-sm text-label-sm">Products</span></a><div class="relative flex-1 flex justify-center items-center pointer-events-none"><a aria-label="Scan Barcode" class="pointer-events-auto -mt-6 w-14 h-14 rounded-full bg-primary flex items-center justify-center text-on-primary shadow-[0_4px_12px_rgba(172,45,0,0.35)] active:scale-95 transition-all hover:bg-primary-container focus:outline-none" data-path="barcode-scanner" href="#"><span class="material-symbols-outlined text-[28px]">qr_code_scanner</span></a></div><a class="flex-1 h-full flex flex-col items-center justify-center gap-0.5 text-on-surface-variant hover:text-on-surface transition-colors" data-path="stock-operations" href="#"><span class="material-symbols-outlined text-[24px]">swap_vert</span><span class="font-label-sm text-label-sm">Stock</span></a><a class="flex-1 h-full flex flex-col items-center justify-center gap-0.5 text-on-surface-variant hover:text-on-surface transition-colors" data-path="inventory-reports" href="#"><span class="material-symbols-outlined text-[24px]">bar_chart</span><span class="font-label-sm text-label-sm">Reports</span></a></div></nav></body></html>

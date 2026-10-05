@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_stack" name="shell-type"/><title>GearStock</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@600&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;background-color:#f9f9f9;-webkit-tap-highlight-color:transparent;}body{overscroll-behavior-y:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "inverse-surface": "#2f3131", "primary-fixed": "#ffdbd1", "inverse-on-surface": "#f0f1f1", "on-tertiary-fixed": "#311300", "primary-container": "#d63c05", "on-secondary-fixed": "#1b1c1c", "on-primary-container": "#fffbff", "surface-container-high": "#e8e8e8", "surface-bright": "#f9f9f9", "surface-container": "#eeeeee", "primary": "#ac2d00", "on-primary-fixed-variant": "#872100", "on-primary": "#ffffff", "secondary-fixed-dim": "#c8c6c5", "surface-container-lowest": "#ffffff", "surface-container-low": "#f3f3f3", "on-tertiary-fixed-variant": "#723600", "secondary-fixed": "#e5e2e1", "primary-fixed-dim": "#ffb5a0", "on-tertiary": "#ffffff", "surface": "#f9f9f9", "inverse-primary": "#ffb5a0", "on-secondary-fixed-variant": "#474746", "secondary": "#5f5e5e", "on-tertiary-container": "#fffbff", "on-surface-variant": "#5b4039", "tertiary": "#924700", "surface-tint": "#b02e00", "surface-container-highest": "#e2e2e2", "on-surface": "#1a1c1c", "background": "#f9f9f9", "surface-variant": "#e2e2e2", "error-container": "#ffdad6", "on-secondary": "#ffffff", "secondary-container": "#e2dfde", "on-background": "#1a1c1c", "tertiary-fixed": "#ffdcc6", "on-error-container": "#93000a", "outline": "#8f7067", "on-secondary-container": "#636262", "tertiary-container": "#b75b00", "tertiary-fixed-dim": "#ffb786", "on-error": "#ffffff", "error": "#ba1a1a", "on-primary-fixed": "#3b0900", "surface-dim": "#dadada", "outline-variant": "#e4beb4" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "space-xl": "2rem", "gutter": "1rem", "margin": "1rem", "space-md": "1rem", "margin-tablet": "1.5rem", "space-xs": "0.25rem", "space-sm": "0.5rem", "space-lg": "1.5rem" }, fontFamily: { "headline-md": ["Inter"], "label-sku": ["JetBrains Mono"], "display-lg": ["Inter"], "body-lg": ["Inter"], "body-md": ["Inter"], "body-sm": ["Inter"], "label-md": ["Inter"], "headline-lg": ["Inter"], "label-sm": ["Inter"], "numeric-metric": ["Inter"], "headline-sm": ["Inter"] }, fontSize: { "headline-md": ["22px", { lineHeight: "28px", fontWeight: "600" }], "label-sku": ["12px", { lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "600" }], "display-lg": ["40px", { lineHeight: "48px", letterSpacing: "-0.02em", fontWeight: "700" }], "body-lg": ["16px", { lineHeight: "24px", fontWeight: "400" }], "body-md": ["14px", { lineHeight: "20px", fontWeight: "400" }], "body-sm": ["12px", { lineHeight: "16px", fontWeight: "400" }], "label-md": ["12px", { lineHeight: "16px", letterSpacing: "0.02em", fontWeight: "600" }], "headline-lg": ["28px", { lineHeight: "36px", letterSpacing: "-0.01em", fontWeight: "700" }], "label-sm": ["11px", { lineHeight: "14px", letterSpacing: "0.03em", fontWeight: "500" }], "numeric-metric": ["24px", { lineHeight: "28px", letterSpacing: "-0.02em", fontWeight: "700" }], "headline-sm": ["18px", { lineHeight: "24px", fontWeight: "600" }] } } } };</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface text-on-surface antialiased flex flex-col min-h-screen selection:bg-primary-fixed selection:text-on-primary-fixed"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-margin flex items-center justify-between"><div class="flex items-center gap-space-xs"><button aria-label="Go Back" class="w-11 h-11 flex items-center justify-center rounded-full text-on-surface hover:bg-surface-container-high transition-colors" onclick="history.back()" type="button"><span class="material-symbols-outlined text-[24px]">arrow_back</span></button><div class="flex items-center gap-space-sm"><img alt="GearStock Logo" class="h-7 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1Vrcm0cu_bJyLsSm0QnP4_RD5PRvvTEevVqKyo6xSp8dZhJtob08BNm7dbw3eetkxKqzmi0b0g6-1KcSY65x91SZJZ5m4XtR_Ie5ozmr1H3LZgSXJahAvsAWRbelJboQRNfZ1RxBKYHi1YghbDEmrioYsDkRoJF3N3VVd6qbHZG9Mix_VL2R_SPE_NkAHs8lijciYr_u1AFuWybYWDLLU6LN48-6Aebx8mY5bhi2rcDG-Qgh8t-NHjoC4wu"/><h1 class="font-headline-sm text-headline-sm text-on-surface truncate">Stock Adjustment</h1></div></div><div class="flex items-center"><button aria-label="Profile" class="w-11 h-11 flex items-center justify-center rounded-full" type="button"><img alt="Profile" class="w-8 h-8 rounded-full object-cover shadow-[0_1px_4px_rgba(0,0,0,0.12)]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBl3qS0qxohVjnwB0X_NKiHqv6-a6pnRnnPR4qYkBqQfb_tDoNJp_NqVYRjZIBQK7o49vsQHKrT9CRSpn68Xu-Rb4nY_pKnmYENWAMZxV9gvFjzme9qsLkJMg6xR7jWM3CqGORo_gdty0G-7iFshZRJmk9W02ZFd5cp9Scebzax19rkqNKY9bMsKY0L5HtRR-Qtdr4eHew7qxWzvMqZ5q72bDoFC3XMp1LnB1v6hW4UQhHPgXoMfvoq6Q"/></button></div></div></header><main class="flex-1 flex flex-col relative w-full pt-16 pb-safe px-margin bg-surface"><div class="flex flex-col w-full pb-28 space-y-4">
+<!-- Barcode & Search Trigger Tile -->
+<section class="bg-surface-container-lowest rounded-xl p-4 shadow-sm space-y-3">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Fast Scan / Lookup</span>
+<span class="inline-flex items-center gap-1 font-label-sku text-label-sku text-primary">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+        Scanner Active
+      </span>
+</div>
+<div class="relative flex items-center">
+<div class="absolute left-3.5 flex items-center pointer-events-none text-secondary">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="w-full h-12 pl-10 pr-14 rounded-xl bg-surface-container-low text-on-surface font-body-md text-body-md placeholder-secondary focus:outline-none focus:bg-surface-container" placeholder="Scan barcode or enter SKU / Part name" type="text" value="KMC X9 9-Speed Chain"/>
+<button aria-label="Scan Barcode" class="absolute right-1.5 w-9 h-9 rounded-lg bg-primary text-on-primary flex items-center justify-center shadow-sm active:scale-95 transition-transform" type="button">
+<span class="material-symbols-outlined text-[20px]">barcode_scanner</span>
+</button>
+</div>
+<!-- Active Item Preview Card -->
+<div class="bg-surface-container-low rounded-xl p-3 flex gap-3 items-center">
+<div class="w-14 h-14 rounded-lg bg-surface-container flex-shrink-0 overflow-hidden relative">
+<img class="w-full h-full object-cover" data-alt="Close up studio shot of a shiny silver KMC 9 speed bicycle chain coiled neatly on a clean gray workshop tray with subtle warm orange rim lighting and industrial tool accents" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC10hAjGVgoWy2jJkt7q64swWXkX057lS7dZ_JkEy3oy_KGw0OgjTq2fSsb1wE1cVFmdL5SVWZ1SU3pe5an1CUqHuKS2mT0VO9e42Yr1iwjttc0KTfnmE32gSjZLgSakVQvMV_cQimMFVbq-_ZIoN8qVfpOCEZ9Rxm5fV45stoT9WkIf732Y_fiyGNU136ZkT1EE0w41YQKfK5W-Aqa9pM7UDrt1lipVG76LMDdLfp8r9Lw9zc2_FU0BQ"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-start justify-between gap-1">
+<p class="font-headline-sm text-body-lg font-semibold text-on-surface truncate">KMC X9 9-Speed Chain</p>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-semibold flex-shrink-0">
+            3 left
+          </span>
+</div>
+<p class="font-label-sku text-label-sku text-secondary mt-0.5">SKU: CHN-KM-901</p>
+<div class="flex items-center gap-2 mt-1">
+<span class="font-numeric-metric text-body-md text-primary font-bold">₹1,450.00</span>
+<span class="text-secondary font-body-sm text-body-sm">· Bay B4-02</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Quantity Stepper Card (Ergonomic Thumb Area) -->
+<section class="bg-surface-container-lowest rounded-xl p-4 shadow-sm space-y-4">
+<div class="flex items-center justify-between">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Quantity to Remove</h2>
+<p class="font-body-sm text-body-sm text-secondary">Remaining after deduction: <span class="font-semibold text-error" id="remaining-count">1 pc</span></p>
+</div>
+<span class="material-symbols-outlined text-tertiary">inventory_2</span>
+</div>
+<!-- High-touch Stepper -->
+<div class="flex items-center justify-between bg-surface-container-low p-1.5 rounded-xl">
+<button aria-label="Decrease quantity" class="w-14 h-14 rounded-lg bg-surface-container-lowest text-on-surface flex items-center justify-center shadow-sm active:bg-surface-container transition-colors disabled:opacity-40" id="btn-decrement" type="button">
+<span class="material-symbols-outlined text-[28px]">remove</span>
+</button>
+<div class="flex flex-col items-center justify-center">
+<span class="font-display-lg text-display-lg text-primary leading-none" id="qty-display">2</span>
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider mt-1">Units (Pcs)</span>
+</div>
+<button aria-label="Increase quantity" class="w-14 h-14 rounded-lg bg-surface-container-lowest text-on-surface flex items-center justify-center shadow-sm active:bg-surface-container transition-colors" id="btn-increment" type="button">
+<span class="material-symbols-outlined text-[28px]">add</span>
+</button>
+</div>
+<!-- Quick Increment / Subtract Pills -->
+<div class="grid grid-cols-3 gap-2 pt-1">
+<button class="quick-qty-btn h-11 rounded-lg bg-surface-container font-label-md text-label-md text-on-surface active:bg-surface-container-high transition-colors flex items-center justify-center gap-1" data-val="1" type="button">
+<span class="material-symbols-outlined text-[16px]">remove</span> 1 Unit
+      </button>
+<button class="quick-qty-btn h-11 rounded-lg bg-primary-fixed text-on-primary-fixed font-label-md text-label-md active:opacity-90 transition-opacity flex items-center justify-center gap-1 font-semibold" data-val="2" type="button">
+<span class="material-symbols-outlined text-[16px]">remove</span> 2 Units
+      </button>
+<button class="quick-qty-btn h-11 rounded-lg bg-surface-container font-label-md text-label-md text-on-surface active:bg-surface-container-high transition-colors flex items-center justify-center gap-1" data-val="3" type="button">
+        All (3)
+      </button>
+</div>
+</section>
+<!-- Reason Selector -->
+<section class="bg-surface-container-lowest rounded-xl p-4 shadow-sm space-y-3">
+<div class="flex items-center justify-between">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">
+        Reason for Stock Out <span class="text-error">*</span>
+</h2>
+<span class="font-label-sm text-label-sm text-secondary">Required</span>
+</div>
+<div class="grid grid-cols-1 gap-2" id="reason-container">
+<!-- Option 1: Selected -->
+<button class="reason-pill w-full flex items-center justify-between p-3.5 rounded-xl bg-inverse-surface text-inverse-on-surface shadow-sm text-left transition-all" data-reason="Over-the-counter Sale" type="button">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined text-[18px]">point_of_sale</span>
+</div>
+<div>
+<p class="font-headline-sm text-body-md font-semibold">Over-the-counter Sale</p>
+<p class="font-body-sm text-body-sm opacity-80">Direct customer walk-in checkout</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-primary-fixed checkmark text-[22px]">check_circle</span>
+</button>
+<!-- Option 2 -->
+<button class="reason-pill w-full flex items-center justify-between p-3.5 rounded-xl bg-surface-container-low text-on-surface text-left transition-all hover:bg-surface-container" data-reason="Workshop Repair Job" type="button">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[18px]">build</span>
+</div>
+<div>
+<p class="font-headline-sm text-body-md font-semibold">Workshop Repair Job</p>
+<p class="font-body-sm text-body-sm text-secondary">Allocated to service work order</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-secondary checkmark text-[22px] opacity-0">radio_button_unchecked</span>
+</button>
+<!-- Option 3 -->
+<button class="reason-pill w-full flex items-center justify-between p-3.5 rounded-xl bg-surface-container-low text-on-surface text-left transition-all hover:bg-surface-container" data-reason="Damaged / Defective" type="button">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[18px]">broken_image</span>
+</div>
+<div>
+<p class="font-headline-sm text-body-md font-semibold">Damaged / Defective</p>
+<p class="font-body-sm text-body-sm text-secondary">Bent links or manufacturer fault</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-secondary checkmark text-[22px] opacity-0">radio_button_unchecked</span>
+</button>
+<!-- Option 4 -->
+<button class="reason-pill w-full flex items-center justify-between p-3.5 rounded-xl bg-surface-container-low text-on-surface text-left transition-all hover:bg-surface-container" data-reason="Returned to Supplier" type="button">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[18px]">assignment_return</span>
+</div>
+<div>
+<p class="font-headline-sm text-body-md font-semibold">Returned to Supplier</p>
+<p class="font-body-sm text-body-sm text-secondary">RMA credit or warranty replacement</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-secondary checkmark text-[22px] opacity-0">radio_button_unchecked</span>
+</button>
+<!-- Option 5 -->
+<button class="reason-pill w-full flex items-center justify-between p-3.5 rounded-xl bg-surface-container-low text-on-surface text-left transition-all hover:bg-surface-container" data-reason="Inventory Count Adjustment" type="button">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+</div>
+<div>
+<p class="font-headline-sm text-body-md font-semibold">Inventory Count Adjustment</p>
+<p class="font-body-sm text-body-sm text-secondary">Cycle audit discrepancy resolution</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-secondary checkmark text-[22px] opacity-0">radio_button_unchecked</span>
+</button>
+</div>
+</section>
+<!-- Reference & Workshop Order Details -->
+<section class="bg-surface-container-lowest rounded-xl p-4 shadow-sm space-y-3.5">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Reference &amp; Job Trace</h2>
+<div class="grid grid-cols-1 gap-3">
+<!-- Order / Bill Ref -->
+<div class="bg-surface-container-low rounded-xl p-3 flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-secondary text-[20px]">receipt_long</span>
+<div>
+<p class="font-label-sm text-label-sm text-secondary uppercase">Bill / Job Card Ref</p>
+<p class="font-body-md text-body-md font-semibold text-on-surface">Bill #8249 (Workshop Bay 1)</p>
+</div>
+</div>
+<button aria-label="Edit Ref" class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-secondary" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+</div>
+<!-- Financial Calculation Pill -->
+<div class="bg-surface-container-low rounded-xl p-3 flex items-center justify-between">
+<div>
+<p class="font-label-sm text-label-sm text-secondary uppercase">Valuation (Subtotal)</p>
+<div class="flex items-baseline gap-1.5 mt-0.5">
+<span class="font-numeric-metric text-numeric-metric font-bold text-on-surface" id="subtotal-val">₹2,900.00</span>
+<span class="font-body-sm text-body-sm text-secondary">(₹1,450.00 × <span id="summary-qty">2</span>)</span>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm font-semibold">
+          Tax Incl.
+        </span>
+</div>
+<!-- Handled By Staff -->
+<div class="bg-surface-container-low rounded-xl p-3 flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-secondary text-[20px]">badge</span>
+<div>
+<p class="font-label-sm text-label-sm text-secondary uppercase">Operator / Mechanic</p>
+<p class="font-body-md text-body-md font-medium text-on-surface">Rajesh K. (Shop Manager)</p>
+</div>
+</div>
+<span class="w-2.5 h-2.5 rounded-full bg-primary"></span>
+</div>
+<!-- Workshop Note -->
+<div class="bg-surface-container-low rounded-xl p-3 space-y-1">
+<label class="font-label-sm text-label-sm text-secondary uppercase block" for="stockout-notes">Mechanic Log Notes</label>
+<textarea class="w-full bg-transparent text-on-surface font-body-sm text-body-sm focus:outline-none resize-none" id="stockout-notes" rows="2">Customer replaced worn chain on Trek Marlin 7. Tested drivetrain shift indexing post-fit.</textarea>
+</div>
+</div>
+</section>
+<!-- Sticky Bottom Drawer Action Card -->
+<div class="fixed bottom-0 left-0 right-0 p-4 bg-surface/90 backdrop-blur-md shadow-lg z-40 max-w-md mx-auto">
+<button class="w-full h-[52px] rounded-xl bg-error text-on-error font-headline-sm text-headline-sm flex items-center justify-center gap-2 shadow-md active:scale-[0.99] transition-transform" id="submit-stockout" type="button">
+<span class="material-symbols-outlined text-[22px]">close</span>
+<span id="btn-submit-label">Confirm Stock Out (-2 Units)</span>
+</button>
+</div>
+</div>
+<script>
+  (() => {
+    let currentQty = 2;
+    const maxStock = 3;
+    const unitPrice = 1450;
+
+    const qtyDisplay = document.getElementById('qty-display');
+    const remainingCount = document.getElementById('remaining-count');
+    const subtotalVal = document.getElementById('subtotal-val');
+    const summaryQty = document.getElementById('summary-qty');
+    const btnSubmitLabel = document.getElementById('btn-submit-label');
+    const btnDecrement = document.getElementById('btn-decrement');
+    const btnIncrement = document.getElementById('btn-increment');
+
+    function updateUI() {
+      qtyDisplay.textContent = currentQty;
+      summaryQty.textContent = currentQty;
+      const left = maxStock - currentQty;
+      remainingCount.textContent = `${left} pc${left === 1 ? '' : 's'}`;
+      
+      const total = (currentQty * unitPrice).toLocaleString('en-IN');
+      subtotalVal.textContent = `₹${total}.00`;
+      btnSubmitLabel.textContent = `Confirm Stock Out (-${currentQty} Unit${currentQty > 1 ? 's' : ''})`;
+
+      btnDecrement.disabled = currentQty <= 1;
+      btnIncrement.disabled = currentQty >= maxStock;
+
+      document.querySelectorAll('.quick-qty-btn').forEach(btn => {
+        const val = parseInt(btn.dataset.val, 10);
+        if (val === currentQty) {
+          btn.className = 'quick-qty-btn h-11 rounded-lg bg-primary-fixed text-on-primary-fixed font-label-md text-label-md active:opacity-90 transition-opacity flex items-center justify-center gap-1 font-semibold';
+        } else {
+          btn.className = 'quick-qty-btn h-11 rounded-lg bg-surface-container font-label-md text-label-md text-on-surface active:bg-surface-container-high transition-colors flex items-center justify-center gap-1';
+        }
+      });
+    }
+
+    btnDecrement.addEventListener('click', () => {
+      if (currentQty > 1) {
+        currentQty--;
+        updateUI();
+      }
+    });
+
+    btnIncrement.addEventListener('click', () => {
+      if (currentQty < maxStock) {
+        currentQty++;
+        updateUI();
+      }
+    });
+
+    document.querySelectorAll('.quick-qty-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const val = parseInt(btn.dataset.val, 10);
+        if (val <= maxStock && val >= 1) {
+          currentQty = val;
+          updateUI();
+        }
+      });
+    });
+
+    // Reason Single-Select Logic
+    const reasonPills = document.querySelectorAll('.reason-pill');
+    reasonPills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        reasonPills.forEach(item => {
+          item.className = 'reason-pill w-full flex items-center justify-between p-3.5 rounded-xl bg-surface-container-low text-on-surface text-left transition-all hover:bg-surface-container';
+          const iconWrap = item.querySelector('div > div');
+          if (iconWrap) {
+            iconWrap.className = 'w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-secondary';
+          }
+          const check = item.querySelector('.checkmark');
+          if (check) {
+            check.className = 'material-symbols-outlined text-secondary checkmark text-[22px] opacity-0';
+            check.textContent = 'radio_button_unchecked';
+          }
+        });
+
+        pill.className = 'reason-pill w-full flex items-center justify-between p-3.5 rounded-xl bg-inverse-surface text-inverse-on-surface shadow-sm text-left transition-all';
+        const activeIconWrap = pill.querySelector('div > div');
+        if (activeIconWrap) {
+          activeIconWrap.className = 'w-8 h-8 rounded-full bg-primary flex items-center justify-center text-on-primary';
+        }
+        const activeCheck = pill.querySelector('.checkmark');
+        if (activeCheck) {
+          activeCheck.className = 'material-symbols-outlined text-primary-fixed checkmark text-[22px]';
+          activeCheck.textContent = 'check_circle';
+        }
+      });
+    });
+
+    // Confirmation Toast Interaction
+    const submitBtn = document.getElementById('submit-stockout');
+    submitBtn.addEventListener('click', () => {
+      submitBtn.classList.add('opacity-75');
+      btnSubmitLabel.textContent = 'Recording Stock Issue...';
+      setTimeout(() => {
+        btnSubmitLabel.textContent = 'Stock Out Completed ✓';
+        submitBtn.className = 'w-full h-[52px] rounded-xl bg-on-tertiary-fixed text-tertiary-fixed font-headline-sm text-headline-sm flex items-center justify-center gap-2 shadow-md';
+      }, 700);
+    });
+
+    updateUI();
+  })();
+</script></main></body></html>

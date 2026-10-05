@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_stack" name="shell-type"/><title>GearStock</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@600&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;background-color:#f9f9f9;-webkit-tap-highlight-color:transparent;}body{overscroll-behavior-y:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "inverse-surface": "#2f3131", "primary-fixed": "#ffdbd1", "inverse-on-surface": "#f0f1f1", "on-tertiary-fixed": "#311300", "primary-container": "#d63c05", "on-secondary-fixed": "#1b1c1c", "on-primary-container": "#fffbff", "surface-container-high": "#e8e8e8", "surface-bright": "#f9f9f9", "surface-container": "#eeeeee", "primary": "#ac2d00", "on-primary-fixed-variant": "#872100", "on-primary": "#ffffff", "secondary-fixed-dim": "#c8c6c5", "surface-container-lowest": "#ffffff", "surface-container-low": "#f3f3f3", "on-tertiary-fixed-variant": "#723600", "secondary-fixed": "#e5e2e1", "primary-fixed-dim": "#ffb5a0", "on-tertiary": "#ffffff", "surface": "#f9f9f9", "inverse-primary": "#ffb5a0", "on-secondary-fixed-variant": "#474746", "secondary": "#5f5e5e", "on-tertiary-container": "#fffbff", "on-surface-variant": "#5b4039", "tertiary": "#924700", "surface-tint": "#b02e00", "surface-container-highest": "#e2e2e2", "on-surface": "#1a1c1c", "background": "#f9f9f9", "surface-variant": "#e2e2e2", "error-container": "#ffdad6", "on-secondary": "#ffffff", "secondary-container": "#e2dfde", "on-background": "#1a1c1c", "tertiary-fixed": "#ffdcc6", "on-error-container": "#93000a", "outline": "#8f7067", "on-secondary-container": "#636262", "tertiary-container": "#b75b00", "tertiary-fixed-dim": "#ffb786", "on-error": "#ffffff", "error": "#ba1a1a", "on-primary-fixed": "#3b0900", "surface-dim": "#dadada", "outline-variant": "#e4beb4" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "space-xl": "2rem", "gutter": "1rem", "margin": "1rem", "space-md": "1rem", "margin-tablet": "1.5rem", "space-xs": "0.25rem", "space-sm": "0.5rem", "space-lg": "1.5rem" }, fontFamily: { "headline-md": ["Inter"], "label-sku": ["JetBrains Mono"], "display-lg": ["Inter"], "body-lg": ["Inter"], "body-md": ["Inter"], "body-sm": ["Inter"], "label-md": ["Inter"], "headline-lg": ["Inter"], "label-sm": ["Inter"], "numeric-metric": ["Inter"], "headline-sm": ["Inter"] }, fontSize: { "headline-md": ["22px", { lineHeight: "28px", fontWeight: "600" }], "label-sku": ["12px", { lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "600" }], "display-lg": ["40px", { lineHeight: "48px", letterSpacing: "-0.02em", fontWeight: "700" }], "body-lg": ["16px", { lineHeight: "24px", fontWeight: "400" }], "body-md": ["14px", { lineHeight: "20px", fontWeight: "400" }], "body-sm": ["12px", { lineHeight: "16px", fontWeight: "400" }], "label-md": ["12px", { lineHeight: "16px", letterSpacing: "0.02em", fontWeight: "600" }], "headline-lg": ["28px", { lineHeight: "36px", letterSpacing: "-0.01em", fontWeight: "700" }], "label-sm": ["11px", { lineHeight: "14px", letterSpacing: "0.03em", fontWeight: "500" }], "numeric-metric": ["24px", { lineHeight: "28px", letterSpacing: "-0.02em", fontWeight: "700" }], "headline-sm": ["18px", { lineHeight: "24px", fontWeight: "600" }] } } } };</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface text-on-surface antialiased flex flex-col min-h-screen selection:bg-primary-fixed selection:text-on-primary-fixed"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-margin flex items-center justify-between"><div class="flex items-center gap-space-xs"><button aria-label="Go Back" class="w-11 h-11 flex items-center justify-center rounded-full text-on-surface hover:bg-surface-container-high transition-colors" onclick="history.back()" type="button"><span class="material-symbols-outlined text-[24px]">arrow_back</span></button><div class="flex items-center gap-space-sm"><img alt="GearStock Logo" class="h-7 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1Vrcm0cu_bJyLsSm0QnP4_RD5PRvvTEevVqKyo6xSp8dZhJtob08BNm7dbw3eetkxKqzmi0b0g6-1KcSY65x91SZJZ5m4XtR_Ie5ozmr1H3LZgSXJahAvsAWRbelJboQRNfZ1RxBKYHi1YghbDEmrioYsDkRoJF3N3VVd6qbHZG9Mix_VL2R_SPE_NkAHs8lijciYr_u1AFuWybYWDLLU6LN48-6Aebx8mY5bhi2rcDG-Qgh8t-NHjoC4wu"/><h1 class="font-headline-sm text-headline-sm text-on-surface truncate">Barcode Scanner</h1></div></div><div class="flex items-center"><button aria-label="Profile" class="w-11 h-11 flex items-center justify-center rounded-full" type="button"><img alt="Profile" class="w-8 h-8 rounded-full object-cover shadow-[0_1px_4px_rgba(0,0,0,0.12)]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBl3qS0qxohVjnwB0X_NKiHqv6-a6pnRnnPR4qYkBqQfb_tDoNJp_NqVYRjZIBQK7o49vsQHKrT9CRSpn68Xu-Rb4nY_pKnmYENWAMZxV9gvFjzme9qsLkJMg6xR7jWM3CqGORo_gdty0G-7iFshZRJmk9W02ZFd5cp9Scebzax19rkqNKY9bMsKY0L5HtRR-Qtdr4eHew7qxWzvMqZ5q72bDoFC3XMp1LnB1v6hW4UQhHPgXoMfvoq6Q"/></button></div></div></header><main class="flex-1 flex flex-col relative w-full pt-16 pb-safe px-margin bg-surface"><div class="flex flex-col w-full relative select-none">
+<!-- Viewfinder Area Container -->
+<div class="relative w-full h-[400px] overflow-hidden rounded-xl bg-inverse-surface shadow-xl flex flex-col justify-between p-space-md">
+<!-- Camera feed background image simulation -->
+<div class="absolute inset-0 bg-cover bg-center opacity-65 mix-blend-luminosity scale-105" data-alt="Close-up realistic camera perspective view of a workshop storage rack containing neatly stacked cardboard boxes of premium bicycle parts, derailleurs, and chains under neutral warehouse lighting with subtle lens bokeh." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCUjp0Vr6VggmKcbc88n_fpQCpD5CWhakcl8LizpQt8h8syrTzFpnJHed8I1G0r2j2WvzlJHr_rJKPVjRgtBrqIsPm428mSXlRQMclD6CgbN0g6WOQIo6DBf3eTEtmK9gohYnT6-y783P2nEf-h5ahWhy8DBJdNsso0qpWJXTIRqRpOkeyhqqlsopwnx9OqSLQr2hXtDB08Vt1x9VA0emt6eeM_jDmLt-KdrZHmh2SWokgcM85J92JRVg')"></div>
+<!-- Soft industrial tint vignette -->
+<div class="absolute inset-0 bg-gradient-to-b from-inverse-surface/80 via-transparent to-inverse-surface/90 pointer-events-none"></div>
+<!-- Top Viewfinder Floating Controls -->
+<div class="relative z-10 flex items-center justify-between w-full">
+<button aria-label="Close Viewfinder" class="w-11 h-11 flex items-center justify-center rounded-full bg-inverse-surface/70 backdrop-blur-md text-inverse-on-surface hover:bg-inverse-surface transition-transform active:scale-95 shadow-sm" onclick="history.back()" type="button">
+<span class="material-symbols-outlined text-[22px]">close</span>
+</button>
+<!-- Center Status Pill -->
+<div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-inverse-surface/80 backdrop-blur-md text-inverse-on-surface text-label-sm font-label-sm">
+<span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>
+<span>OPTICAL SCANNER READY</span>
+</div>
+<!-- Quick Toggles: Flash & Mute -->
+<div class="flex items-center gap-space-xs">
+<button aria-label="Toggle Flashlight" class="w-11 h-11 flex items-center justify-center rounded-full bg-inverse-surface/70 backdrop-blur-md text-inverse-on-surface hover:bg-inverse-surface transition-transform active:scale-95 shadow-sm" id="flash-btn" type="button">
+<span class="material-symbols-outlined text-[20px]" id="flash-icon">flashlight_off</span>
+</button>
+<button aria-label="Toggle Audio Feedback" class="w-11 h-11 flex items-center justify-center rounded-full bg-inverse-surface/70 backdrop-blur-md text-inverse-on-surface hover:bg-inverse-surface transition-transform active:scale-95 shadow-sm" id="beep-btn" type="button">
+<span class="material-symbols-outlined text-[20px]" id="beep-icon">volume_up</span>
+</button>
+</div>
+</div>
+<!-- Targeting HUD Frame -->
+<div class="relative z-10 flex flex-col items-center justify-center my-auto w-full">
+<!-- Context instruction -->
+<div class="mb-3 px-3 py-1 rounded-full bg-inverse-surface/70 backdrop-blur-md text-inverse-on-surface text-label-sm font-label-sm text-center tracking-wide">
+        Align barcode or QR code within the frame
+      </div>
+<!-- Viewfinder Target Reticle Box -->
+<div class="relative w-64 h-36 flex items-center justify-center">
+<!-- Corner Reticles (Deep Orange / Primary) -->
+<div class="absolute top-0 left-0 w-6 h-6 border-t-[3px] border-l-[3px] border-primary-container rounded-tl-lg pointer-events-none"></div>
+<div class="absolute top-0 right-0 w-6 h-6 border-t-[3px] border-r-[3px] border-primary-container rounded-tr-lg pointer-events-none"></div>
+<div class="absolute bottom-0 left-0 w-6 h-6 border-b-[3px] border-l-[3px] border-primary-container rounded-bl-lg pointer-events-none"></div>
+<div class="absolute bottom-0 right-0 w-6 h-6 border-b-[3px] border-r-[3px] border-primary-container rounded-br-lg pointer-events-none"></div>
+<!-- Animated Laser Line -->
+<div class="absolute inset-x-2 h-[2px] bg-primary-container shadow-[0_0_12px_#d63c05] animate-pulse"></div>
+<!-- Center Crosshair Reticle -->
+<div class="w-8 h-8 rounded-full border border-primary-fixed/40 flex items-center justify-center opacity-40">
+<div class="w-1 h-1 bg-primary-container rounded-full"></div>
+</div>
+</div>
+</div>
+<!-- Manual Entry Bottom Trigger -->
+<div class="relative z-10 flex justify-center w-full">
+<button class="flex items-center gap-space-xs px-4 py-2 rounded-full bg-inverse-surface/80 backdrop-blur-md text-inverse-on-surface text-label-md font-label-md hover:bg-inverse-surface transition-all active:scale-95 shadow-sm" id="manual-sku-btn" type="button">
+<span class="material-symbols-outlined text-[18px] text-primary-fixed">keyboard</span>
+<span>Enter SKU / Barcode Manually</span>
+</button>
+</div>
+</div>
+<!-- Manual Entry Drawer Form (Hidden by default, toggleable) -->
+<div class="hidden w-full mt-3 p-space-md rounded-xl bg-surface-container-low shadow-sm transition-all duration-300" id="manual-input-panel">
+<div class="flex items-center justify-between mb-2">
+<span class="text-label-md font-label-md text-on-surface">Direct Code Lookup</span>
+<button class="w-8 h-8 flex items-center justify-center rounded-full text-secondary hover:bg-surface-container-high" id="close-manual-btn" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<div class="flex gap-2">
+<div class="relative flex-1">
+<input class="w-full h-11 px-3 rounded-lg bg-surface-container-lowest text-on-surface font-label-sku text-label-sku focus:outline-none focus:ring-2 focus:ring-primary shadow-sm" placeholder="e.g. BRK-SH-6100" type="text" value="8901234567890"/>
+</div>
+<button class="h-11 px-4 bg-primary text-on-primary rounded-lg font-label-md text-label-md flex items-center justify-center shadow-sm active:scale-95" type="button">
+        Find
+      </button>
+</div>
+</div>
+<!-- Scanned Result Card & Action Area (Persistent Operational Bottom Sheet) -->
+<div class="w-full mt-3 rounded-xl bg-surface-container-lowest shadow-md p-space-md flex flex-col gap-space-md">
+<!-- Verification Status Banner -->
+<div class="flex items-center justify-between">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container text-on-surface text-label-sm font-label-sm">
+<span class="material-symbols-outlined text-[16px] text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span>Barcode Verified: <strong class="font-label-sku text-label-sku">8901234567890</strong></span>
+</div>
+<span class="text-label-sm font-label-sm text-secondary">Just now</span>
+</div>
+<!-- Product Snapshot Tile -->
+<div class="flex items-start gap-3 bg-surface-container-low p-space-sm rounded-xl">
+<!-- Thumbnail -->
+<div class="relative w-16 h-16 rounded-lg overflow-hidden bg-surface-container-high flex-shrink-0 shadow-sm">
+<img class="w-full h-full object-cover" data-alt="Shimano Deore M6100 hydraulic disc brake caliper and lever kit on a matte black workshop table, precision studio lighting, industrial cycling equipment showcase." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxyEMI_A3VLx-Jc9FTwN5dawkq8NiMzMG7Wppepx5IjbZ4m__g3C1peKQUxfYtJzHvUQ_XCDM8NVh-Rnh5B-1d3wohtxxgUBO9jT5nVs5txo0QueFYALkflKtIOkgHS0T_T_9cYjF6mlhMwPt6kKsIuudA_XfrGgYIIzwAladryzvsraFXLZdxHMX3IhpaSLTddtYCbT4o_jKY2CQJ0g90oCXa1bKTfVw-MIRZ6wck9ZpCnHZKHd-PfA"/>
+</div>
+<!-- Specs & Details -->
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-1.5 text-label-sm font-label-sm text-secondary">
+<span class="font-semibold text-primary">Shimano</span>
+<span>•</span>
+<span class="font-label-sku text-label-sku text-on-surface-variant">BRK-SH-6100</span>
+</div>
+<h2 class="font-body-md text-body-md font-bold text-on-surface truncate mt-0.5">
+          Shimano Deore M6100 Hydraulic Disc Brake
+        </h2>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="font-numeric-metric text-numeric-metric text-on-surface">₹4,850</span>
+<span class="text-label-sm font-label-sm text-secondary">MSRP / set</span>
+</div>
+</div>
+</div>
+<!-- Inventory Location & Physical Count Metrics -->
+<div class="grid grid-cols-2 gap-space-sm">
+<div class="p-2.5 rounded-lg bg-surface-container-low flex flex-col justify-center">
+<span class="text-label-sm font-label-sm text-secondary">Stock Level</span>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="font-body-md text-body-md font-semibold text-on-surface">18 Available</span>
+</div>
+</div>
+<div class="p-2.5 rounded-lg bg-surface-container-low flex flex-col justify-center">
+<span class="text-label-sm font-label-sm text-secondary">Bin Coordinates</span>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="material-symbols-outlined text-[16px] text-tertiary">warehouse</span>
+<span class="font-body-md text-body-md font-semibold text-on-surface truncate">Aisle 2, Bin B-04</span>
+</div>
+</div>
+</div>
+<!-- Rapid Stock Adjustment Triggers -->
+<div class="grid grid-cols-2 gap-space-sm pt-1">
+<button class="h-12 w-full rounded-xl bg-primary-container text-on-primary-container font-headline-sm text-headline-sm flex items-center justify-center gap-1.5 shadow-sm active:scale-95 transition-transform" id="stock-in-btn" type="button">
+<span class="material-symbols-outlined text-[20px]">add_box</span>
+<span>+ Stock In</span>
+</button>
+<button class="h-12 w-full rounded-xl bg-inverse-surface text-inverse-on-surface font-headline-sm text-headline-sm flex items-center justify-center gap-1.5 shadow-sm active:scale-95 transition-transform" id="stock-out-btn" type="button">
+<span class="material-symbols-outlined text-[20px]">outbox</span>
+<span>- Stock Out</span>
+</button>
+</div>
+<!-- History & Detailed Specs Link -->
+<div class="flex justify-center pt-1 pb-1">
+<button class="inline-flex items-center gap-1 text-label-md font-label-md text-primary hover:underline active:opacity-80 py-1" type="button">
+<span>View Full Product History &amp; Specs</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Notification Toast Simulation -->
+<div class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-4 py-2 rounded-full bg-inverse-surface text-inverse-on-surface shadow-xl text-label-md font-label-md items-center gap-2" id="action-toast">
+<span class="material-symbols-outlined text-primary-fixed text-[18px]">inventory_2</span>
+<span id="toast-text">Inventory adjusted successfully</span>
+</div>
+</div>
+<script>
+  (function () {
+    const flashBtn = document.getElementById('flash-btn');
+    const flashIcon = document.getElementById('flash-icon');
+    const beepBtn = document.getElementById('beep-btn');
+    const beepIcon = document.getElementById('beep-icon');
+    const manualBtn = document.getElementById('manual-sku-btn');
+    const manualPanel = document.getElementById('manual-input-panel');
+    const closeManual = document.getElementById('close-manual-btn');
+    const toast = document.getElementById('action-toast');
+    const toastText = document.getElementById('toast-text');
+    const stockIn = document.getElementById('stock-in-btn');
+    const stockOut = document.getElementById('stock-out-btn');
+
+    let isFlash = false;
+    let isBeep = true;
+
+    flashBtn?.addEventListener('click', () => {
+      isFlash = !isFlash;
+      flashIcon.textContent = isFlash ? 'flashlight_on' : 'flashlight_off';
+      flashBtn.classList.toggle('text-primary-fixed', isFlash);
+    });
+
+    beepBtn?.addEventListener('click', () => {
+      isBeep = !isBeep;
+      beepIcon.textContent = isBeep ? 'volume_up' : 'volume_off';
+      beepBtn.classList.toggle('text-secondary', !isBeep);
+    });
+
+    manualBtn?.addEventListener('click', () => {
+      manualPanel?.classList.toggle('hidden');
+    });
+
+    closeManual?.addEventListener('click', () => {
+      manualPanel?.classList.add('hidden');
+    });
+
+    function showToast(msg) {
+      if (!toast || !toastText) return;
+      toastText.textContent = msg;
+      toast.classList.remove('hidden');
+      toast.classList.add('flex');
+      setTimeout(() => {
+        toast.classList.add('hidden');
+        toast.classList.remove('flex');
+      }, 2400);
+    }
+
+    stockIn?.addEventListener('click', () => {
+      showToast('Restocked +1: BRK-SH-6100 logged to Bin B-04');
+    });
+
+    stockOut?.addEventListener('click', () => {
+      showToast('Issued -1: BRK-SH-6100 ready for dispatch');
+    });
+  })();
+</script></main></body></html>

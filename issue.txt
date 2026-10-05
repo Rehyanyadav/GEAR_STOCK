@@ -1,0 +1,16 @@
+STRICTLY : FOLLOW THE RULES AND GUIDELINES
+
+issues in product Screen 
+1.Image is not showing only capturing by application
+2.barcode scanning camera permission is allowed still not opening from application
+3.if some product is stock out the current stock is not update in products sections 
+4. shelf bin location section  rollback the widget in product screen 
+5.after stockn in i added the product it not updated in products sections 
+6.simplify the work for user 
+7.STOCK IN & STOCK OUT SECTION Should be simplify for user of application 
+3.Optimize the image so it not use extra space 
+4.IN PARTS SECTION USER CAN INCREASE THE SECTIONS ON THEIR REQUIRED NEEDs
+5.APP is CRASHING IN SOME SECTION 
+
+
+

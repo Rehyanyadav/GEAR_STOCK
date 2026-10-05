@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><title>GearStock</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@600&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;background-color:#f9f9f9;-webkit-tap-highlight-color:transparent;}body{overscroll-behavior-y:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "inverse-surface": "#2f3131", "primary-fixed": "#ffdbd1", "inverse-on-surface": "#f0f1f1", "on-tertiary-fixed": "#311300", "primary-container": "#d63c05", "on-secondary-fixed": "#1b1c1c", "on-primary-container": "#fffbff", "surface-container-high": "#e8e8e8", "surface-bright": "#f9f9f9", "surface-container": "#eeeeee", "primary": "#ac2d00", "on-primary-fixed-variant": "#872100", "on-primary": "#ffffff", "secondary-fixed-dim": "#c8c6c5", "surface-container-lowest": "#ffffff", "surface-container-low": "#f3f3f3", "on-tertiary-fixed-variant": "#723600", "secondary-fixed": "#e5e2e1", "primary-fixed-dim": "#ffb5a0", "on-tertiary": "#ffffff", "surface": "#f9f9f9", "inverse-primary": "#ffb5a0", "on-secondary-fixed-variant": "#474746", "secondary": "#5f5e5e", "on-tertiary-container": "#fffbff", "on-surface-variant": "#5b4039", "tertiary": "#924700", "surface-tint": "#b02e00", "surface-container-highest": "#e2e2e2", "on-surface": "#1a1c1c", "background": "#f9f9f9", "surface-variant": "#e2e2e2", "error-container": "#ffdad6", "on-secondary": "#ffffff", "secondary-container": "#e2dfde", "on-background": "#1a1c1c", "tertiary-fixed": "#ffdcc6", "on-error-container": "#93000a", "outline": "#8f7067", "on-secondary-container": "#636262", "tertiary-container": "#b75b00", "tertiary-fixed-dim": "#ffb786", "on-error": "#ffffff", "error": "#ba1a1a", "on-primary-fixed": "#3b0900", "surface-dim": "#dadada", "outline-variant": "#e4beb4" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "space-xl": "2rem", "gutter": "1rem", "margin": "1rem", "space-md": "1rem", "margin-tablet": "1.5rem", "space-xs": "0.25rem", "space-sm": "0.5rem", "space-lg": "1.5rem" }, fontFamily: { "headline-md": ["Inter"], "label-sku": ["JetBrains Mono"], "display-lg": ["Inter"], "body-lg": ["Inter"], "body-md": ["Inter"], "body-sm": ["Inter"], "label-md": ["Inter"], "headline-lg": ["Inter"], "label-sm": ["Inter"], "numeric-metric": ["Inter"], "headline-sm": ["Inter"] }, fontSize: { "headline-md": ["22px", { lineHeight: "28px", fontWeight: "600" }], "label-sku": ["12px", { lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "600" }], "display-lg": ["40px", { lineHeight: "48px", letterSpacing: "-0.02em", fontWeight: "700" }], "body-lg": ["16px", { lineHeight: "24px", fontWeight: "400" }], "body-md": ["14px", { lineHeight: "20px", fontWeight: "400" }], "body-sm": ["12px", { lineHeight: "16px", fontWeight: "400" }], "label-md": ["12px", { lineHeight: "16px", letterSpacing: "0.02em", fontWeight: "600" }], "headline-lg": ["28px", { lineHeight: "36px", letterSpacing: "-0.01em", fontWeight: "700" }], "label-sm": ["11px", { lineHeight: "14px", letterSpacing: "0.03em", fontWeight: "500" }], "numeric-metric": ["24px", { lineHeight: "28px", letterSpacing: "-0.02em", fontWeight: "700" }], "headline-sm": ["18px", { lineHeight: "24px", fontWeight: "600" }] } } } };</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface text-on-surface antialiased flex flex-col min-h-screen selection:bg-primary-fixed selection:text-on-primary-fixed"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-margin flex items-center justify-between"><div class="flex items-center gap-space-sm"><img alt="GearStock Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1Vrcm0cu_bJyLsSm0QnP4_RD5PRvvTEevVqKyo6xSp8dZhJtob08BNm7dbw3eetkxKqzmi0b0g6-1KcSY65x91SZJZ5m4XtR_Ie5ozmr1H3LZgSXJahAvsAWRbelJboQRNfZ1RxBKYHi1YghbDEmrioYsDkRoJF3N3VVd6qbHZG9Mix_VL2R_SPE_NkAHs8lijciYr_u1AFuWybYWDLLU6LN48-6Aebx8mY5bhi2rcDG-Qgh8t-NHjoC4wu"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm tracking-tight text-on-surface leading-none">GearStock</span><span class="font-label-sm text-label-sm text-on-surface-variant leading-tight">Inventory Catalog</span></div></div><div class="flex items-center gap-space-xs"><button aria-label="Quick Search &amp; Status" class="w-11 h-11 flex items-center justify-center rounded-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">search</span></button><button aria-label="Profile" class="w-11 h-11 flex items-center justify-center rounded-full" type="button"><img alt="Profile" class="w-8 h-8 rounded-full object-cover shadow-[0_1px_4px_rgba(0,0,0,0.12)]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBl3qS0qxohVjnwB0X_NKiHqv6-a6pnRnnPR4qYkBqQfb_tDoNJp_NqVYRjZIBQK7o49vsQHKrT9CRSpn68Xu-Rb4nY_pKnmYENWAMZxV9gvFjzme9qsLkJMg6xR7jWM3CqGORo_gdty0G-7iFshZRJmk9W02ZFd5cp9Scebzax19rkqNKY9bMsKY0L5HtRR-Qtdr4eHew7qxWzvMqZ5q72bDoFC3XMp1LnB1v6hW4UQhHPgXoMfvoq6Q"/></button></div></div></header><main class="flex-1 flex flex-col relative w-full pt-16 pb-28 px-margin bg-surface"><div class="flex flex-col w-full gap-space-md">
+<!-- Operational Metrics & Search Bar -->
+<section class="flex flex-col gap-space-sm">
+<div class="relative w-full">
+<div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="w-full h-12 pl-11 pr-11 bg-surface-container-low text-on-surface placeholder:text-on-surface-variant font-body-md text-body-md rounded-full shadow-sm focus:outline-none focus:bg-surface-container-lowest focus:shadow-md transition-all" id="supplier-search-input" placeholder="Search supplier, city, brand, or SKU..." type="text"/>
+<button aria-label="Filter by invoice barcode" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-primary hover:text-primary-container active:scale-90 transition-transform" id="scan-supplier-filter-btn" type="button">
+<span class="material-symbols-outlined text-[22px]">qr_code_scanner</span>
+</button>
+</div>
+<!-- Quick Stats Cards (High-cadence workshop glance) -->
+<div class="grid grid-cols-2 gap-space-xs">
+<div class="flex items-center gap-space-sm p-3 bg-surface-container-lowest rounded-xl shadow-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 1;">storefront</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-numeric-metric text-headline-sm text-on-surface truncate">12</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant truncate">Active Distributors</span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm p-3 bg-surface-container-lowest rounded-xl shadow-sm">
+<div class="w-10 h-10 rounded-lg bg-primary-fixed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[22px]">pending_actions</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-numeric-metric text-headline-sm text-primary truncate">₹1,42,000</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant truncate">Pending Payables</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Horizontal Filter Chips (Touch-friendly Pill Carousel) -->
+<section class="overflow-x-auto -mx-margin px-margin py-1 flex items-center gap-space-xs no-scrollbar" id="filter-chip-tray">
+<button class="filter-chip active flex items-center gap-1.5 px-4 h-9 rounded-full bg-inverse-surface text-inverse-on-surface font-label-md text-label-md shrink-0 shadow-sm transition-all" data-filter="all" type="button">
+<span>All Suppliers</span>
+<span class="px-1.5 py-0.5 rounded-full bg-surface/20 text-inverse-on-surface font-label-sku text-label-sm">12</span>
+</button>
+<button class="filter-chip flex items-center gap-1.5 px-4 h-9 rounded-full bg-surface-container-lowest text-on-surface-variant font-label-md text-label-md shrink-0 shadow-sm hover:bg-surface-container transition-all" data-filter="shimano" type="button">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span>Official Shimano</span>
+<span class="font-label-sku text-label-sm opacity-60">2</span>
+</button>
+<button class="filter-chip flex items-center gap-1.5 px-4 h-9 rounded-full bg-surface-container-lowest text-on-surface-variant font-label-md text-label-md shrink-0 shadow-sm hover:bg-surface-container transition-all" data-filter="rubber" type="button">
+<span>Tyres &amp; Tubes</span>
+<span class="font-label-sku text-label-sm opacity-60">4</span>
+</button>
+<button class="filter-chip flex items-center gap-1.5 px-4 h-9 rounded-full bg-surface-container-lowest text-on-surface-variant font-label-md text-label-md shrink-0 shadow-sm hover:bg-surface-container transition-all" data-filter="components" type="button">
+<span>Accessories &amp; Gears</span>
+<span class="font-label-sku text-label-sm opacity-60">6</span>
+</button>
+</section>
+<!-- Suppliers Directory List -->
+<section class="flex flex-col gap-space-sm" id="supplier-card-list">
+<!-- Card 1: Velo India Distro Ltd. -->
+<article class="supplier-item flex flex-col bg-surface-container-lowest rounded-xl p-4 shadow-sm transition-all duration-200" data-category="shimano components" data-name="velo india distro ltd mumbai shimano kmc tektro">
+<div class="flex items-start justify-between gap-space-xs mb-2">
+<div class="flex items-start gap-3">
+<div class="w-12 h-12 rounded-xl bg-primary-fixed/50 flex items-center justify-center shrink-0 text-primary">
+<span class="material-symbols-outlined text-[28px]" style="font-variation-settings: 'FILL' 1;">hub</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5 flex-wrap">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Velo India Distro Ltd.</h2>
+<span class="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[13px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+                Verified
+              </span>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant mt-0.5">
+<span class="material-symbols-outlined text-[16px] text-primary">location_on</span>
+<span class="font-body-sm text-body-sm">Mumbai, Maharashtra</span>
+</div>
+</div>
+</div>
+<button aria-label="More options" class="w-9 h-9 flex items-center justify-center rounded-full text-secondary hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+<!-- Key Authorized Brands & Inventory Metrics -->
+<div class="flex flex-wrap gap-1.5 my-2">
+<span class="px-2 py-0.5 rounded-md bg-surface-container text-on-surface font-label-sku text-label-sm">Shimano Genuine</span>
+<span class="px-2 py-0.5 rounded-md bg-surface-container text-on-surface font-label-sku text-label-sm">KMC Chains</span>
+<span class="px-2 py-0.5 rounded-md bg-surface-container text-on-surface font-label-sku text-label-sm">Tektro Brakes</span>
+</div>
+<div class="flex items-center justify-between py-2 text-on-surface-variant font-body-sm text-body-sm bg-surface-container-low/60 px-3 rounded-lg my-1">
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-tertiary">inventory_2</span>
+<strong class="text-on-surface font-body-md text-body-md">142</strong> Active Spares
+        </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">PO Sent: 2d ago</span>
+</div>
+<!-- Active In-flight PO Tracking Pill -->
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-surface-container-high/50 my-1">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-primary animate-pulse">local_shipping</span>
+<div class="flex flex-col">
+<span class="font-label-sku text-label-sm text-on-surface">PO #441 • ₹28,500</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">BlueDart Air Express (Waybill: #892110)</span>
+</div>
+</div>
+<span class="px-2 py-1 rounded-full bg-surface-container-lowest text-primary font-label-sm text-label-sm shadow-sm font-semibold">
+          Dispatched
+        </span>
+</div>
+<!-- Quick Action Ergonomic Zone -->
+<div class="grid grid-cols-2 gap-space-xs mt-3">
+<a class="flex items-center justify-center gap-2 h-12 rounded-xl bg-inverse-surface text-inverse-on-surface font-label-md text-label-md shadow-sm active:scale-95 transition-all" href="tel:+919820011223">
+<span class="material-symbols-outlined text-[18px]">call</span>
+<span>Call (+91 98200...)</span>
+</a>
+<button class="flex items-center justify-center gap-1.5 h-12 rounded-xl bg-primary-fixed text-on-primary-fixed-variant font-label-md text-label-md shadow-sm active:scale-95 hover:bg-primary-fixed-dim transition-all" onclick="openPoDrawer('Velo India Distro Ltd.', 'Mumbai')" type="button">
+<span class="material-symbols-outlined text-[18px]">post_add</span>
+<span>New PO</span>
+</button>
+</div>
+</article>
+<!-- Card 2: Maxxis & Schwalbe Rubber Depot -->
+<article class="supplier-item flex flex-col bg-surface-container-lowest rounded-xl p-4 shadow-sm transition-all duration-200" data-category="rubber" data-name="maxxis &amp; schwalbe rubber depot bengaluru continental tyre tube">
+<div class="flex items-start justify-between gap-space-xs mb-2">
+<div class="flex items-start gap-3">
+<div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center shrink-0 text-secondary">
+<span class="material-symbols-outlined text-[28px]">tire_repair</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5 flex-wrap">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Maxxis &amp; Schwalbe Depot</h2>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">Direct Importer</span>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant mt-0.5">
+<span class="material-symbols-outlined text-[16px] text-primary">location_on</span>
+<span class="font-body-sm text-body-sm">Bengaluru, Karnataka</span>
+</div>
+</div>
+</div>
+<button aria-label="More options" class="w-9 h-9 flex items-center justify-center rounded-full text-secondary hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+<!-- Key Authorized Brands -->
+<div class="flex flex-wrap gap-1.5 my-2">
+<span class="px-2 py-0.5 rounded-md bg-surface-container text-on-surface font-label-sku text-label-sm">Maxxis MTB</span>
+<span class="px-2 py-0.5 rounded-md bg-surface-container text-on-surface font-label-sku text-label-sm">Schwalbe Pro</span>
+<span class="px-2 py-0.5 rounded-md bg-surface-container text-on-surface font-label-sku text-label-sm">Continental</span>
+</div>
+<div class="flex items-center justify-between py-2 text-on-surface-variant font-body-sm text-body-sm bg-surface-container-low/60 px-3 rounded-lg my-1">
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-tertiary">inventory_2</span>
+<strong class="text-on-surface font-body-md text-body-md">68</strong> Tyre &amp; Tube SKUs
+        </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Last PO: 6d ago</span>
+</div>
+<!-- Quick Action Ergonomic Zone -->
+<div class="grid grid-cols-2 gap-space-xs mt-3">
+<a class="flex items-center justify-center gap-2 h-12 rounded-xl bg-inverse-surface text-inverse-on-surface font-label-md text-label-md shadow-sm active:scale-95 transition-all" href="tel:+919845077112">
+<span class="material-symbols-outlined text-[18px]">call</span>
+<span>Call (+91 98450...)</span>
+</a>
+<button class="flex items-center justify-center gap-1.5 h-12 rounded-xl bg-primary-fixed text-on-primary-fixed-variant font-label-md text-label-md shadow-sm active:scale-95 hover:bg-primary-fixed-dim transition-all" onclick="openPoDrawer('Maxxis &amp; Schwalbe Rubber Depot', 'Bengaluru')" type="button">
+<span class="material-symbols-outlined text-[18px]">post_add</span>
+<span>New PO</span>
+</button>
+</div>
+</article>
+<!-- Card 3: Apex Cycle Components & Gears -->
+<article class="supplier-item flex flex-col bg-surface-container-lowest rounded-xl p-4 shadow-sm transition-all duration-200" data-category="components" data-name="apex cycle components &amp; gears pune sram rockshox wellgo pedals">
+<div class="flex items-start justify-between gap-space-xs mb-2">
+<div class="flex items-start gap-3">
+<div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center shrink-0 text-primary">
+<span class="material-symbols-outlined text-[28px]">precision_manufacturing</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5 flex-wrap">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Apex Cycle Components</h2>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">Regional Hub</span>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant mt-0.5">
+<span class="material-symbols-outlined text-[16px] text-primary">location_on</span>
+<span class="font-body-sm text-body-sm">Pune, Maharashtra</span>
+</div>
+</div>
+</div>
+<button aria-label="More options" class="w-9 h-9 flex items-center justify-center rounded-full text-secondary hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+<!-- Key Authorized Brands -->
+<div class="flex flex-wrap gap-1.5 my-2">
+<span class="px-2 py-0.5 rounded-md bg-surface-container text-on-surface font-label-sku text-label-sm">SRAM Eagle</span>
+<span class="px-2 py-0.5 rounded-md bg-surface-container text-on-surface font-label-sku text-label-sm">RockShox</span>
+<span class="px-2 py-0.5 rounded-md bg-surface-container text-on-surface font-label-sku text-label-sm">Wellgo Pedals</span>
+</div>
+<div class="flex items-center justify-between py-2 text-on-surface-variant font-body-sm text-body-sm bg-surface-container-low/60 px-3 rounded-lg my-1">
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-tertiary">inventory_2</span>
+<strong class="text-on-surface font-body-md text-body-md">94</strong> Drive-train Parts
+        </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Last PO: 12d ago</span>
+</div>
+<!-- Quick Action Ergonomic Zone -->
+<div class="grid grid-cols-2 gap-space-xs mt-3">
+<a class="flex items-center justify-center gap-2 h-12 rounded-xl bg-inverse-surface text-inverse-on-surface font-label-md text-label-md shadow-sm active:scale-95 transition-all" href="tel:+919763144550">
+<span class="material-symbols-outlined text-[18px]">call</span>
+<span>Call (+91 97631...)</span>
+</a>
+<button class="flex items-center justify-center gap-1.5 h-12 rounded-xl bg-primary-fixed text-on-primary-fixed-variant font-label-md text-label-md shadow-sm active:scale-95 hover:bg-primary-fixed-dim transition-all" onclick="openPoDrawer('Apex Cycle Components &amp; Gears', 'Pune')" type="button">
+<span class="material-symbols-outlined text-[18px]">post_add</span>
+<span>New PO</span>
+</button>
+</div>
+</article>
+<!-- Card 4: Deccan Wheels & Rim Supplies -->
+<article class="supplier-item flex flex-col bg-surface-container-lowest rounded-xl p-4 shadow-sm transition-all duration-200" data-category="components" data-name="deccan wheels &amp; rim supplies hyderabad alexrims dt swiss novatec spokes">
+<div class="flex items-start justify-between gap-space-xs mb-2">
+<div class="flex items-start gap-3">
+<div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center shrink-0 text-secondary">
+<span class="material-symbols-outlined text-[28px]">motion_photos_on</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5 flex-wrap">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Deccan Wheels &amp; Rims</h2>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">Spoke &amp; Hub Wholesaler</span>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant mt-0.5">
+<span class="material-symbols-outlined text-[16px] text-primary">location_on</span>
+<span class="font-body-sm text-body-sm">Hyderabad, Telangana</span>
+</div>
+</div>
+</div>
+<button aria-label="More options" class="w-9 h-9 flex items-center justify-center rounded-full text-secondary hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+<!-- Key Authorized Brands -->
+<div class="flex flex-wrap gap-1.5 my-2">
+<span class="px-2 py-0.5 rounded-md bg-surface-container text-on-surface font-label-sku text-label-sm">AlexRims</span>
+<span class="px-2 py-0.5 rounded-md bg-surface-container text-on-surface font-label-sku text-label-sm">DT Swiss Spokes</span>
+<span class="px-2 py-0.5 rounded-md bg-surface-container text-on-surface font-label-sku text-label-sm">Novatec Hubs</span>
+</div>
+<div class="flex items-center justify-between py-2 text-on-surface-variant font-body-sm text-body-sm bg-surface-container-low/60 px-3 rounded-lg my-1">
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-tertiary">inventory_2</span>
+<strong class="text-on-surface font-body-md text-body-md">35</strong> Wheelset &amp; Rim SKUs
+        </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Last PO: 21d ago</span>
+</div>
+<!-- Quick Action Ergonomic Zone -->
+<div class="grid grid-cols-2 gap-space-xs mt-3">
+<a class="flex items-center justify-center gap-2 h-12 rounded-xl bg-inverse-surface text-inverse-on-surface font-label-md text-label-md shadow-sm active:scale-95 transition-all" href="tel:+919988122334">
+<span class="material-symbols-outlined text-[18px]">call</span>
+<span>Call (+91 99881...)</span>
+</a>
+<button class="flex items-center justify-center gap-1.5 h-12 rounded-xl bg-primary-fixed text-on-primary-fixed-variant font-label-md text-label-md shadow-sm active:scale-95 hover:bg-primary-fixed-dim transition-all" onclick="openPoDrawer('Deccan Wheels &amp; Rim Supplies', 'Hyderabad')" type="button">
+<span class="material-symbols-outlined text-[18px]">post_add</span>
+<span>New PO</span>
+</button>
+</div>
+</article>
+</section>
+<!-- Empty Search State Fallback -->
+<div class="hidden flex-col items-center justify-center text-center p-8 bg-surface-container-lowest rounded-2xl shadow-sm my-4" id="supplier-empty-state">
+<div class="w-16 h-16 rounded-full bg-primary-fixed/40 flex items-center justify-center text-primary mb-3">
+<span class="material-symbols-outlined text-[32px]">person_search</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">No Vendor Matches Found</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1 max-w-xs">
+      Check your spelling or filter query. You can add a new distributor directly below.
+    </p>
+<button class="mt-4 px-4 py-2 rounded-full bg-surface-container text-on-surface font-label-md text-label-md hover:bg-surface-container-high transition-colors" id="reset-search-btn" type="button">
+      Clear Search Filters
+    </button>
+</div>
+<!-- Workshop Operational Prompt: Pending Invoices Notice -->
+<aside class="flex items-start gap-3 p-3.5 rounded-xl bg-secondary-container text-on-secondary-container my-1">
+<span class="material-symbols-outlined text-[22px] text-tertiary shrink-0 mt-0.5">account_balance_wallet</span>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-label-md font-semibold text-on-surface">Weekly Settlement Cycle</span>
+<span class="px-1.5 py-0.2 rounded bg-surface-container-lowest text-primary font-label-sku text-label-sm">Friday 5 PM</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+        PO #441 is currently en route. Once goods are received and inspected in Bay 2, payables balance auto-updates.
+      </p>
+</div>
+</aside>
+<!-- Floating Add Supplier Quick Trigger (Material 3 Dock Ergonomics) -->
+<div class="sticky bottom-4 right-0 flex justify-end pointer-events-none mt-2 pr-1 z-40">
+<button aria-label="Add New Cycle Parts Supplier" class="pointer-events-auto flex items-center gap-2 px-5 h-14 rounded-full bg-primary text-on-primary shadow-xl hover:bg-primary-container active:scale-95 transition-all transform select-none" id="open-add-supplier-btn" type="button">
+<span class="material-symbols-outlined text-[24px]">add_business</span>
+<span class="font-headline-sm text-body-md font-semibold tracking-wide">Add Supplier</span>
+</button>
+</div>
+<!-- Modal / Bottom Sheet: New Purchase Order Fast Drafter -->
+<div class="fixed inset-0 bg-inverse-surface/60 backdrop-blur-sm z-50 opacity-0 pointer-events-none transition-opacity duration-300 flex items-end justify-center" id="po-modal-overlay">
+<div class="w-full max-w-lg bg-surface-container-lowest rounded-t-2xl p-5 shadow-2xl transform translate-y-full transition-transform duration-300 flex flex-col gap-4 max-h-[751px] overflow-y-auto" id="po-modal-sheet">
+<!-- Drag handle -->
+<div class="w-12 h-1.5 rounded-full bg-surface-container-highest mx-auto"></div>
+<div class="flex items-center justify-between">
+<div>
+<span class="font-label-sm text-label-sm text-primary uppercase font-bold tracking-wider">Fast Reorder Flow</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface" id="modal-supplier-name">New Purchase Order</h3>
+<span class="font-body-sm text-body-sm text-on-surface-variant" id="modal-supplier-city">Mumbai Hub</span>
+</div>
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container" id="close-po-modal-btn" type="button">
+<span class="material-symbols-outlined text-[22px]">close</span>
+</button>
+</div>
+<div class="flex flex-col gap-3">
+<label class="flex flex-col gap-1">
+<span class="font-label-md text-label-md text-on-surface">Target Workshop Delivery Zone</span>
+<select class="h-11 px-3 bg-surface-container text-on-surface rounded-xl font-body-md text-body-md focus:outline-none">
+<option>Main Workshop - Bay A (Spares &amp; Cables)</option>
+<option>Retail Floor Display Stocks</option>
+<option>Rear Warehouse - Tyre Racks</option>
+</select>
+</label>
+<label class="flex flex-col gap-1">
+<span class="font-label-md text-label-md text-on-surface">Quick Item Request / Note</span>
+<input class="h-11 px-3 bg-surface-container text-on-surface rounded-xl font-body-md text-body-md focus:outline-none placeholder:text-on-surface-variant" placeholder="e.g., 20x Shimano Deore 12-speed chains, 10x 160mm rotors" type="text"/>
+</label>
+<div class="p-3 rounded-xl bg-surface-container-low flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-body-md text-body-md text-on-surface font-medium">Auto-dispatch WhatsApp Copy</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Sends formalized PO PDF to vendor manager</span>
+</div>
+<input checked="" class="w-5 h-5 accent-primary rounded cursor-pointer" type="checkbox"/>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-space-xs pt-2">
+<button class="h-12 rounded-xl bg-surface-container text-on-surface font-label-md text-label-md hover:bg-surface-container-high transition-colors" id="cancel-po-btn" type="button">
+          Cancel
+        </button>
+<button class="h-12 rounded-xl bg-primary text-on-primary font-label-md text-label-md shadow-md active:scale-95 transition-all" id="confirm-po-btn" type="button">
+          Generate PO Sheet
+        </button>
+</div>
+</div>
+</div>
+<!-- Interactive Client-side Script -->
+<script>
+    (function initSuppliersModule() {
+      const searchInput = document.getElementById('supplier-search-input');
+      const cards = Array.from(document.querySelectorAll('.supplier-item'));
+      const emptyState = document.getElementById('supplier-empty-state');
+      const resetBtn = document.getElementById('reset-search-btn');
+      const filterChips = Array.from(document.querySelectorAll('#filter-chip-tray .filter-chip'));
+      
+      const modalOverlay = document.getElementById('po-modal-overlay');
+      const modalSheet = document.getElementById('po-modal-sheet');
+      const modalSupplierName = document.getElementById('modal-supplier-name');
+      const modalSupplierCity = document.getElementById('modal-supplier-city');
+      const closeModalBtn = document.getElementById('close-po-modal-btn');
+      const cancelPoBtn = document.getElementById('cancel-po-btn');
+      const confirmPoBtn = document.getElementById('confirm-po-btn');
+      const addSupplierBtn = document.getElementById('open-add-supplier-btn');
+
+      let currentCategory = 'all';
+
+      function applyFilters() {
+        const query = (searchInput.value || '').trim().toLowerCase();
+        let visibleCount = 0;
+
+        cards.forEach(card => {
+          const nameData = card.getAttribute('data-name') || '';
+          const categoryData = card.getAttribute('data-category') || '';
+          
+          const matchesQuery = !query || nameData.includes(query);
+          const matchesCat = currentCategory === 'all' || categoryData.includes(currentCategory);
+
+          if (matchesQuery && matchesCat) {
+            card.classList.remove('hidden');
+            visibleCount++;
+          } else {
+            card.classList.add('hidden');
+          }
+        });
+
+        if (visibleCount === 0) {
+          emptyState.classList.remove('hidden');
+          emptyState.classList.add('flex');
+        } else {
+          emptyState.classList.add('hidden');
+          emptyState.classList.remove('flex');
+        }
+      }
+
+      if (searchInput) {
+        searchInput.addEventListener('input', applyFilters);
+      }
+
+      if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+          searchInput.value = '';
+          currentCategory = 'all';
+          updateActiveChip('all');
+          applyFilters();
+        });
+      }
+
+      function updateActiveChip(activeKey) {
+        filterChips.forEach(chip => {
+          const key = chip.getAttribute('data-filter');
+          if (key === activeKey) {
+            chip.classList.remove('bg-surface-container-lowest', 'text-on-surface-variant');
+            chip.classList.add('bg-inverse-surface', 'text-inverse-on-surface');
+          } else {
+            chip.classList.remove('bg-inverse-surface', 'text-inverse-on-surface');
+            chip.classList.add('bg-surface-container-lowest', 'text-on-surface-variant');
+          }
+        });
+      }
+
+      filterChips.forEach(chip => {
+        chip.addEventListener('click', () => {
+          currentCategory = chip.getAttribute('data-filter') || 'all';
+          updateActiveChip(currentCategory);
+          applyFilters();
+        });
+      });
+
+      // Quick PO Drawer Functions
+      window.openPoDrawer = function(supplierName, city) {
+        if (!modalOverlay || !modalSheet) return;
+        modalSupplierName.textContent = supplierName;
+        modalSupplierCity.textContent = city + ' Distribution Terminal';
+        modalOverlay.classList.remove('pointer-events-none', 'opacity-0');
+        modalOverlay.classList.add('opacity-100');
+        modalSheet.classList.remove('translate-y-full');
+      };
+
+      function closePoDrawer() {
+        if (!modalOverlay || !modalSheet) return;
+        modalOverlay.classList.add('opacity-0', 'pointer-events-none');
+        modalOverlay.classList.remove('opacity-100');
+        modalSheet.classList.add('translate-y-full');
+      }
+
+      if (closeModalBtn) closeModalBtn.addEventListener('click', closePoDrawer);
+      if (cancelPoBtn) cancelPoBtn.addEventListener('click', closePoDrawer);
+      if (modalOverlay) {
+        modalOverlay.addEventListener('click', (e) => {
+          if (e.target === modalOverlay) closePoDrawer();
+        });
+      }
+
+      if (confirmPoBtn) {
+        confirmPoBtn.addEventListener('click', () => {
+          confirmPoBtn.textContent = 'PO Created & Sent!';
+          confirmPoBtn.classList.add('bg-primary-container');
+          setTimeout(() => {
+            closePoDrawer();
+            confirmPoBtn.textContent = 'Generate PO Sheet';
+            confirmPoBtn.classList.remove('bg-primary-container');
+          }, 800);
+        });
+      }
+
+      if (addSupplierBtn) {
+        addSupplierBtn.addEventListener('click', () => {
+          alert('Add Supplier Form: Registering new cycle distributor to local cache.');
+        });
+      }
+    })();
+  </script>
+</div></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_-2px_12px_rgba(0,0,0,0.06)]" data-active-classes="text-primary font-semibold"><div class="relative flex items-center justify-between h-16 px-space-xs max-w-lg mx-auto"><a class="flex-1 h-full flex flex-col items-center justify-center gap-0.5 text-on-surface-variant hover:text-on-surface transition-colors" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[24px]">dashboard</span><span class="font-label-sm text-label-sm">Home</span></a><a aria-current="page" class="flex-1 h-full flex flex-col items-center justify-center gap-0.5 transition-colors text-primary font-semibold" data-path="inventory-catalog" href="#"><span class="material-symbols-outlined text-[24px]">inventory_2</span><span class="font-label-sm text-label-sm">Products</span></a><div class="relative flex-1 flex justify-center items-center pointer-events-none"><a aria-label="Scan Barcode" class="pointer-events-auto -mt-6 w-14 h-14 rounded-full bg-primary flex items-center justify-center text-on-primary shadow-[0_4px_12px_rgba(172,45,0,0.35)] active:scale-95 transition-all hover:bg-primary-container focus:outline-none" data-path="barcode-scanner" href="#"><span class="material-symbols-outlined text-[28px]">qr_code_scanner</span></a></div><a class="flex-1 h-full flex flex-col items-center justify-center gap-0.5 text-on-surface-variant hover:text-on-surface transition-colors" data-path="stock-operations" href="#"><span class="material-symbols-outlined text-[24px]">swap_vert</span><span class="font-label-sm text-label-sm">Stock</span></a><a class="flex-1 h-full flex flex-col items-center justify-center gap-0.5 text-on-surface-variant hover:text-on-surface transition-colors" data-path="inventory-reports" href="#"><span class="material-symbols-outlined text-[24px]">bar_chart</span><span class="font-label-sm text-label-sm">Reports</span></a></div></nav></body></html>

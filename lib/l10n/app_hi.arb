@@ -1,0 +1,33 @@
+{
+  "@@locale": "hi",
+  "loginTitle": "GearStock",
+  "loginSubtitle": "साइकिल वर्कशॉप और इन्वेंटरी प्रबंधन",
+  "emailLabel": "वर्कशॉप ईमेल",
+  "emailHint": "staff@gearstock.in",
+  "passwordLabel": "मैकेनिक पासवर्ड",
+  "passwordHint": "••••••••••••",
+  "forgotPassword": "भूल गए?",
+  "loginButton": "शॉप में लॉगिन करें",
+  "helpText": "सहायता चाहिए? शॉप एडमिन से संपर्क करें",
+  "serverStatus": "वर्कशॉप सर्वर लाइव",
+  "appVersion": "GearStock OS v3.4.1",
+  "errorEmailRequired": "ईमेल आवश्यक है",
+  "errorEmailInvalid": "एक वैध ईमेल पता दर्ज करें",
+  "errorPasswordRequired": "पासवर्ड आवश्यक है",
+  "errorPasswordTooShort": "पासवर्ड कम से कम 6 अक्षरों का होना चाहिए",
+  "errorWrongCredentials": "गलत ईमेल या पासवर्ड। कृपया पुनः प्रयास करें।",
+  "errorNoInternet": "कोई इंटरनेट कनेक्शन नहीं। अपना नेटवर्क जाँचें और पुनः प्रयास करें।",
+  "errorRateLimited": "बहुत अधिक लॉगिन प्रयास हुए। {seconds} सेकंड प्रतीक्षा करें और फिर प्रयास करें।",
+  "@errorRateLimited": {
+    "placeholders": {
+      "seconds": { "type": "int" }
+    }
+  },
+  "errorServer": "सर्वर त्रुटि: {message}",
+  "@errorServer": {
+    "placeholders": {
+      "message": { "type": "String" }
+    }
+  },
+  "errorGeneric": "कुछ गलत हो गया। कृपया पुनः प्रयास करें।"
+}

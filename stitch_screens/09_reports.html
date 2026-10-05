@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><title>GearStock</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@600&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;background-color:#f9f9f9;-webkit-tap-highlight-color:transparent;}body{overscroll-behavior-y:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "inverse-surface": "#2f3131", "primary-fixed": "#ffdbd1", "inverse-on-surface": "#f0f1f1", "on-tertiary-fixed": "#311300", "primary-container": "#d63c05", "on-secondary-fixed": "#1b1c1c", "on-primary-container": "#fffbff", "surface-container-high": "#e8e8e8", "surface-bright": "#f9f9f9", "surface-container": "#eeeeee", "primary": "#ac2d00", "on-primary-fixed-variant": "#872100", "on-primary": "#ffffff", "secondary-fixed-dim": "#c8c6c5", "surface-container-lowest": "#ffffff", "surface-container-low": "#f3f3f3", "on-tertiary-fixed-variant": "#723600", "secondary-fixed": "#e5e2e1", "primary-fixed-dim": "#ffb5a0", "on-tertiary": "#ffffff", "surface": "#f9f9f9", "inverse-primary": "#ffb5a0", "on-secondary-fixed-variant": "#474746", "secondary": "#5f5e5e", "on-tertiary-container": "#fffbff", "on-surface-variant": "#5b4039", "tertiary": "#924700", "surface-tint": "#b02e00", "surface-container-highest": "#e2e2e2", "on-surface": "#1a1c1c", "background": "#f9f9f9", "surface-variant": "#e2e2e2", "error-container": "#ffdad6", "on-secondary": "#ffffff", "secondary-container": "#e2dfde", "on-background": "#1a1c1c", "tertiary-fixed": "#ffdcc6", "on-error-container": "#93000a", "outline": "#8f7067", "on-secondary-container": "#636262", "tertiary-container": "#b75b00", "tertiary-fixed-dim": "#ffb786", "on-error": "#ffffff", "error": "#ba1a1a", "on-primary-fixed": "#3b0900", "surface-dim": "#dadada", "outline-variant": "#e4beb4" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "space-xl": "2rem", "gutter": "1rem", "margin": "1rem", "space-md": "1rem", "margin-tablet": "1.5rem", "space-xs": "0.25rem", "space-sm": "0.5rem", "space-lg": "1.5rem" }, fontFamily: { "headline-md": ["Inter"], "label-sku": ["JetBrains Mono"], "display-lg": ["Inter"], "body-lg": ["Inter"], "body-md": ["Inter"], "body-sm": ["Inter"], "label-md": ["Inter"], "headline-lg": ["Inter"], "label-sm": ["Inter"], "numeric-metric": ["Inter"], "headline-sm": ["Inter"] }, fontSize: { "headline-md": ["22px", { lineHeight: "28px", fontWeight: "600" }], "label-sku": ["12px", { lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "600" }], "display-lg": ["40px", { lineHeight: "48px", letterSpacing: "-0.02em", fontWeight: "700" }], "body-lg": ["16px", { lineHeight: "24px", fontWeight: "400" }], "body-md": ["14px", { lineHeight: "20px", fontWeight: "400" }], "body-sm": ["12px", { lineHeight: "16px", fontWeight: "400" }], "label-md": ["12px", { lineHeight: "16px", letterSpacing: "0.02em", fontWeight: "600" }], "headline-lg": ["28px", { lineHeight: "36px", letterSpacing: "-0.01em", fontWeight: "700" }], "label-sm": ["11px", { lineHeight: "14px", letterSpacing: "0.03em", fontWeight: "500" }], "numeric-metric": ["24px", { lineHeight: "28px", letterSpacing: "-0.02em", fontWeight: "700" }], "headline-sm": ["18px", { lineHeight: "24px", fontWeight: "600" }] } } } };</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface text-on-surface antialiased flex flex-col min-h-screen selection:bg-primary-fixed selection:text-on-primary-fixed"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-margin flex items-center justify-between"><div class="flex items-center gap-space-sm"><img alt="GearStock Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1Vrcm0cu_bJyLsSm0QnP4_RD5PRvvTEevVqKyo6xSp8dZhJtob08BNm7dbw3eetkxKqzmi0b0g6-1KcSY65x91SZJZ5m4XtR_Ie5ozmr1H3LZgSXJahAvsAWRbelJboQRNfZ1RxBKYHi1YghbDEmrioYsDkRoJF3N3VVd6qbHZG9Mix_VL2R_SPE_NkAHs8lijciYr_u1AFuWybYWDLLU6LN48-6Aebx8mY5bhi2rcDG-Qgh8t-NHjoC4wu"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm tracking-tight text-on-surface leading-none">GearStock</span><span class="font-label-sm text-label-sm text-on-surface-variant leading-tight">Inventory Reports</span></div></div><div class="flex items-center gap-space-xs"><button aria-label="Quick Search &amp; Status" class="w-11 h-11 flex items-center justify-center rounded-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">search</span></button><button aria-label="Profile" class="w-11 h-11 flex items-center justify-center rounded-full" type="button"><img alt="Profile" class="w-8 h-8 rounded-full object-cover shadow-[0_1px_4px_rgba(0,0,0,0.12)]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBl3qS0qxohVjnwB0X_NKiHqv6-a6pnRnnPR4qYkBqQfb_tDoNJp_NqVYRjZIBQK7o49vsQHKrT9CRSpn68Xu-Rb4nY_pKnmYENWAMZxV9gvFjzme9qsLkJMg6xR7jWM3CqGORo_gdty0G-7iFshZRJmk9W02ZFd5cp9Scebzax19rkqNKY9bMsKY0L5HtRR-Qtdr4eHew7qxWzvMqZ5q72bDoFC3XMp1LnB1v6hW4UQhHPgXoMfvoq6Q"/></button></div></div></header><main class="flex-1 flex flex-col relative w-full pt-16 pb-28 px-margin bg-surface"><div class="flex flex-col w-full gap-space-md">
+<!-- Page Header & Active Period Sub-label -->
+<div class="flex items-center justify-between mt-1">
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-on-surface tracking-tight">Inventory &amp; Sales Reports</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px] text-primary">storefront</span>
+        GearStock Workshop • Pune Central
+      </span>
+</div>
+<button aria-label="Select Workshop Calendar" class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface hover:bg-surface-container-highest transition-colors active:scale-95 shadow-sm" type="button">
+<span class="material-symbols-outlined text-[20px]">calendar_month</span>
+</button>
+</div>
+<!-- Date Range Filter Chips (Horizontal Scrollable) -->
+<div class="flex items-center gap-2 overflow-x-auto pb-1 -mx-margin px-margin scrollbar-none">
+<button class="whitespace-nowrap px-3.5 py-1.5 rounded-full font-label-md text-label-md bg-surface-container-high text-on-surface-variant hover:bg-surface-variant transition-colors active:scale-95" type="button">
+      Today
+    </button>
+<button class="whitespace-nowrap px-3.5 py-1.5 rounded-full font-label-md text-label-md bg-surface-container-high text-on-surface-variant hover:bg-surface-variant transition-colors active:scale-95" type="button">
+      This Week
+    </button>
+<button class="whitespace-nowrap px-3.5 py-1.5 rounded-full font-label-md text-label-md bg-primary text-on-primary shadow-sm flex items-center gap-1 active:scale-95" type="button">
+<span class="w-1.5 h-1.5 rounded-full bg-on-primary animate-pulse"></span>
+      This Month (Oct 2024)
+    </button>
+<button class="whitespace-nowrap px-3.5 py-1.5 rounded-full font-label-md text-label-md bg-surface-container-high text-on-surface-variant hover:bg-surface-variant transition-colors active:scale-95" type="button">
+      Quarter
+    </button>
+<button class="whitespace-nowrap px-3.5 py-1.5 rounded-full font-label-md text-label-md bg-surface-container-lowest text-on-surface shadow-sm flex items-center gap-1.5 active:scale-95" type="button">
+<span class="material-symbols-outlined text-[16px] text-tertiary">date_range</span>
+      Custom
+    </button>
+</div>
+<!-- Key Metrics (2x2 Grid) -->
+<div class="grid grid-cols-2 gap-space-sm">
+<!-- Total Sales -->
+<div class="bg-surface-container-lowest rounded-xl p-3.5 shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Total Sales</span>
+<div class="w-7 h-7 rounded-lg bg-primary-fixed flex items-center justify-center text-on-primary-fixed">
+<span class="material-symbols-outlined text-[16px]">point_of_sale</span>
+</div>
+</div>
+<div>
+<div class="font-numeric-metric text-numeric-metric text-on-surface leading-none tracking-tight">₹3,42,800</div>
+<div class="flex items-center gap-1 mt-1 text-[#2E7D32] font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[15px]">trending_up</span>
+<span>+12.4% vs last mo</span>
+</div>
+</div>
+</div>
+<!-- Total Purchases (Landed) -->
+<div class="bg-surface-container-lowest rounded-xl p-3.5 shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Purchases (Landed)</span>
+<div class="w-7 h-7 rounded-lg bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined text-[16px]">local_shipping</span>
+</div>
+</div>
+<div>
+<div class="font-numeric-metric text-numeric-metric text-on-surface leading-none tracking-tight">₹2,10,500</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-1 block">8 Shipments received</span>
+</div>
+</div>
+<!-- Gross Profit -->
+<div class="bg-surface-container-lowest rounded-xl p-3.5 shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Gross Profit</span>
+<div class="w-7 h-7 rounded-lg bg-tertiary-fixed flex items-center justify-center text-on-tertiary-fixed">
+<span class="material-symbols-outlined text-[16px]">account_balance_wallet</span>
+</div>
+</div>
+<div>
+<div class="font-numeric-metric text-numeric-metric text-on-surface leading-none tracking-tight">₹1,32,300</div>
+<div class="mt-1 flex items-center gap-1 font-label-sm text-label-sm text-tertiary">
+<span class="px-1.5 py-0.5 rounded-full bg-tertiary-fixed font-semibold">Margin 38.6%</span>
+</div>
+</div>
+</div>
+<!-- Stock Turnover -->
+<div class="bg-surface-container-lowest rounded-xl p-3.5 shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Stock Turnover</span>
+<div class="w-7 h-7 rounded-lg bg-surface-container-high flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-[16px]">autorenew</span>
+</div>
+</div>
+<div>
+<div class="font-numeric-metric text-numeric-metric text-on-surface leading-none tracking-tight">4.8x</div>
+<div class="flex items-center gap-1 mt-1 text-[#2E7D32] font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">speed</span>
+<span>Optimal target</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Comparison Bar Chart Card -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface">Sales vs Purchases</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">October 2024 Breakdown</span>
+</div>
+<!-- Legend -->
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-1">
+<span class="w-2.5 h-2.5 rounded-sm bg-primary"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Sales</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="w-2.5 h-2.5 rounded-sm bg-inverse-surface"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Buy</span>
+</div>
+</div>
+</div>
+<!-- Chart Canvas -->
+<div class="pt-6 pb-1 bg-surface-container-low rounded-xl px-2.5">
+<div class="h-44 flex items-end justify-between gap-2.5 pt-2 px-1">
+<!-- Week 1 -->
+<div class="flex-1 flex flex-col items-center h-full justify-end group">
+<div class="flex items-end justify-center gap-1.5 w-full h-full pb-1">
+<!-- Sales Bar -->
+<div class="w-full max-w-[18px] bg-primary rounded-t-sm flex flex-col justify-start items-center relative transition-all duration-300 hover:brightness-110" style="height: 68%;">
+<span class="font-label-sku text-[9px] text-on-primary-fixed-variant -top-4 absolute whitespace-nowrap">72k</span>
+</div>
+<!-- Purchases Bar -->
+<div class="w-full max-w-[18px] bg-inverse-surface rounded-t-sm flex flex-col justify-start items-center relative transition-all duration-300 hover:brightness-110" style="height: 52%;">
+<span class="font-label-sku text-[9px] text-on-surface-variant -top-4 absolute whitespace-nowrap">55k</span>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-2">W1</span>
+</div>
+<!-- Week 2 -->
+<div class="flex-1 flex flex-col items-center h-full justify-end group">
+<div class="flex items-end justify-center gap-1.5 w-full h-full pb-1">
+<!-- Sales Bar -->
+<div class="w-full max-w-[18px] bg-primary rounded-t-sm flex flex-col justify-start items-center relative transition-all duration-300 hover:brightness-110" style="height: 82%;">
+<span class="font-label-sku text-[9px] text-on-primary-fixed-variant -top-4 absolute whitespace-nowrap">89k</span>
+</div>
+<!-- Purchases Bar -->
+<div class="w-full max-w-[18px] bg-inverse-surface rounded-t-sm flex flex-col justify-start items-center relative transition-all duration-300 hover:brightness-110" style="height: 40%;">
+<span class="font-label-sku text-[9px] text-on-surface-variant -top-4 absolute whitespace-nowrap">42k</span>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-2">W2</span>
+</div>
+<!-- Week 3 -->
+<div class="flex-1 flex flex-col items-center h-full justify-end group">
+<div class="flex items-end justify-center gap-1.5 w-full h-full pb-1">
+<!-- Sales Bar -->
+<div class="w-full max-w-[18px] bg-primary rounded-t-sm flex flex-col justify-start items-center relative transition-all duration-300 hover:brightness-110" style="height: 94%;">
+<span class="font-label-sku text-[9px] text-on-primary-fixed-variant -top-4 absolute whitespace-nowrap">102k</span>
+</div>
+<!-- Purchases Bar -->
+<div class="w-full max-w-[18px] bg-inverse-surface rounded-t-sm flex flex-col justify-start items-center relative transition-all duration-300 hover:brightness-110" style="height: 62%;">
+<span class="font-label-sku text-[9px] text-on-surface-variant -top-4 absolute whitespace-nowrap">65k</span>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-2">W3</span>
+</div>
+<!-- Week 4 -->
+<div class="flex-1 flex flex-col items-center h-full justify-end group">
+<div class="flex items-end justify-center gap-1.5 w-full h-full pb-1">
+<!-- Sales Bar -->
+<div class="w-full max-w-[18px] bg-primary rounded-t-sm flex flex-col justify-start items-center relative transition-all duration-300 hover:brightness-110" style="height: 74%;">
+<span class="font-label-sku text-[9px] text-on-primary-fixed-variant -top-4 absolute whitespace-nowrap">79k</span>
+</div>
+<!-- Purchases Bar -->
+<div class="w-full max-w-[18px] bg-inverse-surface rounded-t-sm flex flex-col justify-start items-center relative transition-all duration-300 hover:brightness-110" style="height: 45%;">
+<span class="font-label-sku text-[9px] text-on-surface-variant -top-4 absolute whitespace-nowrap">48k</span>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-2">W4</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Top Selling Parts Section -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">local_fire_department</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Top Selling Parts</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">By Volume</span>
+</div>
+<div class="flex flex-col gap-2.5">
+<!-- Item #1 -->
+<div class="flex items-center gap-3 p-2 rounded-lg bg-surface-container-low transition-colors hover:bg-surface-container">
+<div class="w-7 h-7 rounded-full bg-primary text-on-primary flex items-center justify-center font-label-md text-label-md font-bold shrink-0">
+          1
+        </div>
+<img class="w-12 h-12 rounded-lg object-cover bg-surface-container shrink-0" data-alt="Close-up of Shimano B05S resin disc brake pads on clean workshop bench, high precision cycling component with orange packaging details, studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB82AQJzZbl44QgvRXl1zvsK6DrB3Q_kcPBYMgDZRZC4Vc33ietVQ-Lm9heiu_HOkUL9nQ9lywrwzZH19CmcZgskm4dnQPAiIXC1W-y5kQ8lUmlcuoqNLzoFZ8R2HjWzkpZ3uigAY-F0hoARvxejKCq5ALauVHPYNpPQ43hFBx7gfcB_ZAXiGNPelhDFSbEgzjGNQVbAIFxiqWIbVTLSbQ5YP3U48FHkwBcl0h1AMxunBQbieXLaq6Ftg"/>
+<div class="flex-1 min-w-0">
+<div class="font-body-md text-body-md font-semibold text-on-surface truncate">Shimano B05S Resin Pads</div>
+<div class="font-label-sku text-label-sku text-on-surface-variant truncate">64 units sold • SKU: SHI-BP-B05S</div>
+</div>
+<div class="text-right shrink-0">
+<div class="font-numeric-metric text-body-lg font-bold text-on-surface">₹48,000</div>
+<span class="font-label-sm text-label-sm text-[#2E7D32] font-semibold">High Vel</span>
+</div>
+</div>
+<!-- Item #2 -->
+<div class="flex items-center gap-3 p-2 rounded-lg bg-surface-container-low transition-colors hover:bg-surface-container">
+<div class="w-7 h-7 rounded-full bg-secondary text-on-secondary flex items-center justify-center font-label-md text-label-md font-bold shrink-0">
+          2
+        </div>
+<img class="w-12 h-12 rounded-lg object-cover bg-surface-container shrink-0" data-alt="High quality KMC 9-speed bicycle chain laid out on an industrial steel surface with metallic sheen, warm studio lighting and bike maintenance tools nearby" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZKauTJbUdfNVsT6a0yNyzgj-ir8wk1LG0u-uAM7LhX9vEn0nkPMUuLRGlv7Wehtv_ftUXmCNij0kJ8rLagl1EPPmGa7HQji3ZlBsXlErScX6C3B2qmHAsACd9WELt4wcIAIjWMrrLy6hBIWNZbt-2XQy5Vlqt_gYhmKpIpy5gBzuQKsiIVeOO3JIFHiZBH4o9iwij7MQgJ8JlQ6y9Amgp4xQJObL_ds-sz0YlLoKDG7_aBTzErbidBw"/>
+<div class="flex-1 min-w-0">
+<div class="font-body-md text-body-md font-semibold text-on-surface truncate">KMC X9 9-Speed Chain</div>
+<div class="font-label-sku text-label-sku text-on-surface-variant truncate">38 units sold • SKU: KMC-CHN-X9</div>
+</div>
+<div class="text-right shrink-0">
+<div class="font-numeric-metric text-body-lg font-bold text-on-surface">₹55,100</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">Chain kit</span>
+</div>
+</div>
+<!-- Item #3 -->
+<div class="flex items-center gap-3 p-2 rounded-lg bg-surface-container-low transition-colors hover:bg-surface-container">
+<div class="w-7 h-7 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-label-md text-label-md font-bold shrink-0">
+          3
+        </div>
+<img class="w-12 h-12 rounded-lg object-cover bg-surface-container shrink-0" data-alt="Continental Tour 28 bicycle inner tube in yellow and black carton on clean workshop workbench, precision cycling tire accessories, neutral clean lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBx08Wjp0EFgoplG2y2Nyt5yAJQFrapEjmRGRuHxbQMAhDFjOcGWMP2hl1wbau_J4ZrU0b0ipIeeK1jv1UvlNb15fj8vjeovucBFsHE_dTbvjbOC91tEn5gNl2OdpGvBTbJF6PEcfdzJCl-RjteqAnwB2rXt8jfsIl05sCER0GfSVyoQ2cfuQyRddi6xs-TPDOE28PNzm0IE6gcSg5QPh3nwPyF1zMwfET7vwjTX_qmwhEz6jS-TpkFmQ"/>
+<div class="flex-1 min-w-0">
+<div class="font-body-md text-body-md font-semibold text-on-surface truncate">Continental Tour 28 Tube</div>
+<div class="font-label-sku text-label-sku text-on-surface-variant truncate">35 units sold • SKU: CON-TB-28</div>
+</div>
+<div class="text-right shrink-0">
+<div class="font-numeric-metric text-body-lg font-bold text-on-surface">₹14,000</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">Consumable</span>
+</div>
+</div>
+<!-- Item #4 -->
+<div class="flex items-center gap-3 p-2 rounded-lg bg-surface-container-low transition-colors hover:bg-surface-container">
+<div class="w-7 h-7 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-label-md text-label-md font-bold shrink-0">
+          4
+        </div>
+<img class="w-12 h-12 rounded-lg object-cover bg-surface-container shrink-0" data-alt="Wellgo black alloy mountain bike platform pedals with grip pins, durable industrial bicycle parts on wooden mechanic counter, direct studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1IvbI7mPwbvLUj7V1AovgUGhZEX_OCxS3QxsmrNJ6Mm-Ve0FY47EqGlA3nk4AVtFD89Obvr1H2c070n2tMQkJS4B_O8qyayE_Ufw0HedP4qeHVnuIoCuu1XUyPZ-MZqk1gskJ9EHwBzjg3CmH026ofXB2yl09J792DuN-nKZqvU7q3mZL1w1gqg8hIe3Z-nRjqBCrbWFrD5UN1Gusnmfcs85cLoqM7fkimJz3jdoEd7TxFzIolma1vA"/>
+<div class="flex-1 min-w-0">
+<div class="font-body-md text-body-md font-semibold text-on-surface truncate">Wellgo Platform Pedals</div>
+<div class="font-label-sku text-label-sku text-on-surface-variant truncate">22 units sold • SKU: WLG-PD-AL7</div>
+</div>
+<div class="text-right shrink-0">
+<div class="font-numeric-metric text-body-lg font-bold text-on-surface">₹31,900</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">Hardware</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Slow Moving Stock Alert Card -->
+<div class="bg-error-container text-on-error-container rounded-xl p-4 shadow-sm flex flex-col gap-2.5">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-error text-[22px]">warning</span>
+<span class="font-headline-sm text-headline-sm text-on-error-container">Slow Moving Stock</span>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-[#ba1a1a]/15 text-error font-label-sm text-label-sm font-semibold">
+        &gt; 60 Days
+      </span>
+</div>
+<div class="flex items-center gap-3 bg-surface-container-lowest/80 p-2.5 rounded-lg backdrop-blur-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant shrink-0">
+<span class="material-symbols-outlined text-[20px]">layers</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="font-body-md text-body-md font-semibold text-on-surface truncate">SRAM GX 11-Speed Cassette</div>
+<div class="font-label-sku text-label-sku text-on-surface-variant">8 in stock • Last sold 68d ago</div>
+</div>
+<div class="text-right shrink-0">
+<div class="font-numeric-metric text-body-md font-bold text-error">₹32,000</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Locked cap</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-1">
+<span class="font-body-sm text-body-sm text-on-error-container">Recommended: Liquidate via seasonal clearance promo.</span>
+<button class="inline-flex items-center gap-1 font-label-md text-label-md font-bold text-error hover:underline active:scale-95 transition-transform" type="button">
+        Create Clearance
+        <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Bottom Action Button: Export Full Report -->
+<div class="pt-1 pb-2">
+<button class="w-full h-12 bg-surface-container-highest hover:bg-surface-variant text-on-surface rounded-xl font-label-md text-label-md font-semibold flex items-center justify-center gap-2 shadow-sm active:scale-[0.98] transition-all" id="exportBtn" type="button">
+<span class="material-symbols-outlined text-[20px] text-primary">download</span>
+<span>Export Full Report (CSV / Excel)</span>
+</button>
+</div>
+</div>
+<script>
+  // Simple micro-interaction for Export button feedback
+  document.getElementById('exportBtn')?.addEventListener('click', function() {
+    const originalText = this.innerHTML;
+    this.innerHTML = '<span class="material-symbols-outlined text-[20px] animate-spin text-primary">sync</span><span>Preparing Excel Download...</span>';
+    setTimeout(() => {
+      this.innerHTML = '<span class="material-symbols-outlined text-[20px] text-[#2E7D32]">check_circle</span><span>Report Ready &bull; Downloaded</span>';
+      setTimeout(() => {
+        this.innerHTML = originalText;
+      }, 2500);
+    }, 1200);
+  });
+</script></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_-2px_12px_rgba(0,0,0,0.06)]" data-active-classes="text-primary font-semibold"><div class="relative flex items-center justify-between h-16 px-space-xs max-w-lg mx-auto"><a class="flex-1 h-full flex flex-col items-center justify-center gap-0.5 text-on-surface-variant hover:text-on-surface transition-colors" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[24px]">dashboard</span><span class="font-label-sm text-label-sm">Home</span></a><a class="flex-1 h-full flex flex-col items-center justify-center gap-0.5 text-on-surface-variant hover:text-on-surface transition-colors" data-path="inventory-catalog" href="#"><span class="material-symbols-outlined text-[24px]">inventory_2</span><span class="font-label-sm text-label-sm">Products</span></a><div class="relative flex-1 flex justify-center items-center pointer-events-none"><a aria-label="Scan Barcode" class="pointer-events-auto -mt-6 w-14 h-14 rounded-full bg-primary flex items-center justify-center text-on-primary shadow-[0_4px_12px_rgba(172,45,0,0.35)] active:scale-95 transition-all hover:bg-primary-container focus:outline-none" data-path="barcode-scanner" href="#"><span class="material-symbols-outlined text-[28px]">qr_code_scanner</span></a></div><a class="flex-1 h-full flex flex-col items-center justify-center gap-0.5 text-on-surface-variant hover:text-on-surface transition-colors" data-path="stock-operations" href="#"><span class="material-symbols-outlined text-[24px]">swap_vert</span><span class="font-label-sm text-label-sm">Stock</span></a><a aria-current="page" class="flex-1 h-full flex flex-col items-center justify-center gap-0.5 transition-colors text-primary font-semibold" data-path="inventory-reports" href="#"><span class="material-symbols-outlined text-[24px]">bar_chart</span><span class="font-label-sm text-label-sm">Reports</span></a></div></nav></body></html>

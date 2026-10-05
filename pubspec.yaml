@@ -1,0 +1,80 @@
+name: gearstock
+description: "A new Flutter project."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.11.5
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+
+  # ── State management ───────────────────────────────────────────────────
+  flutter_riverpod: ^2.6.1
+  riverpod_annotation: ^2.6.1
+
+  # ── Navigation ─────────────────────────────────────────────────────────
+  go_router: ^14.6.0
+
+  # ── Local database (source of truth) ──────────────────────────────────
+  drift: ^2.22.1
+  drift_flutter: ^0.2.4
+  sqlite3_flutter_libs: ^0.5.29
+
+  # ── Backend ────────────────────────────────────────────────────────────
+  supabase_flutter: ^2.8.4
+  uuid: ^4.5.1
+
+  # ── Config / secrets ──────────────────────────────────────────────────
+  flutter_dotenv: ^5.2.1
+
+  # ── Barcode ────────────────────────────────────────────────────────────
+  mobile_scanner: ^6.0.5
+  permission_handler: ^11.4.0
+
+  # ── Images ─────────────────────────────────────────────────────────────
+  image_picker: ^1.1.2
+  flutter_image_compress: ^2.3.0
+  cached_network_image: ^3.4.1
+  path_provider: ^2.1.5
+
+  # ── Charts / sharing ───────────────────────────────────────────────────
+  fl_chart: ^0.69.0
+  csv: ^6.0.0
+  share_plus: ^10.1.2
+  url_launcher: ^6.3.1
+
+  # ── i18n ───────────────────────────────────────────────────────────────
+  intl: ^0.20.2
+  flutter_localizations:
+    sdk: flutter
+
+  # ── Connectivity / error reporting ────────────────────────────────────
+  connectivity_plus: ^6.1.3
+  sentry_flutter: ^9.30.1
+
+  # ── Fonts ──────────────────────────────────────────────────────────────
+  google_fonts: ^6.2.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  integration_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  build_runner: ^2.4.13
+  riverpod_generator: ^2.6.1
+  drift_dev: ^2.22.1
+  mocktail: ^1.0.4
+
+flutter:
+  uses-material-design: true
+  generate: true
+
+  assets:
+    - assets/images/
+    - .env

@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_stack" name="shell-type"/><title>GearStock</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@600&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;background-color:#f9f9f9;-webkit-tap-highlight-color:transparent;}body{overscroll-behavior-y:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "inverse-surface": "#2f3131", "primary-fixed": "#ffdbd1", "inverse-on-surface": "#f0f1f1", "on-tertiary-fixed": "#311300", "primary-container": "#d63c05", "on-secondary-fixed": "#1b1c1c", "on-primary-container": "#fffbff", "surface-container-high": "#e8e8e8", "surface-bright": "#f9f9f9", "surface-container": "#eeeeee", "primary": "#ac2d00", "on-primary-fixed-variant": "#872100", "on-primary": "#ffffff", "secondary-fixed-dim": "#c8c6c5", "surface-container-lowest": "#ffffff", "surface-container-low": "#f3f3f3", "on-tertiary-fixed-variant": "#723600", "secondary-fixed": "#e5e2e1", "primary-fixed-dim": "#ffb5a0", "on-tertiary": "#ffffff", "surface": "#f9f9f9", "inverse-primary": "#ffb5a0", "on-secondary-fixed-variant": "#474746", "secondary": "#5f5e5e", "on-tertiary-container": "#fffbff", "on-surface-variant": "#5b4039", "tertiary": "#924700", "surface-tint": "#b02e00", "surface-container-highest": "#e2e2e2", "on-surface": "#1a1c1c", "background": "#f9f9f9", "surface-variant": "#e2e2e2", "error-container": "#ffdad6", "on-secondary": "#ffffff", "secondary-container": "#e2dfde", "on-background": "#1a1c1c", "tertiary-fixed": "#ffdcc6", "on-error-container": "#93000a", "outline": "#8f7067", "on-secondary-container": "#636262", "tertiary-container": "#b75b00", "tertiary-fixed-dim": "#ffb786", "on-error": "#ffffff", "error": "#ba1a1a", "on-primary-fixed": "#3b0900", "surface-dim": "#dadada", "outline-variant": "#e4beb4" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "space-xl": "2rem", "gutter": "1rem", "margin": "1rem", "space-md": "1rem", "margin-tablet": "1.5rem", "space-xs": "0.25rem", "space-sm": "0.5rem", "space-lg": "1.5rem" }, fontFamily: { "headline-md": ["Inter"], "label-sku": ["JetBrains Mono"], "display-lg": ["Inter"], "body-lg": ["Inter"], "body-md": ["Inter"], "body-sm": ["Inter"], "label-md": ["Inter"], "headline-lg": ["Inter"], "label-sm": ["Inter"], "numeric-metric": ["Inter"], "headline-sm": ["Inter"] }, fontSize: { "headline-md": ["22px", { lineHeight: "28px", fontWeight: "600" }], "label-sku": ["12px", { lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "600" }], "display-lg": ["40px", { lineHeight: "48px", letterSpacing: "-0.02em", fontWeight: "700" }], "body-lg": ["16px", { lineHeight: "24px", fontWeight: "400" }], "body-md": ["14px", { lineHeight: "20px", fontWeight: "400" }], "body-sm": ["12px", { lineHeight: "16px", fontWeight: "400" }], "label-md": ["12px", { lineHeight: "16px", letterSpacing: "0.02em", fontWeight: "600" }], "headline-lg": ["28px", { lineHeight: "36px", letterSpacing: "-0.01em", fontWeight: "700" }], "label-sm": ["11px", { lineHeight: "14px", letterSpacing: "0.03em", fontWeight: "500" }], "numeric-metric": ["24px", { lineHeight: "28px", letterSpacing: "-0.02em", fontWeight: "700" }], "headline-sm": ["18px", { lineHeight: "24px", fontWeight: "600" }] } } } };</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface text-on-surface antialiased flex flex-col min-h-screen selection:bg-primary-fixed selection:text-on-primary-fixed"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-margin flex items-center justify-between"><div class="flex items-center gap-space-xs"><button aria-label="Go Back" class="w-11 h-11 flex items-center justify-center rounded-full text-on-surface hover:bg-surface-container-high transition-colors" onclick="history.back()" type="button"><span class="material-symbols-outlined text-[24px]">arrow_back</span></button><div class="flex items-center gap-space-sm"><img alt="GearStock Logo" class="h-7 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1Vrcm0cu_bJyLsSm0QnP4_RD5PRvvTEevVqKyo6xSp8dZhJtob08BNm7dbw3eetkxKqzmi0b0g6-1KcSY65x91SZJZ5m4XtR_Ie5ozmr1H3LZgSXJahAvsAWRbelJboQRNfZ1RxBKYHi1YghbDEmrioYsDkRoJF3N3VVd6qbHZG9Mix_VL2R_SPE_NkAHs8lijciYr_u1AFuWybYWDLLU6LN48-6Aebx8mY5bhi2rcDG-Qgh8t-NHjoC4wu"/><h1 class="font-headline-sm text-headline-sm text-on-surface truncate">Product Details</h1></div></div><div class="flex items-center"><button aria-label="Profile" class="w-11 h-11 flex items-center justify-center rounded-full" type="button"><img alt="Profile" class="w-8 h-8 rounded-full object-cover shadow-[0_1px_4px_rgba(0,0,0,0.12)]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBl3qS0qxohVjnwB0X_NKiHqv6-a6pnRnnPR4qYkBqQfb_tDoNJp_NqVYRjZIBQK7o49vsQHKrT9CRSpn68Xu-Rb4nY_pKnmYENWAMZxV9gvFjzme9qsLkJMg6xR7jWM3CqGORo_gdty0G-7iFshZRJmk9W02ZFd5cp9Scebzax19rkqNKY9bMsKY0L5HtRR-Qtdr4eHew7qxWzvMqZ5q72bDoFC3XMp1LnB1v6hW4UQhHPgXoMfvoq6Q"/></button></div></div></header><main class="flex-1 flex flex-col relative w-full pt-16 pb-safe px-margin bg-surface"><div class="flex flex-col w-full pb-10 space-y-4">
+<!-- Top Utility Context & Actions Bar (Integrated sub-header actions) -->
+<div class="flex items-center justify-between px-1 pt-1">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+      LIVE WORKSHOP SYNC
+    </span>
+<div class="flex items-center gap-1">
+<button aria-label="Share SKU Card" class="w-11 h-11 flex items-center justify-center rounded-full bg-surface-container-low text-on-surface hover:bg-surface-container transition-colors shadow-sm" type="button">
+<span class="material-symbols-outlined text-[20px]">share</span>
+</button>
+<button aria-label="Edit Product" class="w-11 h-11 flex items-center justify-center rounded-full bg-surface-container-low text-on-surface hover:bg-surface-container transition-colors shadow-sm" type="button">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+</div>
+</div>
+<!-- Hero Visual & Identity Card -->
+<div class="w-full bg-surface-container-lowest rounded-2xl p-4 shadow-sm relative overflow-hidden flex flex-col gap-3">
+<!-- Visual Showcase Area -->
+<div class="relative w-full h-52 bg-surface-container-low rounded-xl overflow-hidden flex items-center justify-center">
+<img class="w-full h-full object-cover" data-alt="High precision studio product shot of a Shimano Deore M6100 hydraulic disc brake set complete with black forged alloy caliper, articulated brake lever, braided brake hose, and metallic disc rotor on clean light industrial workshop background, cinematic lighting, sharp mechanical detail" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCTAaAPSSOTL-hSEpGjSlmwYF7EXK85icExoAB-bRux2Ormz_IaopaG5lgpfSsFXKcn0wxAV7NYIl_9RxPn83Ym4u5sR6uL_Xne2goyD4ly5g2Cz-Pglc98Qy_swc1RQOn6eFkLvyzfeR5Cy0cwn4X8RHd9ejKo7p9Kwtl6xkDLyBYak3Hswv2YzDjvNF5J6xi8Ko0SNkE5jL4OMGdZMiuq5Q-9GOjLshebY2IWUsmwnglxBaoGsHzYw"/>
+<!-- Mechanical Tag / Badge -->
+<div class="absolute bottom-2 left-2 flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-inverse-surface/85 text-inverse-on-surface backdrop-blur-md">
+<span class="material-symbols-outlined text-[16px] text-primary-fixed">verified</span>
+<span class="font-label-sku text-label-sku tracking-wider">GENUINE SHIMANO OEM</span>
+</div>
+<!-- Quick Zoom / Reticle button -->
+<button aria-label="View Full Mechanical Drawing" class="absolute top-2 right-2 w-9 h-9 rounded-full bg-inverse-surface/60 text-inverse-on-surface flex items-center justify-center backdrop-blur-md hover:bg-inverse-surface/80 transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">fit_screen</span>
+</button>
+</div>
+<!-- Product Title & Taxonomy -->
+<div class="space-y-1.5">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-semibold tracking-wide">Shimano</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">Brakes &amp; Hydraulics</span>
+<span class="font-label-sku text-label-sku text-secondary">SKU: BRK-SH-6100</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface leading-snug">
+        Shimano Deore M6100 Hydraulic Disc Brake Set (Front + Rear)
+      </h2>
+</div>
+<!-- Barcode Section (Scannable Workshop Format) -->
+<div class="bg-surface-container-low rounded-xl p-3 flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-secondary">BARCODE EAN-13</span>
+<span class="font-label-sku text-label-sku text-on-surface tracking-widest mt-0.5">8 901234 567890</span>
+</div>
+<!-- Simulated Crisp Barcode Stripes -->
+<div class="flex items-center gap-0.5 h-8 px-2 bg-surface-container-lowest rounded-md">
+<div class="w-1 h-full bg-on-surface"></div>
+<div class="w-0.5 h-full bg-on-surface"></div>
+<div class="w-1.5 h-full bg-transparent"></div>
+<div class="w-0.5 h-full bg-on-surface"></div>
+<div class="w-1 h-full bg-on-surface"></div>
+<div class="w-2 h-full bg-transparent"></div>
+<div class="w-0.5 h-full bg-on-surface"></div>
+<div class="w-1.5 h-full bg-on-surface"></div>
+<div class="w-1 h-full bg-transparent"></div>
+<div class="w-2 h-full bg-on-surface"></div>
+<div class="w-0.5 h-full bg-on-surface"></div>
+<div class="w-1 h-full bg-transparent"></div>
+<div class="w-1 h-full bg-on-surface"></div>
+<div class="w-0.5 h-full bg-on-surface"></div>
+</div>
+</div>
+</div>
+<!-- Primary Stock Status & Warehouse Location Card -->
+<div class="w-full bg-surface-container-lowest rounded-2xl p-4 shadow-sm space-y-3.5">
+<div class="flex items-start justify-between">
+<div>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Physical Available Stock</span>
+<div class="flex items-baseline gap-1.5 mt-0.5">
+<span class="font-display-lg text-display-lg text-on-surface tracking-tight" id="stockValueDisplay">18</span>
+<span class="font-headline-sm text-headline-sm text-secondary font-medium">Units</span>
+</div>
+</div>
+<!-- Stock Status Pill -->
+<div class="flex flex-col items-end gap-1">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-high text-on-surface font-label-md text-label-md font-semibold">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+          In Stock
+        </span>
+<span class="font-label-sm text-label-sm text-secondary">Threshold: 5 units</span>
+</div>
+</div>
+<!-- Storage Rack Details -->
+<div class="flex items-center gap-3 p-3 rounded-xl bg-surface-container-low text-on-surface">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[24px]">warehouse</span>
+</div>
+<div class="flex-1 min-w-0">
+<span class="font-label-sm text-label-sm text-secondary block">Shop Rack Location</span>
+<p class="font-headline-sm text-headline-sm text-on-surface truncate">Aisle 2 • Rack B-04</p>
+</div>
+<button aria-label="Navigate to bin location" class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high" type="button">
+<span class="material-symbols-outlined text-[18px]">near_me</span>
+</button>
+</div>
+</div>
+<!-- Financials & Margin Metrics Card -->
+<div class="w-full bg-surface-container-lowest rounded-2xl p-4 shadow-sm space-y-3.5">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md uppercase tracking-wider text-secondary">Financial &amp; Margin Overview</span>
+<span class="font-label-sm text-label-sm text-tertiary font-medium">GST 18% included</span>
+</div>
+<!-- 2x2 Bento Metric Matrix -->
+<div class="grid grid-cols-2 gap-2.5">
+<div class="p-3 rounded-xl bg-surface-container-low flex flex-col">
+<span class="font-label-sm text-label-sm text-secondary">Cost Price (CP)</span>
+<span class="font-numeric-metric text-numeric-metric text-on-surface mt-1">₹3,200</span>
+<span class="font-label-sm text-label-sm text-secondary mt-0.5">Per unit landed</span>
+</div>
+<div class="p-3 rounded-xl bg-surface-container-low flex flex-col">
+<span class="font-label-sm text-label-sm text-secondary">Selling Price (MRP)</span>
+<span class="font-numeric-metric text-numeric-metric text-primary mt-1">₹4,850</span>
+<span class="font-label-sm text-label-sm text-secondary mt-0.5">Tag sticker rate</span>
+</div>
+<div class="p-3 rounded-xl bg-surface-container-high flex flex-col">
+<span class="font-label-sm text-label-sm text-secondary">Net Margin</span>
+<div class="flex items-baseline gap-1 mt-1">
+<span class="font-headline-sm text-headline-sm text-on-surface">₹1,650</span>
+</div>
+<span class="font-label-sm text-label-sm text-primary font-bold mt-0.5">+51.5% profit</span>
+</div>
+<div class="p-3 rounded-xl bg-surface-container-high flex flex-col">
+<span class="font-label-sm text-label-sm text-secondary">Total Asset Value</span>
+<span class="font-headline-sm text-headline-sm text-on-surface mt-1">₹57,600</span>
+<span class="font-label-sm text-label-sm text-secondary mt-0.5">18 units at cost</span>
+</div>
+</div>
+<!-- Preferred Supplier Strip -->
+<div class="p-3 rounded-xl bg-surface-container-low flex items-center justify-between">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">local_shipping</span>
+</div>
+<div class="truncate">
+<span class="font-label-sm text-label-sm text-secondary block">Preferred Supplier</span>
+<span class="font-body-md text-body-md font-semibold text-on-surface block truncate">Velo India Distro Ltd.</span>
+</div>
+</div>
+<a aria-label="Call supplier" class="h-10 px-3 rounded-xl bg-surface-container-highest text-on-surface font-label-md text-label-md flex items-center gap-1.5 hover:bg-surface-container-high active:scale-95 transition-transform" href="tel:+919820011223">
+<span class="material-symbols-outlined text-[18px] text-primary">call</span>
+<span>Call</span>
+</a>
+</div>
+</div>
+<!-- Ergonomic Quick Actions (Thumb Zone: Large 52px Touch Targets) -->
+<div class="grid grid-cols-2 gap-3 pt-1">
+<!-- Stock In (Receiving) -->
+<button class="h-14 rounded-2xl bg-surface-container-highest text-on-surface hover:bg-surface-container-high active:scale-[0.98] transition-all flex items-center justify-center gap-2 shadow-sm font-headline-sm text-headline-sm" id="btnStockIn" type="button">
+<div class="w-8 h-8 rounded-full bg-surface-container-lowest flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">move_to_inbox</span>
+</div>
+<span>+ Stock In</span>
+</button>
+<!-- Stock Out (Dispatch/Fitting) -->
+<button class="h-14 rounded-2xl bg-primary text-on-primary hover:bg-primary-container active:scale-[0.98] transition-all flex items-center justify-center gap-2 shadow-md font-headline-sm text-headline-sm" id="btnStockOut" type="button">
+<div class="w-8 h-8 rounded-full bg-on-primary/20 flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined text-[20px]">outbox</span>
+</div>
+<span>- Stock Out</span>
+</button>
+</div>
+<!-- Movement History Section (Audit Timeline) -->
+<div class="w-full bg-surface-container-lowest rounded-2xl p-4 shadow-sm space-y-4">
+<div class="flex items-center justify-between">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Movement History</h3>
+<p class="font-label-sm text-label-sm text-secondary">Logged changes (Last 30 Days)</p>
+</div>
+<!-- Quick Filter Chip -->
+<button class="flex items-center gap-1 px-3 py-1.5 rounded-full bg-surface-container text-on-surface font-label-sm text-label-sm hover:bg-surface-container-high" type="button">
+<span class="material-symbols-outlined text-[16px]">tune</span>
+<span>All Events</span>
+</button>
+</div>
+<!-- Timeline Entries -->
+<div class="space-y-4 relative before:absolute before:left-[19px] before:top-3 before:bottom-3 before:w-0.5 before:bg-surface-container">
+<!-- Event 1: Purchase In -->
+<div class="relative flex items-start gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-primary shrink-0 z-10">
+<span class="material-symbols-outlined text-[20px]">inventory_2</span>
+</div>
+<div class="flex-1 min-w-0 bg-surface-container-low p-3 rounded-xl">
+<div class="flex items-center justify-between">
+<span class="font-body-md text-body-md font-semibold text-primary">+10 units (Inward)</span>
+<span class="font-label-sm text-label-sm text-secondary">Oct 24</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface mt-0.5 font-medium">Purchase from Velo India (PO-441)</p>
+<div class="mt-1 flex items-center gap-1.5 text-secondary">
+<span class="material-symbols-outlined text-[14px]">notes</span>
+<span class="font-label-sm text-label-sm">Regular replenishment order</span>
+</div>
+</div>
+</div>
+<!-- Event 2: Sale to Customer -->
+<div class="relative flex items-start gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-tertiary shrink-0 z-10">
+<span class="material-symbols-outlined text-[20px]">shopping_cart_checkout</span>
+</div>
+<div class="flex-1 min-w-0 bg-surface-container-low p-3 rounded-xl">
+<div class="flex items-center justify-between">
+<span class="font-body-md text-body-md font-semibold text-error">-1 unit (Sale)</span>
+<span class="font-label-sm text-label-sm text-secondary">Oct 23</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface mt-0.5 font-medium">Counter Retail Bill #8201</p>
+<div class="mt-1 flex items-center gap-1.5 text-secondary">
+<span class="material-symbols-outlined text-[14px]">pedal_bike</span>
+<span class="font-label-sm text-label-sm">Customer Trek Marlin custom upgrade</span>
+</div>
+</div>
+</div>
+<!-- Event 3: Workshop Service Job -->
+<div class="relative flex items-start gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-secondary shrink-0 z-10">
+<span class="material-symbols-outlined text-[20px]">build</span>
+</div>
+<div class="flex-1 min-w-0 bg-surface-container-low p-3 rounded-xl">
+<div class="flex items-center justify-between">
+<span class="font-body-md text-body-md font-semibold text-error">-1 unit (Service)</span>
+<span class="font-label-sm text-label-sm text-secondary">Oct 21</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface mt-0.5 font-medium">Workshop Repair Job #142</p>
+<span class="font-label-sm text-label-sm text-secondary">Mechanic: Rajesh K.</span>
+</div>
+</div>
+<!-- Event 4: Transit Damage / Loss -->
+<div class="relative flex items-start gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-error shrink-0 z-10">
+<span class="material-symbols-outlined text-[20px]">report_problem</span>
+</div>
+<div class="flex-1 min-w-0 bg-surface-container-low p-3 rounded-xl">
+<div class="flex items-center justify-between">
+<span class="font-body-md text-body-md font-semibold text-tertiary-container">-1 unit (Write-off)</span>
+<span class="font-label-sm text-label-sm text-secondary">Oct 18</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface mt-0.5 font-medium">Damaged in freight transit</p>
+<div class="mt-1 flex items-center gap-1.5 text-secondary">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+<span class="font-label-sm text-label-sm">Oil leak detected in master cylinder</span>
+</div>
+</div>
+</div>
+<!-- Event 5: Opening Balance -->
+<div class="relative flex items-start gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-primary shrink-0 z-10">
+<span class="material-symbols-outlined text-[20px]">flag</span>
+</div>
+<div class="flex-1 min-w-0 bg-surface-container-low p-3 rounded-xl">
+<div class="flex items-center justify-between">
+<span class="font-body-md text-body-md font-semibold text-primary">+10 units (Initial)</span>
+<span class="font-label-sm text-label-sm text-secondary">Oct 01</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface mt-0.5 font-medium">Opening balance verified physical count</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Interactive Quick Adjustment Drawer (Appears on Quick Action Click) -->
+<div class="hidden fixed inset-x-0 bottom-0 z-50 p-4 bg-surface-container-lowest rounded-t-3xl shadow-2xl space-y-4" id="quickAdjustSheet">
+<div class="w-12 h-1.5 bg-surface-container-highest rounded-full mx-auto"></div>
+<div class="flex items-center justify-between">
+<h4 class="font-headline-sm text-headline-sm text-on-surface" id="adjustTitle">Quick Stock Adjustment</h4>
+<button class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center text-on-surface" id="closeAdjustSheet" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Stepper Hit Target Zone -->
+<div class="flex items-center justify-center gap-6 py-2">
+<button class="w-14 h-14 rounded-2xl bg-surface-container flex items-center justify-center text-on-surface active:scale-95 text-2xl font-bold transition-transform" id="stepMinus" type="button">
+        -
+      </button>
+<span class="font-display-lg text-display-lg text-on-surface" id="stepCounter">1</span>
+<button class="w-14 h-14 rounded-2xl bg-surface-container flex items-center justify-center text-on-surface active:scale-95 text-2xl font-bold transition-transform" id="stepPlus" type="button">
+        +
+      </button>
+</div>
+<!-- Reason Selector -->
+<div class="space-y-1.5">
+<label class="font-label-sm text-label-sm text-secondary">Adjustment Reason</label>
+<div class="grid grid-cols-3 gap-2">
+<button class="reason-pill py-2 px-1 rounded-xl bg-surface-container-high text-on-surface font-label-sm text-label-sm text-center font-medium active:bg-primary-fixed" type="button">Customer Sale</button>
+<button class="reason-pill py-2 px-1 rounded-xl bg-surface-container text-on-surface-variant font-label-sm text-label-sm text-center font-medium" type="button">Restock PO</button>
+<button class="reason-pill py-2 px-1 rounded-xl bg-surface-container text-on-surface-variant font-label-sm text-label-sm text-center font-medium" type="button">Service Job</button>
+</div>
+</div>
+<!-- Commit Button -->
+<button class="w-full h-13 py-3.5 rounded-xl bg-primary text-on-primary font-headline-sm text-headline-sm font-semibold active:scale-[0.98] transition-transform" id="confirmAdjustBtn" type="button">
+      Update Inventory Record
+    </button>
+</div>
+<div class="hidden fixed inset-0 bg-inverse-surface/40 z-40 backdrop-blur-xs" id="backdrop"></div>
+</div>
+<script>
+  (function() {
+    let stock = 18;
+    let pendingQty = 1;
+    let mode = 'in';
+
+    const stockDisplay = document.getElementById('stockValueDisplay');
+    const sheet = document.getElementById('quickAdjustSheet');
+    const backdrop = document.getElementById('backdrop');
+    const title = document.getElementById('adjustTitle');
+    const counter = document.getElementById('stepCounter');
+    const btnStockIn = document.getElementById('btnStockIn');
+    const btnStockOut = document.getElementById('btnStockOut');
+    const closeBtn = document.getElementById('closeAdjustSheet');
+    const confirmBtn = document.getElementById('confirmAdjustBtn');
+    const stepMinus = document.getElementById('stepMinus');
+    const stepPlus = document.getElementById('stepPlus');
+
+    function openModal(action) {
+      mode = action;
+      pendingQty = 1;
+      counter.innerText = pendingQty;
+      title.innerText = action === 'in' ? 'Stock In (Inward Entry)' : 'Stock Out (Discharge)';
+      sheet.classList.remove('hidden');
+      backdrop.classList.remove('hidden');
+    }
+
+    function closeModal() {
+      sheet.classList.add('hidden');
+      backdrop.classList.add('hidden');
+    }
+
+    btnStockIn.addEventListener('click', () => openModal('in'));
+    btnStockOut.addEventListener('click', () => openModal('out'));
+    closeBtn.addEventListener('click', closeModal);
+    backdrop.addEventListener('click', closeModal);
+
+    stepMinus.addEventListener('click', () => {
+      if (pendingQty > 1) {
+        pendingQty--;
+        counter.innerText = pendingQty;
+      }
+    });
+
+    stepPlus.addEventListener('click', () => {
+      pendingQty++;
+      counter.innerText = pendingQty;
+    });
+
+    confirmBtn.addEventListener('click', () => {
+      if (mode === 'in') {
+        stock += pendingQty;
+      } else {
+        stock = Math.max(0, stock - pendingQty);
+      }
+      stockDisplay.innerText = stock;
+      closeModal();
+    });
+
+    document.querySelectorAll('.reason-pill').forEach(pill => {
+      pill.addEventListener('click', function() {
+        document.querySelectorAll('.reason-pill').forEach(p => {
+          p.classList.remove('bg-surface-container-high', 'text-on-surface');
+          p.classList.add('bg-surface-container', 'text-on-surface-variant');
+        });
+        this.classList.add('bg-surface-container-high', 'text-on-surface');
+        this.classList.remove('bg-surface-container', 'text-on-surface-variant');
+      });
+    });
+  })();
+</script></main></body></html>

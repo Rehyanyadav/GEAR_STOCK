@@ -1,0 +1,33 @@
+{
+  "@@locale": "en",
+  "loginTitle": "GearStock",
+  "loginSubtitle": "Bicycle Workshop & Inventory Management",
+  "emailLabel": "Workshop Email",
+  "emailHint": "staff@gearstock.in",
+  "passwordLabel": "Mechanic Password",
+  "passwordHint": "••••••••••••",
+  "forgotPassword": "Forgot?",
+  "loginButton": "Login to Shop",
+  "helpText": "Need help? Contact Shop Admin",
+  "serverStatus": "Workshop Server Live",
+  "appVersion": "GearStock OS v3.4.1",
+  "errorEmailRequired": "Email is required",
+  "errorEmailInvalid": "Enter a valid email address",
+  "errorPasswordRequired": "Password is required",
+  "errorPasswordTooShort": "Password must be at least 6 characters",
+  "errorWrongCredentials": "Incorrect email or password. Please try again.",
+  "errorNoInternet": "No internet connection. Check your network and retry.",
+  "errorRateLimited": "Too many login attempts. Wait {seconds} seconds and try again.",
+  "@errorRateLimited": {
+    "placeholders": {
+      "seconds": { "type": "int" }
+    }
+  },
+  "errorServer": "Server error: {message}",
+  "@errorServer": {
+    "placeholders": {
+      "message": { "type": "String" }
+    }
+  },
+  "errorGeneric": "Something went wrong. Please try again."
+}
