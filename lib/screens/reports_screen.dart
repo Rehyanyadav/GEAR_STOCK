@@ -1,22 +1,27 @@
 import 'dart:convert';
-import 'dart:typed_data';
+import 'dart:io';
 
 import 'package:csv/csv.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../core/providers.dart';
+import '../core/providers/database_provider.dart';
+import '../features/products/data/product_image_sync_service.dart';
 import '../features/products/data/products_notifier.dart';
+import '../features/reports/data/inventory_pdf_exporter.dart';
 import '../features/stock/data/stock_notifier.dart';
 import '../models/product.dart';
 import '../models/stock_movement.dart';
 import '../theme/app_theme.dart';
 
 import '../widgets/gooey_hover_button.dart';
+
 class ReportsScreen extends ConsumerStatefulWidget {
-  const ReportsScreen({
-    super.key,
-  });
+  const ReportsScreen({super.key});
 
   @override
   ConsumerState<ReportsScreen> createState() => _ReportsScreenState();
@@ -26,6 +31,9 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
   String _selectedRange = 'This Month';
   final List<String> _ranges = ['Today', 'This Week', 'This Month', 'All Time'];
   bool _isExporting = false;
+  final _appBarCsvExportKey = GlobalKey();
+  final _csvExportKey = GlobalKey();
+  final _pdfExportKey = GlobalKey();
 
   DateTime _getFilterStartDate(String range) {
     final now = DateTime.now();
@@ -42,7 +50,10 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
     }
   }
 
-  Future<void> _exportInventoryCsv(List<Product> products) async {
+  Future<void> _exportInventoryCsv(
+    List<Product> products, {
+    required GlobalKey shareOriginKey,
+  }) async {
     if (products.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('No products available to export.')),
@@ -100,6 +111,7 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
         [xfile],
         text: 'GearStock Inventory Report ($dateStr)',
         subject: 'GearStock Bicycle Parts Inventory Report',
+        sharePositionOrigin: _sharePositionOrigin(shareOriginKey),
       );
     } catch (e) {
       if (mounted) {
@@ -113,6 +125,167 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
     } finally {
       if (mounted) setState(() => _isExporting = false);
     }
+  }
+
+  Future<void> _exportInventoryPdf() async {
+    setState(() => _isExporting = true);
+    try {
+      final userId = ref.read(authenticatedUserIdProvider);
+      final rows = await ref.read(appDatabaseProvider).getAllProducts();
+      _ensureUserUnchanged(userId);
+      if (rows.isEmpty) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('No products available to export.')),
+          );
+        }
+        return;
+      }
+
+      final products = rows
+          .map(
+            (row) => InventoryPdfProduct(
+              id: row.id,
+              name: row.name,
+              sku: row.sku,
+              costPrice: row.costPrice,
+              sellingPrice: row.sellingPrice,
+              currentStock: row.currentStock,
+              minStock: row.minStock,
+              shelfLocation: row.shelfLocation,
+              imageSource: row.imageUrl,
+            ),
+          )
+          .toList(growable: false);
+      final images = <String, Uint8List>{};
+      final productsWithoutImages = <String>[];
+
+      for (var offset = 0; offset < products.length; offset += 4) {
+        _ensureUserUnchanged(userId);
+        final batch = products.skip(offset).take(4);
+        await Future.wait(
+          batch.map((product) async {
+            final source = product.imageSource;
+            if (source == null || source.trim().isEmpty) return;
+            try {
+              final bytes = await _readInventoryImage(source, userId);
+              if (bytes == null) {
+                productsWithoutImages.add(product.name);
+              } else {
+                images[product.id] = bytes;
+              }
+            } on Object catch (error, stackTrace) {
+              debugPrint(
+                'Could not load inventory image for ${product.name}: '
+                '$error\n$stackTrace',
+              );
+              productsWithoutImages.add(product.name);
+            }
+          }),
+        );
+        _ensureUserUnchanged(userId);
+      }
+
+      final generatedAt = DateTime.now();
+      final pdfBytes = await buildInventoryPdf(
+        products: products,
+        images: images,
+        generatedAt: generatedAt,
+      );
+      _ensureUserUnchanged(userId);
+      final date = generatedAt.toIso8601String().substring(0, 10);
+      await Share.shareXFiles(
+        [
+          XFile.fromData(
+            pdfBytes,
+            mimeType: 'application/pdf',
+            name: 'GearStock_Inventory_$date.pdf',
+          ),
+        ],
+        text: 'GearStock Stock Inventory ($date)',
+        subject: 'GearStock Stock Inventory',
+        sharePositionOrigin: _sharePositionOrigin(_pdfExportKey),
+      );
+
+      if (mounted && productsWithoutImages.isNotEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'PDF ready. ${productsWithoutImages.length} product '
+              'image(s) could not be included.',
+            ),
+          ),
+        );
+      }
+    } catch (error) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to export inventory PDF: $error'),
+            backgroundColor: Theme.of(context).colorScheme.error,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _isExporting = false);
+    }
+  }
+
+  void _ensureUserUnchanged(String? userId) {
+    if (ref.read(authenticatedUserIdProvider) != userId) {
+      throw StateError(
+        'The signed-in account changed during inventory export. Please retry.',
+      );
+    }
+  }
+
+  Rect _sharePositionOrigin(GlobalKey key) {
+    final renderObject = key.currentContext?.findRenderObject();
+    if (renderObject is! RenderBox || !renderObject.hasSize) {
+      throw StateError('Could not determine the export button position.');
+    }
+
+    final origin = renderObject.localToGlobal(Offset.zero) & renderObject.size;
+    if (origin.isEmpty) {
+      throw StateError(
+        'The export button has no visible share-sheet position.',
+      );
+    }
+    return origin;
+  }
+
+  Future<Uint8List?> _readInventoryImage(String source, String? userId) async {
+    if (source.startsWith('supabase://')) {
+      if (userId == null) return null;
+      final bytes = await ref
+          .read(productImageSyncServiceProvider)
+          .downloadImage(source.substring('supabase://'.length));
+      _ensureUserUnchanged(userId);
+      return bytes;
+    }
+
+    if (kIsWeb ||
+        source.startsWith('http://') ||
+        source.startsWith('https://')) {
+      return null;
+    }
+
+    final documents = await getApplicationDocumentsDirectory();
+    final productImageDirectory = Directory(
+      '${documents.path}${Platform.pathSeparator}product-images',
+    );
+    if (!await productImageDirectory.exists()) return null;
+    final imageFile = File(source);
+    if (!await imageFile.exists()) return null;
+
+    final allowedDirectory = await productImageDirectory.resolveSymbolicLinks();
+    final resolvedImagePath = await imageFile.resolveSymbolicLinks();
+    if (!resolvedImagePath.startsWith(
+      '$allowedDirectory${Platform.pathSeparator}',
+    )) {
+      return null;
+    }
+    return File(resolvedImagePath).readAsBytes();
   }
 
   @override
@@ -138,7 +311,10 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
 
     // Genuine Average Profit Margin
     double avgMargin = 0.0;
-    final validMargins = products.where((p) => p.sellingPrice > 0).map((p) => p.profitMargin).toList();
+    final validMargins = products
+        .where((p) => p.sellingPrice > 0)
+        .map((p) => p.profitMargin)
+        .toList();
     if (validMargins.isNotEmpty) {
       avgMargin = validMargins.reduce((a, b) => a + b) / validMargins.length;
     }
@@ -146,16 +322,20 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
     // High turnover products computed from genuine movements in selected range
     final startDate = _getFilterStartDate(_selectedRange);
     final periodMovements = movements.where((m) {
-      final isOutbound = m.type == StockMovementType.outboundSale ||
+      final isOutbound =
+          m.type == StockMovementType.outboundSale ||
           m.type == StockMovementType.outboundService;
-      final inRange = m.timestamp.isAfter(startDate) || m.timestamp.isAtSameMomentAs(startDate);
+      final inRange =
+          m.timestamp.isAfter(startDate) ||
+          m.timestamp.isAtSameMomentAs(startDate);
       return isOutbound && inRange;
     }).toList();
 
     // Map productId -> total units issued
     final Map<String, int> productIssuedMap = {};
     for (final m in periodMovements) {
-      productIssuedMap[m.productId] = (productIssuedMap[m.productId] ?? 0) + m.quantity;
+      productIssuedMap[m.productId] =
+          (productIssuedMap[m.productId] ?? 0) + m.quantity;
     }
 
     final sortedTurnover = productIssuedMap.entries.toList()
@@ -163,24 +343,39 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
 
     // Audit metrics
     final totalParts = products.length;
-    final lowStockCount = products.where((p) => p.isLowStock && p.currentStock > 0).length;
+    final lowStockCount = products
+        .where((p) => p.isLowStock && p.currentStock > 0)
+        .length;
     final outOfStockCount = products.where((p) => p.currentStock <= 0).length;
     final healthyCount = totalParts - lowStockCount - outOfStockCount;
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
-        title: const Text('Inventory Reports & Audits', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+        title: const Text(
+          'Inventory Reports & Audits',
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
         actions: [
           _isExporting
               ? const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: Center(child: SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2))),
+                  child: Center(
+                    child: SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    ),
+                  ),
                 )
               : IconButton(
+                  key: _appBarCsvExportKey,
                   icon: const Icon(Icons.share),
                   tooltip: 'Share / Export CSV',
-                  onPressed: () => _exportInventoryCsv(products),
+                  onPressed: () => _exportInventoryCsv(
+                    products,
+                    shareOriginKey: _appBarCsvExportKey,
+                  ),
                 ),
         ],
       ),
@@ -206,13 +401,19 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
                       if (selected) setState(() => _selectedRange = r);
                     },
                     selectedColor: Theme.of(context).colorScheme.primary,
-                    backgroundColor: Theme.of(context).colorScheme.surfaceContainerLow,
+                    backgroundColor: Theme.of(
+                      context,
+                    ).colorScheme.surfaceContainerLow,
                     labelStyle: TextStyle(
-                      color: isSelected ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.onSurface,
+                      color: isSelected
+                          ? Theme.of(context).colorScheme.onPrimary
+                          : Theme.of(context).colorScheme.onSurface,
                       fontWeight: FontWeight.w600,
                       fontSize: 12,
                     ),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
                     side: BorderSide.none,
                     showCheckmark: false,
                   );
@@ -228,27 +429,51 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
                   child: Container(
                     padding: const EdgeInsets.all(14),
                     decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.surfaceContainerLowest,
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.surfaceContainerLowest,
                       borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: Theme.of(context).colorScheme.surfaceContainerHigh.withAlpha(120)),
+                      border: Border.all(
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.surfaceContainerHigh.withAlpha(120),
+                      ),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                         Text('Total Inventory Cost', style: TextStyle(fontSize: 11, color: Theme.of(context).colorScheme.secondary)),
+                        Text(
+                          'Total Inventory Cost',
+                          style: TextStyle(
+                            fontSize: 11,
+                            color: Theme.of(context).colorScheme.secondary,
+                          ),
+                        ),
                         const SizedBox(height: 4),
                         Text(
                           '₹${totalVal.toStringAsFixed(0)}',
-                          style:  TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: Theme.of(context).colorScheme.onSurface),
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w800,
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
                         ),
                         const SizedBox(height: 4),
                         Row(
                           children: [
-                             Icon(Icons.inventory_2_outlined, size: 14, color: Theme.of(context).colorScheme.primary),
+                            Icon(
+                              Icons.inventory_2_outlined,
+                              size: 14,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
                             const SizedBox(width: 4),
                             Text(
                               '$totalParts parts in stock',
-                              style:  TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary),
+                              style: TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
                             ),
                           ],
                         ),
@@ -261,26 +486,46 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
                   child: Container(
                     padding: const EdgeInsets.all(14),
                     decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.surfaceContainerLowest,
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.surfaceContainerLowest,
                       borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: Theme.of(context).colorScheme.surfaceContainerHigh.withAlpha(120)),
+                      border: Border.all(
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.surfaceContainerHigh.withAlpha(120),
+                      ),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                         Text('Avg Profit Margin', style: TextStyle(fontSize: 11, color: Theme.of(context).colorScheme.secondary)),
+                        Text(
+                          'Avg Profit Margin',
+                          style: TextStyle(
+                            fontSize: 11,
+                            color: Theme.of(context).colorScheme.secondary,
+                          ),
+                        ),
                         const SizedBox(height: 4),
                         Text(
                           '${avgMargin.toStringAsFixed(1)}%',
-                          style:  TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: Theme.of(context).colorScheme.onSurface),
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w800,
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
                         ),
                         const SizedBox(height: 4),
                         Row(
                           children: [
                             Icon(
-                              avgMargin >= 15 ? Icons.check_circle : Icons.warning_amber_rounded,
+                              avgMargin >= 15
+                                  ? Icons.check_circle
+                                  : Icons.warning_amber_rounded,
                               size: 14,
-                              color: avgMargin >= 15 ? AppStatusColors.of(context).success : Theme.of(context).colorScheme.error,
+                              color: avgMargin >= 15
+                                  ? AppStatusColors.of(context).success
+                                  : Theme.of(context).colorScheme.error,
                             ),
                             const SizedBox(width: 4),
                             Text(
@@ -288,7 +533,9 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
                               style: TextStyle(
                                 fontSize: 10,
                                 fontWeight: FontWeight.bold,
-                                color: avgMargin >= 15 ? AppStatusColors.of(context).success : Theme.of(context).colorScheme.error,
+                                color: avgMargin >= 15
+                                    ? AppStatusColors.of(context).success
+                                    : Theme.of(context).colorScheme.error,
                               ),
                             ),
                           ],
@@ -307,12 +554,23 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.surfaceContainerLowest,
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: Theme.of(context).colorScheme.surfaceContainerHigh.withAlpha(120)),
+                border: Border.all(
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.surfaceContainerHigh.withAlpha(120),
+                ),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                   Text('STOCK HEALTH & AUDIT', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.secondary)),
+                  Text(
+                    'STOCK HEALTH & AUDIT',
+                    style: TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.secondary,
+                    ),
+                  ),
                   const SizedBox(height: 12),
                   Row(
                     children: [
@@ -355,24 +613,41 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.surfaceContainerLowest,
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: Theme.of(context).colorScheme.surfaceContainerHigh.withAlpha(120)),
+                border: Border.all(
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.surfaceContainerHigh.withAlpha(120),
+                ),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                   Text(
+                  Text(
                     'CAPITAL BY CATEGORY',
-                    style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.secondary, letterSpacing: 0.6),
+                    style: TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.secondary,
+                      letterSpacing: 0.6,
+                    ),
                   ),
                   const SizedBox(height: 14),
                   if (categoryValues.isEmpty)
-                     Padding(
+                    Padding(
                       padding: EdgeInsets.symmetric(vertical: 8),
-                      child: Text('No categorized products found.', style: TextStyle(fontSize: 13, color: Theme.of(context).colorScheme.secondary)),
+                      child: Text(
+                        'No categorized products found.',
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
+                      ),
                     )
                   else
                     ...categoryValues.entries.map((entry) {
-                      final fraction = totalVal > 0 ? (entry.value / totalVal) : 0.0;
+                      final fraction = totalVal > 0
+                          ? (entry.value / totalVal)
+                          : 0.0;
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 12),
                         child: Column(
@@ -381,10 +656,22 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(entry.key, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
+                                Text(
+                                  entry.key,
+                                  style: const TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
                                 Text(
                                   '₹${entry.value.toStringAsFixed(0)} (${(fraction * 100).toStringAsFixed(1)}%)',
-                                  style:  TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.secondary, fontWeight: FontWeight.bold),
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.secondary,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ],
                             ),
@@ -394,8 +681,12 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
                               child: LinearProgressIndicator(
                                 value: fraction,
                                 minHeight: 6,
-                                backgroundColor: Theme.of(context).colorScheme.surfaceContainerLow,
-                                valueColor:  AlwaysStoppedAnimation(Theme.of(context).colorScheme.primary),
+                                backgroundColor: Theme.of(
+                                  context,
+                                ).colorScheme.surfaceContainerLow,
+                                valueColor: AlwaysStoppedAnimation(
+                                  Theme.of(context).colorScheme.primary,
+                                ),
                               ),
                             ),
                           ],
@@ -413,7 +704,11 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.surfaceContainerLowest,
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: Theme.of(context).colorScheme.surfaceContainerHigh.withAlpha(120)),
+                border: Border.all(
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.surfaceContainerHigh.withAlpha(120),
+                ),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -423,7 +718,12 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
                     children: [
                       Text(
                         'HIGH TURNOVER ITEMS ($_selectedRange)',
-                        style:  TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.secondary, letterSpacing: 0.6),
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).colorScheme.secondary,
+                          letterSpacing: 0.6,
+                        ),
                       ),
                       const Icon(Icons.bolt, color: Colors.amber, size: 18),
                     ],
@@ -435,11 +735,20 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
                       child: Center(
                         child: Column(
                           children: [
-                            Icon(Icons.query_stats, size: 36, color: Theme.of(context).colorScheme.secondary.withAlpha(120)),
+                            Icon(
+                              Icons.query_stats,
+                              size: 36,
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.secondary.withAlpha(120),
+                            ),
                             const SizedBox(height: 6),
-                             Text(
+                            Text(
                               'No parts issued in this time range.',
-                              style: TextStyle(fontSize: 13, color: Theme.of(context).colorScheme.secondary),
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: Theme.of(context).colorScheme.secondary,
+                              ),
                             ),
                           ],
                         ),
@@ -447,27 +756,50 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
                     )
                   else
                     ...sortedTurnover.take(5).map((entry) {
-                      final prod = products.where((p) => p.id == entry.key).firstOrNull;
-                      final name = prod?.name ?? 'Part ID: ${entry.key.substring(0, 8)}...';
+                      final prod = products
+                          .where((p) => p.id == entry.key)
+                          .firstOrNull;
+                      final name =
+                          prod?.name ??
+                          'Part ID: ${entry.key.substring(0, 8)}...';
                       final units = entry.value;
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 6),
                         child: Row(
                           children: [
-                             Icon(Icons.trending_up, color: Theme.of(context).colorScheme.primary, size: 18),
+                            Icon(
+                              Icons.trending_up,
+                              color: Theme.of(context).colorScheme.primary,
+                              size: 18,
+                            ),
                             const SizedBox(width: 8),
                             Expanded(
-                              child: Text(name, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
+                              child: Text(
+                                name,
+                                style: const TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
                             ),
                             Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 4,
+                              ),
                               decoration: BoxDecoration(
-                                color: Theme.of(context).colorScheme.primaryFixed,
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.primaryFixed,
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Text(
                                 '$units units issued',
-                                style:  TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary),
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
                               ),
                             ),
                           ],
@@ -483,11 +815,36 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
             SizedBox(
               width: double.infinity,
               height: 48,
-              child: GooeyHoverButton(child: ElevatedButton.icon(
-                icon: const Icon(Icons.file_download_outlined),
-                label: const Text('Export Complete CSV Report', style: TextStyle(fontWeight: FontWeight.bold)),
-                onPressed: () => _exportInventoryCsv(products),
-              )),
+              child: GooeyHoverButton(
+                child: ElevatedButton.icon(
+                  key: _csvExportKey,
+                  icon: const Icon(Icons.file_download_outlined),
+                  label: const Text(
+                    'Export Complete CSV Report',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  onPressed: () => _exportInventoryCsv(
+                    products,
+                    shareOriginKey: _csvExportKey,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
+            SizedBox(
+              width: double.infinity,
+              height: 48,
+              child: GooeyHoverButton(
+                child: ElevatedButton.icon(
+                  key: _pdfExportKey,
+                  icon: const Icon(Icons.picture_as_pdf_outlined),
+                  label: const Text(
+                    'Download Stock PDF',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  onPressed: _isExporting ? null : _exportInventoryPdf,
+                ),
+              ),
             ),
             const SizedBox(height: 30),
           ],
@@ -496,7 +853,12 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
     );
   }
 
-  Widget _buildHealthBadge(String title, String count, Color color, IconData icon) {
+  Widget _buildHealthBadge(
+    String title,
+    String count,
+    Color color,
+    IconData icon,
+  ) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
       decoration: BoxDecoration(
@@ -508,9 +870,23 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
         children: [
           Icon(icon, color: color, size: 20),
           const SizedBox(height: 4),
-          Text(count, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: color)),
+          Text(
+            count,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: color,
+            ),
+          ),
           const SizedBox(height: 2),
-          Text(title, style: TextStyle(fontSize: 10, color: color, fontWeight: FontWeight.w600)),
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: 10,
+              color: color,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
         ],
       ),
     );

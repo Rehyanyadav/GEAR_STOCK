@@ -1,16 +1,86 @@
-STRICTLY : FOLLOW THE RULES AND GUIDELINES
+Yes, you can test the rollout with an Android emulator—but use a **separate Supabase staging project**, never your live production project. The emulator tests the app’s sync behavior; apply the SQL migration to staging through Supabase, not through the emulator.
 
-issues in product Screen 
-1.Image is not showing only capturing by application
-2.barcode scanning camera permission is allowed still not opening from application
-3.if some product is stock out the current stock is not update in products sections 
-4. shelf bin location section  rollback the widget in product screen 
-5.after stockn in i added the product it not updated in products sections 
-6.simplify the work for user 
-7.STOCK IN & STOCK OUT SECTION Should be simplify for user of application 
-3.Optimize the image so it not use extra space 
-4.IN PARTS SECTION USER CAN INCREASE THE SECTIONS ON THEIR REQUIRED NEEDs
-5.APP is CRASHING IN SOME SECTION 
+### Safe test sequence
+
+1. **Create or choose a staging Supabase project.** Use a staging account/shop and test products only. Configure the emulator build to use that project’s Supabase URL and **anon/publishable key**. Never put a service-role key in the app.
+2. **Check migration history first.** In Supabase, confirm which migrations are already applied. Apply only missing migrations, in order. Don’t rerun migrations blindly.
+3. **Before migration 20240007, resolve a known incompatibility:** the app currently deletes stock movements when deleting a product, but 20240007 blocks movement deletions. Product deletion will fail unless that behavior is made compatible. Test that scenario in staging; don’t apply this migration to production until it is addressed.
+4. **Record staging baselines** before applying the migration—product stock totals, product count, movement count—and note any pending app sync changes. Back up staging.
+5. **Apply the full migration file** `20240007_server_owned_movement_cursor.sql` to staging using Supabase’s SQL Editor or your normal migration tool. Don’t copy just selected statements.
+6. **Verify the migration** in Supabase SQL Editor:
+
+```sql
+SELECT tgname, pg_get_triggerdef(oid)
+FROM pg_trigger
+WHERE tgrelid = 'public.stock_movements'::regclass
+  AND NOT tgisinternal;
+
+SELECT count(*) AS future_dated_movements
+FROM public.stock_movements
+WHERE synced_at > now();
+```
+
+Confirm the timestamp-enforcement and mutation-blocking triggers are present, and that the future-dated count is zero. Compare product stocks and row counts with your saved baselines.
+
+7. **Point the emulator at staging and test:**
+   - Create a uniquely named test product.
+   - Stock in, stock out, and make an exact-count adjustment; confirm the app and staging database agree.
+   - Make a movement while offline, close/reopen the app, reconnect, and confirm it syncs once with no stock jump.
+   - Test product deletion/archive behavior after the compatibility fix.
+   - Check that pending sync changes clear and no sync errors are reported.
+
+For multi-device behavior, use **two emulators signed into the same staging shop** and test overlapping stock changes; one emulator alone can’t validate cross-device conflicts. Keep production untouched until staging passes and the deletion behavior is fixed.
+
+**Task completed:** Provided a safe staging-only rollout and Android emulator test procedure: use a separate Supabase staging project, check/applied migrations in order, resolve the known product-deletion incompatibility before migration 20240007, back up and record baselines, apply and verify triggers, then test stock operations and offline/reconnect sync in one or two emulators. Production remains untouched until staging passes.
 
 
 
+
+
+
+
+
+------------------------------x--------------------------------------x----------------------------------------------x---------------------------x----------------------------------------x----------------------------------------------------------------------------------------------x----------------------------------------------------------------x--------------------------------------------x-------------------------
+
+
+
+I checked the emulator logs and audited the stock-sync frontend/backend path. I also implemented the two issues found:
+
+Product deletion conflicted with append-only history. Local and remote deletion now archive products while retaining movement records and queued movement uploads in app_database.dart and products_sync_service.dart.
+Offline stock counts could overwrite a newer count from another device. New migration 20240008_stock_sync_conflict_safety.sql atomically rejects stale adjustments. The app retains them as manual-review conflicts, refreshes the server stock snapshot, and shows a warning; a new correction for that product resolves the prior conflict.
+Validation passed: the full flutter test suite, flutter analyze, an Android debug APK build, and a local PostgreSQL smoke test of migrations 20240007 and 20240008. The local SQL test confirmed a stale correction is rejected without changing stock and movement deletion is blocked.
+
+The emulator logs showed Supabase initialization and navigation, with no Flutter exception or sync failure in the captured window. They did not confirm a successful database sync. I built the updated APK but did not install or exercise it against Supabase because no isolated staging configuration was available; production was not accessed.
+
+Before production rollout, configure a separate staging Supabase project, verify its migration history and backup, then test the updated APK—preferably on two emulators, including offline correction conflicts. The rollout guidance is updated in shared-shop-access.md.
+
+
+
+
+
+-----------------x------------------------x-------------------------x----------------------------x--------
+
+
+Do this in stages; don’t run migrations 20240007/20240008 yet.
+
+Keep the app stopped on the iPhone and emulator. Don’t uninstall it, clear storage, or delete its local database. That preserves any unsynced local changes.
+Make a backup of the Supabase database before changing it. Check what backup/export is available for your Free project; if needed, make a secure database dump and keep it privately. Don’t share passwords, keys, or the dump.
+Record private before-migration counts in SQL Editor: product count, movement count, and total current_stock. Keep the results to compare; don’t post inventory details here.
+Apply only the full migration 20240006_stock_adjustments.sql from the project’s migration file. Run it once in the correct Supabase project. Your reported existing constraints are the old IN/OUT and positive-quantity rules this migration replaces. It adds the missing columns and adjustment support; it does not recalculate product stock totals. If it errors, stop and share the error with sensitive details removed.
+Verify 20240006 succeeded before reopening the app:
+shop_id, stock_after, and synced_at are present.
+The old constraints have been replaced with one that permits ADJUSTMENT.
+Product and movement counts and total stock match your saved baseline.
+Both tables appear in supabase_realtime if that publication exists.
+Reopen the existing app without clearing its data. Check that stock sync succeeds and the pending-sync indicator/errors clear. If downloads work but Realtime still errors, capture the new exact error; don’t rerun the migration.
+Then, for the full hardened fix, update the iPhone and every other device to a compatible app build before applying 20240007/20240008. Install it as an update signed for the same app—not by uninstalling the older app. Those later migrations enable append-only movement protection and stale-adjustment conflict handling; older clients may not handle product archive or conflicts correctly. If you can’t safely update every device yet, hold those two migrations.
+
+
+
+
+
+
+
+flutter build apk --release
+
+flutter run --release -d 00008110-000205D822A8201E

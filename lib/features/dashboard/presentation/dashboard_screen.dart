@@ -7,11 +7,12 @@ import '../../auth/domain/auth_state.dart';
 import '../../auth/presentation/auth_notifier.dart';
 import '../../products/data/products_notifier.dart';
 import '../../stock/data/stock_notifier.dart';
+import '../../sync/data/sync_runner.dart';
 
 import "package:flutter_riverpod/flutter_riverpod.dart";
 
-
 import '../../../widgets/gooey_hover_button.dart';
+
 class DashboardScreen extends ConsumerWidget {
   final VoidCallback onNavigateToStockIn;
   final VoidCallback onNavigateToStockOut;
@@ -48,6 +49,7 @@ class DashboardScreen extends ConsumerWidget {
     final productsAsync = ref.watch(productsProvider);
     final movementsAsync = ref.watch(stockProvider);
     final authAsync = ref.watch(authNotifierProvider);
+    final syncStatus = ref.watch(syncStatusProvider);
 
     final products = productsAsync.valueOrNull ?? [];
     final movements = movementsAsync.valueOrNull ?? [];
@@ -57,7 +59,21 @@ class DashboardScreen extends ConsumerWidget {
 
     final lowStockItems = products.where((p) => p.isLowStock).toList();
     final lowStockCount = lowStockItems.length;
-    final totalStockValue = products.fold<double>(0, (sum, p) => sum + p.totalStockValue);
+    final totalStockValue = products.fold<double>(
+      0,
+      (sum, p) => sum + p.totalStockValue,
+    );
+    final syncLabel = switch (syncStatus.kind) {
+      SyncStatusKind.offline => 'Offline',
+      SyncStatusKind.syncing => 'Syncing',
+      SyncStatusKind.failed => 'Sync issue',
+      SyncStatusKind.conflict => 'Review stock conflict',
+      SyncStatusKind.idle =>
+        syncStatus.pendingCount > 0 ? 'Pending sync' : 'Live Sync',
+    };
+    final syncColor = syncStatus.isCloudUnavailable
+        ? Theme.of(context).colorScheme.error
+        : AppStatusColors.of(context).success;
     final totalSkus = products.length;
 
     return SingleChildScrollView(
@@ -88,10 +104,12 @@ class DashboardScreen extends ConsumerWidget {
                       width: 48,
                       height: 48,
                       decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.primaryFixed.withAlpha(120),
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.primaryFixed.withAlpha(120),
                         shape: BoxShape.circle,
                       ),
-                      child:  Icon(
+                      child: Icon(
                         Icons.precision_manufacturing,
                         color: Theme.of(context).colorScheme.primary,
                         size: 26,
@@ -104,7 +122,9 @@ class DashboardScreen extends ConsumerWidget {
                         color: Theme.of(context).colorScheme.primary,
                         shape: BoxShape.circle,
                         border: Border.all(
-                          color: Theme.of(context).colorScheme.surfaceContainerLowest,
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.surfaceContainerLowest,
                           width: 2,
                         ),
                       ),
@@ -118,7 +138,7 @@ class DashboardScreen extends ConsumerWidget {
                     children: [
                       Text(
                         'Good morning, $currentUser 👋',
-                        style:  TextStyle(
+                        style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                           color: Theme.of(context).colorScheme.onSurface,
@@ -131,19 +151,21 @@ class DashboardScreen extends ConsumerWidget {
                           Container(
                             width: 6,
                             height: 6,
-                            decoration:  BoxDecoration(
+                            decoration: BoxDecoration(
                               color: Theme.of(context).colorScheme.primary,
                               shape: BoxShape.circle,
                             ),
                           ),
                           const SizedBox(width: 5),
-                           Expanded(
+                          Expanded(
                             child: Text(
                               'Auto Spares • Ready for inventory',
                               style: TextStyle(
                                 fontSize: 11,
                                 fontWeight: FontWeight.w500,
-                                color: Theme.of(context).colorScheme.onSurfaceVariant,
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSurfaceVariant,
                               ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
@@ -158,7 +180,7 @@ class DashboardScreen extends ConsumerWidget {
                 Stack(
                   children: [
                     IconButton(
-                      icon:  Icon(
+                      icon: Icon(
                         Icons.notifications_none,
                         color: Theme.of(context).colorScheme.onSurfaceVariant,
                       ),
@@ -168,7 +190,9 @@ class DashboardScreen extends ConsumerWidget {
                             content: Text(
                               '$lowStockCount items need restocking POs.',
                             ),
-                            backgroundColor: Theme.of(context).colorScheme.primary,
+                            backgroundColor: Theme.of(
+                              context,
+                            ).colorScheme.primary,
                           ),
                         );
                       },
@@ -179,13 +203,13 @@ class DashboardScreen extends ConsumerWidget {
                       right: 6,
                       child: Container(
                         padding: const EdgeInsets.all(4),
-                        decoration:  BoxDecoration(
+                        decoration: BoxDecoration(
                           color: Theme.of(context).colorScheme.primary,
                           shape: BoxShape.circle,
                         ),
                         child: Text(
                           '$lowStockCount',
-                          style:  TextStyle(
+                          style: TextStyle(
                             color: Theme.of(context).colorScheme.onPrimary,
                             fontSize: 9,
                             fontWeight: FontWeight.bold,
@@ -204,7 +228,7 @@ class DashboardScreen extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-               Text(
+              Text(
                 'SHOP SNAPSHOT',
                 style: TextStyle(
                   fontSize: 11,
@@ -218,18 +242,21 @@ class DashboardScreen extends ConsumerWidget {
                   Container(
                     width: 6,
                     height: 6,
-                    decoration:  BoxDecoration(
-                      color: AppStatusColors.of(context).success,
+                    decoration: BoxDecoration(
+                      color: syncColor,
                       shape: BoxShape.circle,
                     ),
                   ),
                   const SizedBox(width: 4),
-                   Text(
-                    'Live Sync',
-                    style: TextStyle(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w600,
-                      color: Theme.of(context).colorScheme.primary,
+                  Tooltip(
+                    message: syncStatus.message ?? syncLabel,
+                    child: Text(
+                      syncLabel,
+                      style: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w600,
+                        color: syncColor,
+                      ),
                     ),
                   ),
                 ],
@@ -298,7 +325,9 @@ class DashboardScreen extends ConsumerWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(16),
                         border: Border.all(
-                          color: Theme.of(context).colorScheme.surfaceContainerHigh.withAlpha(120),
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.surfaceContainerHigh.withAlpha(120),
                         ),
                       ),
                       child: Column(
@@ -310,11 +339,13 @@ class DashboardScreen extends ConsumerWidget {
                               Container(
                                 width: 38,
                                 height: 38,
-                                decoration:  BoxDecoration(
-                                  color: Theme.of(context).colorScheme.surfaceContainerHigh,
+                                decoration: BoxDecoration(
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.surfaceContainerHigh,
                                   shape: BoxShape.circle,
                                 ),
-                                child:  Icon(
+                                child: Icon(
                                   Icons.add_circle,
                                   color: Theme.of(context).colorScheme.primary,
                                   size: 22,
@@ -326,15 +357,19 @@ class DashboardScreen extends ConsumerWidget {
                                   vertical: 2,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: Theme.of(context).colorScheme.surfaceContainer,
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.surfaceContainer,
                                   borderRadius: BorderRadius.circular(12),
                                 ),
-                                child:  Text(
+                                child: Text(
                                   '+ RECEIVE',
                                   style: TextStyle(
                                     fontSize: 9,
                                     fontWeight: FontWeight.w700,
-                                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.onSurfaceVariant,
                                     letterSpacing: 0.5,
                                   ),
                                 ),
@@ -342,7 +377,7 @@ class DashboardScreen extends ConsumerWidget {
                             ],
                           ),
                           const SizedBox(height: 10),
-                           Text(
+                          Text(
                             'Stock In',
                             style: TextStyle(
                               fontSize: 16,
@@ -350,7 +385,7 @@ class DashboardScreen extends ConsumerWidget {
                               color: Theme.of(context).colorScheme.onSurface,
                             ),
                           ),
-                           Text(
+                          Text(
                             'Log supplier parts',
                             style: TextStyle(
                               fontSize: 11,
@@ -377,7 +412,9 @@ class DashboardScreen extends ConsumerWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(16),
                         border: Border.all(
-                          color: Theme.of(context).colorScheme.surfaceContainerHigh.withAlpha(120),
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.surfaceContainerHigh.withAlpha(120),
                         ),
                       ),
                       child: Column(
@@ -389,13 +426,17 @@ class DashboardScreen extends ConsumerWidget {
                               Container(
                                 width: 38,
                                 height: 38,
-                                decoration:  BoxDecoration(
-                                  color: Theme.of(context).colorScheme.surfaceContainerHigh,
+                                decoration: BoxDecoration(
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.surfaceContainerHigh,
                                   shape: BoxShape.circle,
                                 ),
-                                child:  Icon(
+                                child: Icon(
                                   Icons.remove_circle,
-                                  color: Theme.of(context).colorScheme.primaryContainer,
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.primaryContainer,
                                   size: 22,
                                 ),
                               ),
@@ -405,15 +446,19 @@ class DashboardScreen extends ConsumerWidget {
                                   vertical: 2,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: Theme.of(context).colorScheme.surfaceContainer,
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.surfaceContainer,
                                   borderRadius: BorderRadius.circular(12),
                                 ),
-                                child:  Text(
+                                child: Text(
                                   '- SELL / USE',
                                   style: TextStyle(
                                     fontSize: 9,
                                     fontWeight: FontWeight.w700,
-                                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.onSurfaceVariant,
                                     letterSpacing: 0.5,
                                   ),
                                 ),
@@ -421,7 +466,7 @@ class DashboardScreen extends ConsumerWidget {
                             ],
                           ),
                           const SizedBox(height: 10),
-                           Text(
+                          Text(
                             'Stock Out',
                             style: TextStyle(
                               fontSize: 16,
@@ -429,7 +474,7 @@ class DashboardScreen extends ConsumerWidget {
                               color: Theme.of(context).colorScheme.onSurface,
                             ),
                           ),
-                           Text(
+                          Text(
                             'Workshop or register',
                             style: TextStyle(
                               fontSize: 11,
@@ -455,7 +500,7 @@ class DashboardScreen extends ConsumerWidget {
                   Container(
                     width: 8,
                     height: 8,
-                    decoration:  BoxDecoration(
+                    decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.error,
                       shape: BoxShape.circle,
                     ),
@@ -463,7 +508,7 @@ class DashboardScreen extends ConsumerWidget {
                   const SizedBox(width: 6),
                   Text(
                     'Low Stock Alerts (${lowStockItems.length})',
-                    style:  TextStyle(
+                    style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                       color: Theme.of(context).colorScheme.onSurface,
@@ -473,7 +518,7 @@ class DashboardScreen extends ConsumerWidget {
               ),
               TextButton(
                 onPressed: onNavigateToProducts,
-                child:  Row(
+                child: Row(
                   children: [
                     Text(
                       'View All',
@@ -506,7 +551,7 @@ class DashboardScreen extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-               Text(
+              Text(
                 'Recent Activity (Today)',
                 style: TextStyle(
                   fontSize: 16,
@@ -520,7 +565,7 @@ class DashboardScreen extends ConsumerWidget {
                   color: Theme.of(context).colorScheme.surfaceContainerLow,
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child:  Text(
+                child: Text(
                   'Real-time log',
                   style: TextStyle(
                     fontSize: 11,
@@ -540,7 +585,9 @@ class DashboardScreen extends ConsumerWidget {
               color: Theme.of(context).colorScheme.surfaceContainerLowest,
               borderRadius: BorderRadius.circular(16),
               border: Border.all(
-                color: Theme.of(context).colorScheme.surfaceContainerHigh.withAlpha(120),
+                color: Theme.of(
+                  context,
+                ).colorScheme.surfaceContainerHigh.withAlpha(120),
               ),
             ),
             child: Column(
@@ -551,7 +598,9 @@ class DashboardScreen extends ConsumerWidget {
                       _buildActivityTile(context, movement, products),
                       if (movement != movements.take(4).last)
                         Divider(
-                          color: Theme.of(context).colorScheme.surfaceContainerHigh.withAlpha(120),
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.surfaceContainerHigh.withAlpha(120),
                           height: 16,
                         ),
                     ],
@@ -601,7 +650,9 @@ class DashboardScreen extends ConsumerWidget {
           ),
         ],
         border: Border.all(
-          color: Theme.of(context).colorScheme.surfaceContainerHigh.withAlpha(120),
+          color: Theme.of(
+            context,
+          ).colorScheme.surfaceContainerHigh.withAlpha(120),
         ),
       ),
       child: Column(
@@ -613,7 +664,7 @@ class DashboardScreen extends ConsumerWidget {
             children: [
               Text(
                 title,
-                style:  TextStyle(
+                style: TextStyle(
                   fontSize: 12,
                   color: Theme.of(context).colorScheme.onSurfaceVariant,
                 ),
@@ -686,7 +737,9 @@ class DashboardScreen extends ConsumerWidget {
           ),
         ],
         border: Border.all(
-          color: Theme.of(context).colorScheme.surfaceContainerHigh.withAlpha(120),
+          color: Theme.of(
+            context,
+          ).colorScheme.surfaceContainerHigh.withAlpha(120),
         ),
       ),
       child: Column(
@@ -702,7 +755,7 @@ class DashboardScreen extends ConsumerWidget {
                   color: Theme.of(context).colorScheme.surfaceContainerLow,
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child:  Icon(
+                child: Icon(
                   Icons.build_circle,
                   color: Theme.of(context).colorScheme.primary,
                   size: 28,
@@ -721,12 +774,14 @@ class DashboardScreen extends ConsumerWidget {
                             vertical: 1.5,
                           ),
                           decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.surfaceContainer,
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.surfaceContainer,
                             borderRadius: BorderRadius.circular(4),
                           ),
                           child: Text(
                             product.sku,
-                            style:  TextStyle(
+                            style: TextStyle(
                               fontSize: 10,
                               fontWeight: FontWeight.w600,
                               fontFamily: 'Courier',
@@ -746,10 +801,12 @@ class DashboardScreen extends ConsumerWidget {
                           ),
                           child: Text(
                             '${product.currentStock} left',
-                            style:  TextStyle(
+                            style: TextStyle(
                               fontSize: 10,
                               fontWeight: FontWeight.w700,
-                              color: Theme.of(context).colorScheme.onErrorContainer,
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.onErrorContainer,
                             ),
                           ),
                         ),
@@ -758,7 +815,7 @@ class DashboardScreen extends ConsumerWidget {
                     const SizedBox(height: 3),
                     Text(
                       product.name,
-                      style:  TextStyle(
+                      style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                         color: Theme.of(context).colorScheme.onSurface,
@@ -768,7 +825,7 @@ class DashboardScreen extends ConsumerWidget {
                     ),
                     Text(
                       'Min safety threshold: ${product.minStock} units',
-                      style:  TextStyle(
+                      style: TextStyle(
                         fontSize: 11,
                         color: Theme.of(context).colorScheme.secondary,
                       ),
@@ -784,33 +841,37 @@ class DashboardScreen extends ConsumerWidget {
             children: [
               Text(
                 '₹${product.sellingPrice.toStringAsFixed(0)} /unit',
-                style:  TextStyle(
+                style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w800,
                   color: Theme.of(context).colorScheme.onSurface,
                 ),
               ),
-              GooeyHoverButton(child: ElevatedButton.icon(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ProductDetailScreen(
-                        productId: product.id,
+              GooeyHoverButton(
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            ProductDetailScreen(productId: product.id),
                       ),
-                    ),
-                  );
-                },
-                icon: const Icon(Icons.shopping_cart_checkout, size: 16),
-                label: const Text('Reorder PO', style: TextStyle(fontSize: 12)),
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 14,
-                    vertical: 8,
+                    );
+                  },
+                  icon: const Icon(Icons.shopping_cart_checkout, size: 16),
+                  label: const Text(
+                    'Reorder PO',
+                    style: TextStyle(fontSize: 12),
                   ),
-                  minimumSize: const Size(0, 36),
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 14,
+                      vertical: 8,
+                    ),
+                    minimumSize: const Size(0, 36),
+                  ),
                 ),
-              )),
+              ),
             ],
           ),
         ],
@@ -852,6 +913,11 @@ class DashboardScreen extends ConsumerWidget {
       iconColor = Theme.of(context).colorScheme.primary;
       badgeText = 'Inbound';
       badgeColor = Theme.of(context).colorScheme.primary;
+    } else if (movement.type == StockMovementType.adjustment) {
+      icon = Icons.tune;
+      iconColor = Theme.of(context).colorScheme.primary;
+      badgeText = 'Adjustment';
+      badgeColor = Theme.of(context).colorScheme.primary;
     } else if (movement.type == StockMovementType.outboundSale) {
       icon = Icons.shopping_bag;
       iconColor = Theme.of(context).colorScheme.onSurfaceVariant;
@@ -891,7 +957,7 @@ class DashboardScreen extends ConsumerWidget {
                   Expanded(
                     child: Text(
                       '$sign $productName',
-                      style:  TextStyle(
+                      style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w600,
                         color: Theme.of(context).colorScheme.onSurface,
@@ -902,7 +968,7 @@ class DashboardScreen extends ConsumerWidget {
                   ),
                   Text(
                     _getTimeAgo(movement.timestamp),
-                    style:  TextStyle(
+                    style: TextStyle(
                       fontSize: 11,
                       color: Theme.of(context).colorScheme.secondary,
                     ),
@@ -915,7 +981,7 @@ class DashboardScreen extends ConsumerWidget {
                 children: [
                   Text(
                     '${movement.referenceNumber} • ₹${movement.unitPrice.toStringAsFixed(0)}/unit',
-                    style:  TextStyle(
+                    style: TextStyle(
                       fontSize: 11,
                       color: Theme.of(context).colorScheme.secondary,
                     ),

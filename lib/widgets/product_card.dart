@@ -34,6 +34,138 @@ class ProductCard extends StatelessWidget {
     }
   }
 
+  Widget _buildPrice(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          '₹${product.sellingPrice.toStringAsFixed(0)}',
+          style: TextStyle(
+            fontSize: 17,
+            fontWeight: FontWeight.w700,
+            color: Theme.of(context).colorScheme.onSurface,
+            letterSpacing: -0.3,
+          ),
+        ),
+        Text(
+          'Cost: ₹${product.costPrice.toStringAsFixed(0)}',
+          style: TextStyle(
+            fontSize: 10,
+            color: Theme.of(context).colorScheme.secondary,
+            decoration: TextDecoration.lineThrough,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildStockBadge(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final isLowStock = product.isLowStock;
+    final badgeColor = isLowStock
+        ? colorScheme.errorContainer
+        : AppStatusColors.of(context).successContainer;
+    final foregroundColor = isLowStock
+        ? colorScheme.onErrorContainer
+        : AppStatusColors.of(context).onSuccessContainer;
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+      decoration: BoxDecoration(
+        color: badgeColor,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            isLowStock ? Icons.warning : Icons.check_circle,
+            size: 12,
+            color: foregroundColor,
+          ),
+          const SizedBox(width: 4),
+          Flexible(
+            child: Text(
+              isLowStock
+                  ? '${product.currentStock} left (Low)'
+                  : '${product.currentStock} in stock',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.w600,
+                color: foregroundColor,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStockStepper(BuildContext context) {
+    return Container(
+      height: 32,
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surfaceContainer,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          GestureDetector(
+            onTap: () => onAdjustStock?.call(-1),
+            child: Container(
+              width: 28,
+              height: 28,
+              alignment: Alignment.center,
+              child: Text(
+                '-',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4),
+            child: Text(
+              '${product.currentStock}',
+              style: const TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Courier',
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () => onAdjustStock?.call(1),
+            child: Container(
+              width: 26,
+              height: 26,
+              margin: const EdgeInsets.only(right: 2),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primary,
+                shape: BoxShape.circle,
+              ),
+              alignment: Alignment.center,
+              child: Text(
+                '+',
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.onPrimary,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -129,37 +261,48 @@ class ProductCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                product.brand.toUpperCase(),
-                                style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w700,
-                                  letterSpacing: 0.8,
-                                ),
-                              ),
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 6,
-                                  vertical: 2,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: Theme.of(
-                                    context,
-                                  ).colorScheme.surfaceContainer,
-                                  borderRadius: BorderRadius.circular(4),
-                                ),
+                              Expanded(
                                 child: Text(
-                                  product.sku,
+                                  product.brand.toUpperCase(),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w600,
                                     color: Theme.of(
                                       context,
-                                    ).colorScheme.secondary,
-                                    fontFamily: 'Courier',
+                                    ).colorScheme.primary,
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w700,
+                                    letterSpacing: 0.8,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 6),
+                              Flexible(
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 6,
+                                    vertical: 2,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.surfaceContainer,
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                  child: Text(
+                                    product.sku,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlign: TextAlign.end,
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w600,
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.secondary,
+                                      fontFamily: 'Courier',
+                                    ),
                                   ),
                                 ),
                               ),
@@ -210,184 +353,44 @@ class ProductCard extends StatelessWidget {
                     bottomRight: Radius.circular(16),
                   ),
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    // Price
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '₹${product.sellingPrice.toStringAsFixed(0)}',
-                          style: TextStyle(
-                            fontSize: 17,
-                            fontWeight: FontWeight.w700,
-                            color: Theme.of(context).colorScheme.onSurface,
-                            letterSpacing: -0.3,
-                          ),
-                        ),
-                        Text(
-                          'Cost: ₹${product.costPrice.toStringAsFixed(0)}',
-                          style: TextStyle(
-                            fontSize: 10,
-                            color: Theme.of(context).colorScheme.secondary,
-                            decoration: TextDecoration.lineThrough,
-                          ),
-                        ),
-                      ],
-                    ),
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    final price = _buildPrice(context);
+                    final stockBadge = _buildStockBadge(context);
+                    final stepper = _buildStockStepper(context);
 
-                    Row(
-                      children: [
-                        // Low Stock or In Stock Badge
-                        if (product.isLowStock)
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
-                              vertical: 3,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Theme.of(
-                                context,
-                              ).colorScheme.errorContainer,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(
-                                  Icons.warning,
-                                  size: 12,
-                                  color: Theme.of(
-                                    context,
-                                  ).colorScheme.onErrorContainer,
-                                ),
-                                const SizedBox(width: 4),
-                                Text(
-                                  '${product.currentStock} left (Low)',
-                                  style: TextStyle(
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.w700,
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.onErrorContainer,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                        else
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
-                              vertical: 3,
-                            ),
-                            decoration: BoxDecoration(
-                              color: AppStatusColors.of(
-                                context,
-                              ).successContainer,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(
-                                  Icons.check_circle,
-                                  size: 12,
-                                  color: AppStatusColors.of(
-                                    context,
-                                  ).onSuccessContainer,
-                                ),
-                                const SizedBox(width: 4),
-                                Text(
-                                  '${product.currentStock} in stock',
-                                  style: TextStyle(
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.w600,
-                                    color: AppStatusColors.of(
-                                      context,
-                                    ).onSuccessContainer,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        const SizedBox(width: 8),
-
-                        // Stepper (- / +)
-                        Container(
-                          height: 32,
-                          decoration: BoxDecoration(
-                            color: Theme.of(
-                              context,
-                            ).colorScheme.surfaceContainer,
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
+                    if (constraints.maxWidth < 360) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          price,
+                          const SizedBox(height: 6),
+                          Row(
                             children: [
-                              GestureDetector(
-                                onTap: () => onAdjustStock?.call(-1),
-                                child: Container(
-                                  width: 28,
-                                  height: 28,
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    '-',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.onSurface,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 4,
-                                ),
-                                child: Text(
-                                  '${product.currentStock}',
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'Courier',
-                                  ),
-                                ),
-                              ),
-                              GestureDetector(
-                                onTap: () => onAdjustStock?.call(1),
-                                child: Container(
-                                  width: 26,
-                                  height: 26,
-                                  margin: const EdgeInsets.only(right: 2),
-                                  decoration: BoxDecoration(
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.primary,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    '+',
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold,
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.onPrimary,
-                                    ),
-                                  ),
-                                ),
-                              ),
+                              Expanded(child: stockBadge),
+                              const SizedBox(width: 8),
+                              stepper,
                             ],
                           ),
+                        ],
+                      );
+                    }
+
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        price,
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            stockBadge,
+                            const SizedBox(width: 8),
+                            stepper,
+                          ],
                         ),
                       ],
-                    ),
-                  ],
+                    );
+                  },
                 ),
               ),
             ],

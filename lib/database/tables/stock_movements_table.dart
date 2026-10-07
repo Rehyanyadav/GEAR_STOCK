@@ -11,9 +11,12 @@ class StockMovementsTable extends Table {
   TextColumn get id => text()();
   TextColumn get productId =>
       text().references(ProductsTable, #id)();
-  /// 'IN' or 'OUT' — validated in the repository before insert.
+  /// 'IN', 'OUT', or 'ADJUSTMENT'.
   TextColumn get type => text()();
-  IntColumn get quantity => integer()(); // always positive
+  IntColumn get quantity => integer()();
+  IntColumn get stockAfter => integer().nullable()();
+  BoolColumn get applyStockEffect =>
+      boolean().withDefault(const Constant(false))();
   TextColumn get note => text().withDefault(const Constant(''))();
   TextColumn get referenceNumber =>
       text().withDefault(const Constant(''))();

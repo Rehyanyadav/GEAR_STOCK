@@ -10,11 +10,11 @@ class SyncQueueTable extends Table {
   TextColumn get entityId => text()();
   TextColumn get operation => text()();
   TextColumn get payload => text()();
-  DateTimeColumn get createdAt =>
-      dateTime().withDefault(currentDateAndTime)();
+  DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
   IntColumn get attempts => integer().withDefault(const Constant(0))();
   DateTimeColumn get nextAttemptAt => dateTime().nullable()();
   TextColumn get lastError => text().nullable()();
+  TextColumn get status => text().withDefault(const Constant('pending'))();
 
   @override
   Set<Column> get primaryKey => {id};
