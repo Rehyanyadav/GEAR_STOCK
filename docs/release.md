@@ -35,6 +35,19 @@ Supabase project configured in `.env`, in order. In particular,
 `20240004_shared_shops.sql` creates shop membership and backfills shop IDs;
 back up and preflight existing shop data before applying it.
 `20240005_product_image_storage.sql` configures private product-image access.
+Before releasing a client that supports manual stock-count corrections, apply
+`20240006_stock_adjustments.sql` and then
+`20240007_server_owned_movement_cursor.sql`. The latter makes movement sync
+timestamps server-owned, repairs existing future-dated timestamps, and prevents
+legacy local cursors from skipping history by starting a versioned cursor
+(which safely reimports movement rows without reapplying their stock effects).
+Test both migrations against a staging database and verify the stock movement
+constraint, trigger, and exact-count correction before deploying the updated
+app. These migrations preserve existing stock totals and do not derive or
+rewrite them from historical movements. Migration 20240006 also adds the
+products and stock movements tables to the `supabase_realtime` publication
+when that publication exists; confirm the updated app receives database change
+notifications in staging.
 An iOS bundle identifier does not configure the Supabase schema or Android
 application ID.
 
@@ -64,6 +77,13 @@ Build and distribute a new release after configuring the DSN:
 ```sh
 flutter build apk --release
 ```
+
+Installing an update over the existing app preserves its on-device database
+when the application ID and Android signing key remain the same. Uninstalling
+the app or clearing its storage deletes the local database, including changes
+that have not synced yet. Data already synchronized to Supabase remains there
+and can be downloaded again after signing in; verify sync has completed before
+removing the app from a device.
 
 An APK already installed on a phone cannot be configured remotely: if that APK
 was built without a Sentry DSN, it will not start reporting. Users must install

@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:drift/native.dart' show SqliteException;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gearstock/features/sync/data/sync_runner.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() {
   group('sync status', () {
@@ -56,6 +58,39 @@ void main() {
         syncFailureMessage('resolving shop membership', StateError('missing')),
         'Failed while resolving shop membership (StateError).',
       );
+    });
+
+    test('shows Supabase PostgREST error code and message', () {
+      const error = PostgrestException(
+        message: 'column stock_movements.synced_at does not exist',
+        code: '42703',
+      );
+
+      expect(
+        syncFailureMessage('downloading stock movements', error),
+        'Supabase error while downloading stock movements [42703]: '
+        'column stock_movements.synced_at does not exist',
+      );
+    });
+
+    test('reports the safe SQLite constraint message', () {
+      final error = SqliteException(787, 'FOREIGN KEY constraint failed');
+
+      expect(
+        syncFailureMessage('downloading products', error),
+        'Failed while downloading products '
+        '(SQLite 787: FOREIGN KEY constraint failed).',
+      );
+    });
+
+    test('identifies the server stock-conflict SQL state', () {
+      expect(
+        isStockAdjustmentConflict(
+          const PostgrestException(message: 'stale stock', code: '40001'),
+        ),
+        isTrue,
+      );
+      expect(isStockAdjustmentConflict(StateError('network')), isFalse);
     });
   });
 }

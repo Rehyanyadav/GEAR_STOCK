@@ -12,9 +12,12 @@ import '../../../models/stock_movement.dart';
 
 StockMovement _toMovement(StockMovementsTableData row) => StockMovement(
   id: row.id,
-  type: row.type == 'IN'
-      ? StockMovementType.inbound
-      : StockMovementType.outboundSale,
+  type: switch (row.type) {
+    'IN' => StockMovementType.inbound,
+    'OUT' => StockMovementType.outboundSale,
+    'ADJUSTMENT' => StockMovementType.adjustment,
+    _ => throw StateError('Unsupported stock movement type "${row.type}".'),
+  },
   referenceNumber: row.referenceNumber,
   productId: row.productId,
   productName: '', // enriched in UI layer via productsProvider
@@ -138,6 +141,7 @@ class StockNotifier extends AsyncNotifier<List<StockMovement>> {
             entityType: 'stock_movement',
             entityId: id,
             operation: 'insert',
+            createdAt: createdAt,
             payload: {
               'id': id,
               'product_id': entry.productId,
@@ -209,6 +213,7 @@ class StockNotifier extends AsyncNotifier<List<StockMovement>> {
             entityType: 'stock_movement',
             entityId: id,
             operation: 'insert',
+            createdAt: createdAt,
             payload: {
               'id': id,
               'product_id': entry.productId,

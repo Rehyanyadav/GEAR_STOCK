@@ -11,6 +11,7 @@ SyncQueueTableCompanion createSyncQueueEntry({
   required String entityId,
   required String operation,
   required Map<String, Object?> payload,
+  DateTime? createdAt,
 }) {
   return SyncQueueTableCompanion.insert(
     id: const Uuid().v4(),
@@ -19,6 +20,7 @@ SyncQueueTableCompanion createSyncQueueEntry({
     entityId: entityId,
     operation: operation,
     payload: jsonEncode(payload),
+    createdAt: createdAt == null ? const Value.absent() : Value(createdAt),
   );
 }
 
@@ -30,7 +32,9 @@ class SyncQueueRepository {
 
   Future<void> enqueue(SyncQueueTableCompanion change) async {
     if (change.userId.value != userId) {
-      throw ArgumentError('A sync queue row cannot be queued for another user.');
+      throw ArgumentError(
+        'A sync queue row cannot be queued for another user.',
+      );
     }
     await _database.into(_database.syncQueueTable).insert(change);
   }
@@ -38,7 +42,10 @@ class SyncQueueRepository {
   Future<List<SyncQueueTableData>> allChanges() {
     return (_database.select(_database.syncQueueTable)
           ..where((row) => row.userId.equals(userId))
-          ..orderBy([(row) => OrderingTerm.asc(row.createdAt)]))
+          ..orderBy([
+            (row) => OrderingTerm.asc(row.createdAt),
+            (_) => OrderingTerm.asc(const CustomExpression<int>('rowid')),
+          ]))
         .get();
   }
 
@@ -48,24 +55,31 @@ class SyncQueueRepository {
           ..where(
             (row) =>
                 row.userId.equals(userId) &
+                row.status.equals('pending') &
                 (row.nextAttemptAt.isNull() |
                     row.nextAttemptAt.isSmallerOrEqualValue(now)),
           )
-          ..orderBy([(row) => OrderingTerm.asc(row.createdAt)]))
+          ..orderBy([
+            (row) => OrderingTerm.asc(row.createdAt),
+            (_) => OrderingTerm.asc(const CustomExpression<int>('rowid')),
+          ]))
         .get();
   }
 
   Stream<List<SyncQueueTableData>> watchChanges() {
     return (_database.select(_database.syncQueueTable)
           ..where((row) => row.userId.equals(userId))
-          ..orderBy([(row) => OrderingTerm.asc(row.createdAt)]))
+          ..orderBy([
+            (row) => OrderingTerm.asc(row.createdAt),
+            (_) => OrderingTerm.asc(const CustomExpression<int>('rowid')),
+          ]))
         .watch();
   }
 
   Future<void> acknowledge(String id) async {
-    await (_database.delete(_database.syncQueueTable)
-          ..where((row) => row.id.equals(id) & row.userId.equals(userId)))
-        .go();
+    await (_database.delete(
+      _database.syncQueueTable,
+    )..where((row) => row.id.equals(id) & row.userId.equals(userId))).go();
   }
 
   Future<void> defer(SyncQueueTableData change, Object error) async {
@@ -73,16 +87,55 @@ class SyncQueueRepository {
     final exponent = attempts.clamp(1, 8).toInt() - 1;
     final delaySeconds = (1 << exponent).clamp(1, 300).toInt();
     final safeError = error.runtimeType.toString();
-    await (_database.update(_database.syncQueueTable)
-          ..where((row) => row.id.equals(change.id) & row.userId.equals(userId)))
+    await (_database.update(
+          _database.syncQueueTable,
+        )..where((row) => row.id.equals(change.id) & row.userId.equals(userId)))
         .write(
-      SyncQueueTableCompanion(
-        attempts: Value(attempts),
-        nextAttemptAt: Value(
-          DateTime.now().add(Duration(seconds: delaySeconds)),
-        ),
-        lastError: Value(safeError),
-      ),
-    );
+          SyncQueueTableCompanion(
+            attempts: Value(attempts),
+            nextAttemptAt: Value(
+              DateTime.now().add(Duration(seconds: delaySeconds)),
+            ),
+            lastError: Value(safeError),
+          ),
+        );
+  }
+
+  Future<void> markConflict(
+    SyncQueueTableData change, {
+    required String message,
+  }) async {
+    await (_database.update(
+          _database.syncQueueTable,
+        )..where((row) => row.id.equals(change.id) & row.userId.equals(userId)))
+        .write(
+          SyncQueueTableCompanion(
+            status: const Value('conflict'),
+            nextAttemptAt: const Value(null),
+            lastError: Value(message),
+          ),
+        );
+  }
+
+  Future<void> resolveStockConflictsForProduct(String productId) async {
+    await _database.transaction(() async {
+      final conflicts =
+          await (_database.select(_database.syncQueueTable)..where(
+                (row) =>
+                    row.userId.equals(userId) &
+                    row.entityType.equals('stock_movement') &
+                    row.status.equals('conflict'),
+              ))
+              .get();
+      for (final conflict in conflicts) {
+        final payload = jsonDecode(conflict.payload);
+        if (payload is Map && payload['product_id'] == productId) {
+          await (_database.delete(_database.syncQueueTable)..where(
+                (row) => row.id.equals(conflict.id) & row.userId.equals(userId),
+              ))
+              .go();
+        }
+      }
+    });
   }
 }

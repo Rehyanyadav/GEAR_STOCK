@@ -57,16 +57,21 @@ class CategoriesNotifier extends AsyncNotifier<List<String>> {
     final trimmed = name.trim();
     if (trimmed.isEmpty) return;
 
-    await _db.upsertCategory(CategoriesTableCompanion.insert(
-      id: trimmed,
-      name: trimmed,
-    ));
+    final existing = await _db.watchAllCategories().first;
+    if (existing.any((category) => category.name == trimmed)) return;
 
-    // Optimistically update state
-    final current = state.valueOrNull ?? [];
-    if (!current.contains(trimmed)) {
-      state = AsyncData([...current, trimmed]..sort());
-    }
+    await _db.saveCategory(
+      category: CategoriesTableCompanion.insert(id: trimmed, name: trimmed),
+      queuedChange: _userId == null
+          ? null
+          : createSyncQueueEntry(
+              userId: _userId!,
+              entityType: 'category',
+              entityId: trimmed,
+              operation: 'upsert',
+              payload: {'name': trimmed},
+            ),
+    );
   }
 
   Future<void> deleteCategory(String name) async {

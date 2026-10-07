@@ -70,6 +70,13 @@ class ProductsNotifier extends AsyncNotifier<List<Product>> {
     String description = '',
     int currentStock = 0,
   }) async {
+    if (currentStock < 0) {
+      throw ArgumentError.value(
+        currentStock,
+        'currentStock',
+        'Stock cannot be negative.',
+      );
+    }
     final catTrimmed = category.trim();
     final id = const Uuid().v4();
     final product = ProductsTableCompanion.insert(
@@ -122,8 +129,60 @@ class ProductsNotifier extends AsyncNotifier<List<Product>> {
   }
 
   Future<void> updateProduct(Product product) async {
+    if (product.currentStock < 0) {
+      throw ArgumentError.value(
+        product.currentStock,
+        'currentStock',
+        'Stock cannot be negative.',
+      );
+    }
     final catTrimmed = product.category.trim();
     final previous = await _db.getProductById(product.id);
+    if (previous == null || previous.isDeleted) {
+      throw StateError('Product "${product.id}" does not exist.');
+    }
+    final updatedAt = DateTime.now();
+    final stockDelta = product.currentStock - previous.currentStock;
+    final movements = <StockMovementsTableCompanion>[];
+    final movementChanges = <SyncQueueTableCompanion>[];
+    if (stockDelta != 0) {
+      final movementId = const Uuid().v4();
+      final movementAt = updatedAt.add(const Duration(milliseconds: 1));
+      movements.add(
+        StockMovementsTableCompanion.insert(
+          id: movementId,
+          productId: product.id,
+          type: 'ADJUSTMENT',
+          quantity: stockDelta,
+          stockAfter: Value(product.currentStock),
+          note: const Value('Manual stock count correction'),
+          createdAt: Value(movementAt),
+        ),
+      );
+      if (_userId != null) {
+        movementChanges.add(
+          createSyncQueueEntry(
+            userId: _userId!,
+            entityType: 'stock_movement',
+            entityId: movementId,
+            operation: 'insert',
+            createdAt: movementAt,
+            payload: {
+              'id': movementId,
+              'product_id': product.id,
+              'type': 'ADJUSTMENT',
+              'quantity': stockDelta,
+              'stock_after': product.currentStock,
+              'note': 'Manual stock count correction',
+              'reference_number': '',
+              'unit_price': 0,
+              'operator_name': '',
+              'created_at': movementAt.toIso8601String(),
+            },
+          ),
+        );
+      }
+    }
     final companion = ProductsTableCompanion.insert(
       id: product.id,
       name: product.name,
@@ -138,9 +197,9 @@ class ProductsNotifier extends AsyncNotifier<List<Product>> {
       barcode: Value(product.barcode),
       supplierName: Value(product.supplierName),
       description: Value(product.description),
-      currentStock: Value(product.currentStock),
+      currentStock: Value(previous.currentStock),
     );
-    await _db.saveProduct(
+    await _db.saveProductAndMovements(
       product: companion,
       category: catTrimmed.isEmpty
           ? null
@@ -152,6 +211,7 @@ class ProductsNotifier extends AsyncNotifier<List<Product>> {
               entityType: 'product',
               entityId: product.id,
               operation: 'upsert',
+              createdAt: updatedAt,
               payload: {
                 'id': product.id,
                 'name': product.name,
@@ -167,10 +227,16 @@ class ProductsNotifier extends AsyncNotifier<List<Product>> {
                 'supplier_name': product.supplierName,
                 'description': product.description,
                 'is_deleted': false,
-                'previous_image_url': previous?.imageUrl,
+                'previous_image_url': previous.imageUrl,
               },
             ),
+      movements: movements,
+      queuedMovementChanges: movementChanges,
     );
+    if (stockDelta != 0) {
+      final queue = ref.read(syncQueueRepositoryProvider);
+      await queue?.resolveStockConflictsForProduct(product.id);
+    }
   }
 
   Future<void> deleteProduct(String id) async {

@@ -118,8 +118,7 @@ class AppHeader extends ConsumerWidget implements PreferredSizeWidget {
                 ),
               ),
               if (actions != null) ...actions!,
-              if (syncStatus.pendingCount > 0 ||
-                  isCloudUnavailable)
+              if (syncStatus.pendingCount > 0 || isCloudUnavailable)
                 Tooltip(
                   message:
                       syncStatus.message ??
@@ -129,7 +128,8 @@ class AppHeader extends ConsumerWidget implements PreferredSizeWidget {
                     child: Icon(
                       syncStatus.isOffline
                           ? Icons.cloud_off_outlined
-                          : syncStatus.kind == SyncStatusKind.failed
+                          : syncStatus.kind == SyncStatusKind.failed ||
+                                syncStatus.kind == SyncStatusKind.conflict
                           ? Icons.sync_problem_outlined
                           : Icons.cloud_upload_outlined,
                       color: isCloudUnavailable

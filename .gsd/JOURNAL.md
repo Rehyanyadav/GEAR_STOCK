@@ -60,3 +60,50 @@
 - The user initially ran the repair with an unreplaced/incorrect email placeholder. They then reported a successful run with the exact sign-in email, but have not yet confirmed the post-insert membership count. Next step is app restart and live test-product sync.
 - A later global audit query reported zero owner shops missing their membership. iPhone Safari received Supabase's JSON `No API key found in request` response at the Auth health endpoint, proving mobile network reachability; this is expected when opening the endpoint without an API-key header.
 - The user's app continues to show a refresh/connection-closed exception after restart; the current installed binary does not include the new sanitized exception-type tooltip. Do not reinstall until pending local product/outbox data is confirmed safely synced or backed up.
+
+## Product download failure update (2026-10-04)
+
+- Added a regression path for a category disappearing between category and product download: retry the product upsert without its category reference, preserving all other product fields. The sync failure message now identifies safe SQLite constraint details without logging SQL or bind values.
+- Verification: `flutter test` passed all 45 tests; `flutter analyze` reported no issues.
+- Updated `pubspec.yaml` to `1.0.2+3`; `flutter build ios --debug -d 00008110-000205D822A8201E` built `build/ios/iphoneos/Runner.app`.
+- `flutter install -d 00008110-000205D822A8201E` reported `Uninstalling old version...`; `devicectl` subsequently reported Gearstock `1.0.2`, build `3`. Local DB/data preservation is not verified and may have been affected by uninstalling the old app; do not claim otherwise.
+- The installed app's signature verifies, its development profile includes the iPhone, and Developer Mode is enabled, but `devicectl` launch was denied because iOS reports the developer app is not explicitly trusted. End-to-end sync is therefore not verified; the user must trust the developer app on the iPhone before launch.
+- `flutter build apk --release` could not run because this environment currently reports `No Android SDK found`.
+
+### Android release APK build (2026-10-05)
+- Command: `flutter build apk --release`
+- Output: `✓ Built build/app/outputs/flutter-apk/app-release.apk (85.8MB)`
+- Artifact verification: `build/app/outputs/flutter-apk/app-release.apk`, 85,825,514 bytes.
+- SHA-256: `4fadc517ebce881c37476db327880e9c1c84ea3f54e25cb3858314c635de4e7b`.
+- APK build succeeded after the earlier Android SDK detection failure; Android runtime/install/sync verification has not been performed.
+
+## Stock consistency and sync hardening (2026-10-06)
+
+### Verification evidence
+- `flutter test --no-pub`: `All tests passed!` (`+55` tests).
+- Focused stock correction, movement import/paging/cursor, product sync, and outbox tests: 12 passed.
+- `flutter analyze --no-pub`: `No issues found! (ran in 4.9s)`.
+- `git diff --check` for the implementation's tracked source, test, and documentation paths: passed. An unrestricted check still reports trailing whitespace in the user-provided `issue.txt`; that unrelated file was not modified by this implementation.
+- Stock sync regression coverage verifies exact-count corrections, import idempotency without stock trigger side effects, cursor retry safety, paging, and catching a late-committing movement within the five-minute overlap.
+- `supabase/migrations/20240006_stock_adjustments.sql` was applied only to an isolated temporary local PostgreSQL validation database earlier in this task. Existing totals remained unchanged by migration; an exact adjustment followed by an IN movement produced the expected total. No production backend/data was accessed or modified for this implementation.
+
+### Rollout / limitations
+- Apply migration `20240006_stock_adjustments.sql` to the configured Supabase project before deploying the client build.
+- Live Supabase and device-to-device sync were not exercised in this task. Verify an exact-count edit and a subsequent IN/OUT movement using two devices before broad release.
+- The five-minute overlap is a bounded recovery window for late database commits; it also avoids repeating a complete movement-history download. Imported movement rows remain idempotent and do not mutate stock totals.
+- No automatic five-hour database purge was established. Local-only history can still be lost if app storage is cleared, the app is uninstalled, or the local database is explicitly removed; server sync is required for cross-device recovery.
+
+## Sync cursor integrity audit (2026-10-06)
+
+### Finding and remediation
+- Security review found a medium-confidence data-integrity risk: authenticated clients could supply a far-future `synced_at`, advancing other devices' movement cursor beyond ordinary events and causing later ledger rows to be skipped.
+- Added `20240007_server_owned_movement_cursor.sql`: normalizes existing future-dated rows, assigns insert timestamps on the server, and rejects timestamp changes on updates.
+- Movement downloads now use a versioned local cursor namespace so the next app version performs one idempotent full ledger reimport rather than trusting a potentially poisoned legacy cursor. Imported rows do not reapply stock effects.
+- Updated the staged rollout docs. Apply migrations 20240006 and 20240007 in order before deploying this cursor-versioned client. The initial ledger reimport may add load/time on first sync.
+
+### Verification evidence
+- `flutter test --no-pub`: `All tests passed!` (`+56` tests).
+- Focused `stock_sync_service_test.dart`: 6 passed, including a regression with a preexisting 2099 cursor.
+- `flutter analyze --no-pub`: `No issues found! (ran in 5.3s)`.
+- Applied migration 20240007 to a temporary local PostgreSQL database with a synthetic future-dated row. Assertions passed: the old future timestamp was normalized, an insert carrying a 2099 timestamp received a server timestamp, and an update attempting to change it retained the server timestamp.
+- No production Supabase project or customer data was accessed. Live migration and two-device sync behavior remain rollout checks.

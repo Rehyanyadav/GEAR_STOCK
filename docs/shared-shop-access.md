@@ -55,6 +55,30 @@ Apply the existing migrations in order, then apply:
 
 1. `supabase/migrations/20240004_shared_shops.sql`
 2. `supabase/migrations/20240005_product_image_storage.sql`
+3. `supabase/migrations/20240006_stock_adjustments.sql` before deploying a
+   client that supports manual exact-count corrections.
+4. `supabase/migrations/20240007_server_owned_movement_cursor.sql` before
+   deploying the client with the versioned movement cursor. Its first sync
+   reimports movement history idempotently; it does not apply stock effects.
+5. `supabase/migrations/20240008_stock_sync_conflict_safety.sql` before
+   deploying the client that surfaces stale exact-count adjustment conflicts.
+
+Apply the stock migrations only after confirming the earlier migrations are
+already applied. Back up and validate them in staging first. The stock
+adjustments migration adds an explicit correction event and a stock-history
+index; it intentionally does not recalculate or rewrite existing product stock
+totals. The server-owned cursor migration repairs future-dated ingestion
+timestamps and prevents clients from changing them. When `supabase_realtime`
+exists, migration 20240006 enables product and movement change events for
+prompt client refresh; the local database remains the source for offline UI
+reads and the outbox remains the durable upload mechanism.
+
+Product deletion is an archive (`is_deleted`) operation so movement history
+remains append-only. The stock conflict migration rejects an exact-count
+adjustment if the product's server stock no longer equals the baseline implied
+by the adjustment. The client retains that outbox item as a manual-review
+conflict, refreshes the server stock snapshot, and asks the operator to enter
+the count again; ordinary connectivity/auth failures continue to retry.
 
 The tenancy migration intentionally fails if a business record cannot be
 associated with an existing user or if a category has no product using it.
@@ -139,8 +163,17 @@ Supabase remains the shared-shop source for data exchanged between members.
 The local PostgreSQL migration checks are not a substitute for applying the
 migrations and validating policies against the configured Supabase project.
 
+Stock movement rows are append-only. The server rejects updates and deletes on
+`public.stock_movements` so stale local replays cannot rewrite previous ledger
+entries; a new exact-count correction must be recorded as a new `ADJUSTMENT`
+movement instead. This protects the movement ledger from drift and keeps the
+replay cursor safe even when a device reconnects with an old queue replay.
+
 The app's sync runner requires migrations `20240004_shared_shops.sql` and
 `20240005_product_image_storage.sql`. If PostgREST reports that `shop_id`,
 `shops`, or `shop_memberships` is missing, shared-shop sync is not ready.
 Back up and inspect existing remote data before applying the tenancy
 backfill; do not apply the migration blindly to a populated project.
+Clients that upload `ADJUSTMENT` stock events also require
+`20240006_stock_adjustments.sql`; without it, the server rejects those events
+and the local outbox correctly retains them for retry.
